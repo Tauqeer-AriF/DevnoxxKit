@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    (function(){
+      var s = localStorage.getItem('dnk-theme');
+      var d = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', s || d);
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio — DevnoxxKit</title>
+  <meta name="description" content="Selected work from DevnoxxKit — brand identities, editorial platforms, campaigns, and design systems." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg:#0A0A0C; --bg-2:#111114; --bg-3:#18181D; --surface:#1E1E24;
+      --border:rgba(242,237,228,0.08); --border-gold:rgba(201,169,110,0.3);
+      --ink:#F2EDE4; --ink-2:#B8B0A4; --ink-3:#6E6860;
+      --gold:#C9A96E; --gold-light:#DFC28E; --gold-dim:rgba(201,169,110,0.12);
+      --teal:#1E3A3A;
+      --font-display:'Fraunces',Georgia,serif;
+      --font-body:'DM Sans',system-ui,sans-serif;
+      --font-mono:'JetBrains Mono',monospace;
+      --radius-sm:4px; --radius-md:8px;
+      --ease-out:cubic-bezier(0.16,1,0.3,1);
+    }
+    #nav.scrolled {
+      background: var(--nav-scrolled-bg) !important;
+      }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-size:16px;-webkit-font-smoothing:antialiased}
+    body{background:var(--bg);color:var(--ink);font-family:var(--font-body);overflow-x:hidden;cursor:none}
+    body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:0.032;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");background-size:256px 256px}
+    ::selection{background:var(--gold);color:var(--bg)}
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+    button{border:none;background:none;cursor:none;font:inherit}
+
+    /* Cursor */
+    #cursor-dot{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--gold);pointer-events:none;z-index:10000;transform:translate(-50%,-50%);transition:opacity .3s,transform .15s var(--ease-out);will-change:transform}
+    #cursor-ring{position:fixed;width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,169,110,0.5);pointer-events:none;z-index:10000;transform:translate(-50%,-50%);transition:width .3s var(--ease-out),height .3s var(--ease-out),opacity .3s,border-color .3s;will-change:transform}
+    body:has(a:hover) #cursor-ring,body:has(button:hover) #cursor-ring{width:56px;height:56px;border-color:var(--gold)}
+
+    /* Layout */
+    .container{width:100%;max-width:1320px;margin:0 auto;padding:0 clamp(20px,4vw,80px)}
+    .section{padding:clamp(80px,10vw,160px) 0}
+
+    /* Typography */
+    .display-xl{font-family:var(--font-display);font-size:clamp(56px,9vw,130px);font-weight:800;line-height:.92;letter-spacing:-.03em}
+    .display-md{font-family:var(--font-display);font-size:clamp(28px,3.5vw,52px);font-weight:600;line-height:1.1;letter-spacing:-.015em}
+    .label{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+
+    /* Nav */
+    #nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 0;transition:padding .4s var(--ease-out),background .4s,border-color .4s;border-bottom:1px solid transparent}
+    #nav.scrolled{padding:16px 0;background:rgba(10,10,12,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom-color:var(--border)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+    .nav-logo-mark{width:28px;height:28px;background:var(--gold);border-radius:6px;display:flex;align-items:center;justify-content:center}
+    .nav-links{display:flex;align-items:center;gap:40px;list-style:none}
+    .nav-links a{font-size:.875rem;color:var(--ink-2);transition:color .2s;position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s var(--ease-out)}
+    .nav-links a:hover{color:var(--ink)}
+    .nav-links a:hover::after{width:100%}
+    .nav-links a.active{color:var(--gold)}
+    .nav-links a.active::after{width:100%}
+    .nav-cta{padding:10px 22px;background:var(--gold);color:var(--bg)!important;font-size:.8125rem!important;font-weight:600;border-radius:var(--radius-sm);transition:background .2s!important}
+    .nav-cta::after{display:none!important}
+    .nav-cta:hover{background:var(--gold-light)!important}
+    .nav-hamburger{display:none;flex-direction:column;gap:5px;width:26px}
+    .nav-hamburger span{display:block;height:1.5px;background:var(--ink);transition:transform .3s,opacity .3s;transform-origin:center}
+    .nav-hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+    .nav-hamburger.open span:nth-child(2){opacity:0}
+    .nav-hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+    @media(max-width:768px){.nav-links{display:none}.nav-hamburger{display:flex}}
+    #mobile-nav{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;transform:translateX(100%);transition:transform .5s var(--ease-out)}
+    #mobile-nav.open{transform:translateX(0)}
+    #mobile-nav a{font-family:var(--font-display);font-size:clamp(32px,8vw,52px);font-weight:700;color:var(--ink-2);transition:color .2s}
+    #mobile-nav a:hover{color:var(--gold)}
+
+    /* Reveal */
+    .reveal{opacity:0;transform:translateY(32px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .reveal-delay-1{transition-delay:.1s}
+    .reveal-delay-2{transition-delay:.2s}
+    .reveal-delay-3{transition-delay:.3s}
+
+    /* Buttons */
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;font-size:.875rem;font-weight:600;border-radius:var(--radius-sm);transition:transform .3s var(--ease-out),box-shadow .3s}
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{background:var(--gold);color:var(--bg);box-shadow:0 4px 24px rgba(201,169,110,.2)}
+    .btn-primary:hover{box-shadow:0 8px 40px rgba(201,169,110,.35)}
+    .btn-ghost{border:1px solid var(--border);color:var(--ink-2)}
+    .btn-ghost:hover{border-color:rgba(242,237,228,.2);color:var(--ink)}
+    .btn-arrow{width:20px;height:20px;transition:transform .3s var(--ease-out)}
+    .btn:hover .btn-arrow{transform:translate(3px,-3px)}
+
+    /* ── HERO ─────────────────────────────── */
+    .page-hero{
+      min-height:60svh;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      padding-bottom:clamp(48px,6vw,80px);
+      padding-top:130px;
+      position:relative;
+      overflow:hidden;
+    }
+    .page-hero::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(242,237,228,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(242,237,228,.025) 1px,transparent 1px);background-size:80px 80px;pointer-events:none}
+    .hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;filter:blur(120px);pointer-events:none}
+    .hero-glow-1{background:rgba(201,169,110,.07);top:-100px;right:-100px}
+    .hero-line-wrap{overflow:hidden}
+    .hero-line{display:block;transform:translateY(110%);opacity:0;animation:lineReveal 1s var(--ease-out) forwards}
+    .hero-line:nth-child(1){animation-delay:.2s}
+    .hero-line:nth-child(2){animation-delay:.35s}
+    @keyframes lineReveal{to{transform:translateY(0);opacity:1}}
+    .hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:32px;opacity:0;animation:fadeIn .8s .1s forwards}
+    .hero-eyebrow-line{width:40px;height:1px;background:var(--gold)}
+    @keyframes fadeIn{to{opacity:1}}
+
+    /* ── FILTER BAR ───────────────────────── */
+    .filter-bar{
+      display:flex;
+      align-items:center;
+      gap:4px;
+      padding:clamp(24px,3vw,40px) 0;
+      border-bottom:1px solid var(--border);
+      flex-wrap:wrap;
+    }
+    .filter-btn{
+      padding:8px 18px;
+      font-family:var(--font-mono);
+      font-size:11px;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      color:var(--ink-3);
+      border:1px solid transparent;
+      border-radius:var(--radius-sm);
+      transition:color .2s,border-color .2s,background .2s;
+    }
+    .filter-btn:hover{color:var(--ink);border-color:var(--border)}
+    .filter-btn.active{color:var(--gold);border-color:var(--border-gold);background:var(--gold-dim)}
+    .filter-count{
+      margin-left:auto;
+      font-family:var(--font-mono);
+      font-size:11px;
+      letter-spacing:.1em;
+      color:var(--ink-3);
+    }
+
+    /* ── PORTFOLIO GRID ───────────────────── */
+    .portfolio-grid{
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      gap:2px;
+      margin-top:2px;
+    }
+
+    /* Card base */
+    .p-card{
+      position:relative;
+      overflow:hidden;
+      background:var(--bg-3);
+      cursor:none;
+    }
+    .p-card img{
+      width:100%;height:100%;
+      object-fit:cover;
+      transition:transform .9s var(--ease-out),filter .5s;
+      filter:brightness(.55) saturate(.65);
+      display:block;
+    }
+    .p-card:hover img{transform:scale(1.06);filter:brightness(.75) saturate(.85)}
+
+    /* Overlay */
+    .p-card-overlay{
+      position:absolute;inset:0;
+      background:linear-gradient(to top,rgba(10,10,12,.9) 0%,rgba(10,10,12,.2) 60%,transparent 100%);
+      padding:clamp(20px,3vw,36px);
+      display:flex;flex-direction:column;justify-content:flex-end;
+    }
+    .p-card-cat{
+      font-family:var(--font-mono);font-size:10px;
+      letter-spacing:.14em;text-transform:uppercase;
+      color:var(--gold);margin-bottom:8px;
+    }
+    .p-card-title{
+      font-family:var(--font-display);
+      font-size:clamp(18px,1.8vw,26px);
+      font-weight:600;color:var(--ink);letter-spacing:-.015em;line-height:1.2;
+      transform:translateY(10px);transition:transform .4s var(--ease-out);
+    }
+    .p-card:hover .p-card-title{transform:translateY(0)}
+    .p-card-meta{
+      display:flex;align-items:center;gap:16px;
+      margin-top:12px;
+      opacity:0;transform:translateY(12px);
+      transition:opacity .4s .08s,transform .4s .08s var(--ease-out);
+    }
+    .p-card:hover .p-card-meta{opacity:1;transform:translateY(0)}
+    .p-card-year{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);letter-spacing:.1em}
+    .p-card-link{
+      display:inline-flex;align-items:center;gap:6px;
+      font-size:.8125rem;font-weight:600;color:var(--gold);
+      margin-left:auto;
+    }
+
+    /* Grid layout — magazine-style spanning */
+    .p-card-lg  {grid-column:span 8;aspect-ratio:16/9}
+    .p-card-sm  {grid-column:span 4;aspect-ratio:1}
+    .p-card-full{grid-column:span 12;aspect-ratio:21/7}
+    .p-card-half{grid-column:span 6;aspect-ratio:4/3}
+    .p-card-third{grid-column:span 4;aspect-ratio:4/3}
+
+    @media(max-width:1024px){
+      .p-card-lg{grid-column:span 12;aspect-ratio:16/9}
+      .p-card-sm{grid-column:span 6;aspect-ratio:4/3}
+      .p-card-full{aspect-ratio:16/6}
+    }
+    @media(max-width:768px){
+      .p-card-lg,.p-card-sm,.p-card-half,.p-card-third,.p-card-full{grid-column:span 12;aspect-ratio:4/3}
+    }
+
+    /* Invisible filter */
+    .p-card[data-hidden]{
+      display:none;
+    }
+
+    /* ── CASE STUDY MODAL ─────────────────── */
+    #modal{
+      position:fixed;inset:0;z-index:2000;
+      background:rgba(10,10,12,.97);
+      backdrop-filter:blur(4px);
+      overflow-y:auto;
+      opacity:0;pointer-events:none;
+      transition:opacity .4s var(--ease-out);
+    }
+    #modal.open{opacity:1;pointer-events:all}
+    .modal-inner{
+      max-width:1100px;margin:0 auto;
+      padding:clamp(80px,10vw,140px) clamp(20px,4vw,80px) 80px;
+    }
+    .modal-close{
+      position:fixed;top:32px;right:32px;
+      width:44px;height:44px;
+      border:1px solid var(--border);border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      transition:background .2s,border-color .2s;
+      z-index:2001;
+    }
+    .modal-close:hover{background:var(--surface);border-color:rgba(242,237,228,.2)}
+    .modal-header{margin-bottom:clamp(32px,5vw,64px)}
+    .modal-cat{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;margin-bottom:16px}
+    .modal-title{font-family:var(--font-display);font-size:clamp(36px,6vw,80px);font-weight:800;letter-spacing:-.03em;line-height:.95}
+    .modal-hero-img{width:100%;aspect-ratio:16/8;object-fit:cover;filter:brightness(.75) saturate(.7);margin-bottom:clamp(32px,5vw,64px)}
+    .modal-grid{display:grid;grid-template-columns:1fr 2.2fr;gap:clamp(32px,6vw,80px);align-items:start;margin-bottom:clamp(32px,5vw,64px)}
+    @media(max-width:768px){.modal-grid{grid-template-columns:1fr}}
+    .modal-meta-list{display:flex;flex-direction:column;gap:0}
+    .modal-meta-item{padding:16px 0;border-bottom:1px solid var(--border)}
+    .modal-meta-label{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase;margin-bottom:4px}
+    .modal-meta-value{font-size:.9375rem;color:var(--ink-2)}
+    .modal-body p{font-family:var(--font-display);font-size:clamp(17px,1.6vw,22px);color:var(--ink-2);line-height:1.65;margin-bottom:20px;font-weight:400}
+    .modal-images{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:clamp(32px,5vw,64px)}
+    @media(max-width:600px){.modal-images{grid-template-columns:1fr}}
+    .modal-images img{width:100%;aspect-ratio:4/3;object-fit:cover;filter:brightness(.7) saturate(.6)}
+    .modal-nav{display:flex;justify-content:space-between;align-items:center;margin-top:clamp(48px,7vw,100px);padding-top:40px;border-top:1px solid var(--border)}
+
+    /* ── FOOTER (minimal) ─────────────────── */
+    .mini-footer{border-top:1px solid var(--border);padding:24px 0}
+    .mini-footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+    .mini-footer-copy{font-size:.8125rem;color:var(--ink-3)}
+    .mini-footer-copy a{color:var(--gold)}
+
+    /* Back to top */
+    #back-to-top{position:fixed;bottom:32px;right:32px;width:44px;height:44px;background:var(--bg-3);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(16px);transition:opacity .3s,transform .3s,background .2s,border-color .2s;z-index:100}
+    #back-to-top.visible{opacity:1;transform:translateY(0)}
+    #back-to-top:hover{background:var(--gold);border-color:var(--gold)}
+    #back-to-top:hover svg path{stroke:var(--bg)}
+
+    /* Section header */
+    .section-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+    .section-eyebrow-line{width:32px;height:1px;background:var(--gold)}
+
+    /* Approach section */
+    .approach-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:clamp(40px,5vw,72px)}
+    @media(max-width:900px){.approach-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:540px){.approach-grid{grid-template-columns:1fr}}
+    .approach-cell{background:var(--bg-3);border:1px solid var(--border);padding:clamp(24px,3vw,40px);transition:border-color .3s}
+    .approach-cell:hover{border-color:var(--border-gold)}
+    .approach-num{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);letter-spacing:.1em;margin-bottom:20px}
+    .approach-title{font-family:var(--font-display);font-size:clamp(18px,2vw,24px);font-weight:600;color:var(--ink);letter-spacing:-.01em;margin-bottom:12px}
+    .approach-text{font-size:.875rem;color:var(--ink-3);line-height:1.7}
+  </style>
+</head>
+
+<body>
+
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <button id="back-to-top" aria-label="Back to top">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M8 12V4M4 7l4-4 4 4" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <nav id="mobile-nav" aria-hidden="true">
+    <a href="index.html">Home</a>
+    <a href="devnoxxkit-services.html">Services</a>
+    <a href="devnoxxkit-portfolio.html">Work</a>
+    <a href="devnoxxkit-about.html">About</a>
+    <a href="devnoxxkit-blog.html">Journal</a>
+    <a href="devnoxxkit-contact.html">Let's Talk</a>
+  </nav>
+
+  <!-- Case Study Modal -->
+  <div id="modal" role="dialog" aria-modal="true" aria-label="Case study" aria-hidden="true">
+    <button class="modal-close" id="modal-close" aria-label="Close case study">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M4 4l8 8M12 4l-8 8" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <div class="modal-inner" id="modal-content">
+      <!-- dynamically populated -->
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <header id="nav" role="banner">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-logo" aria-label="DevnoxxKit home">
+          <div class="nav-logo-mark">
+            <svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="#0A0A0C" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          Devnoxx<span style="color:var(--gold)">Kit</span>
+        </a>
+        <ul class="nav-links" role="list">
+          <li class="relative">
+            <a href="index.html" class="home-trigger" aria-haspopup="true" aria-expanded="false">Home</a>
+            <div class="nav-home-dropdown">
+
+              <a href="devnoxxkit-home-brutalist.html" class="nav-home-item">Brutalist</a>
+              <a href="devnoxxkit-home-ivory.html" class="nav-home-item">Ivory</a>
+              <a href="devnoxxkit-home-monochrome.html" class="nav-home-item">Monochrome</a>
+              <a href="devnoxxkit-home-teal.html" class="nav-home-item">Teal</a>
+            </div>
+          </li>
+          <li><a href="devnoxxkit-services.html">Services</a></li>
+          <li><a href="devnoxxkit-portfolio.html" class="active">Work</a></li>
+          <li><a href="devnoxxkit-about.html">About</a></li>
+          <li><a href="devnoxxkit-blog.html">Journal</a></li>
+          <li><a href="devnoxxkit-contact.html" class="nav-cta">Let's Talk</a></li>
+        </ul>
+        <button class="nav-hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- PAGE HERO -->
+    <div class="page-hero">
+      <div class="hero-glow hero-glow-1" aria-hidden="true"></div>
+      <div class="container">
+        <div class="hero-eyebrow">
+          <div class="hero-eyebrow-line"></div>
+          <span class="label">Selected Work — 2019–2026</span>
+        </div>
+        <h1 class="display-xl">
+          <div class="hero-line-wrap"><span class="hero-line">Work that</span></div>
+          <div class="hero-line-wrap"><span class="hero-line" style="animation-delay:.35s;color:var(--gold);font-style:italic">earns silence.</span></div>
+        </h1>
+      </div>
+    </div>
+
+    <!-- FILTER BAR -->
+    <div class="container" style="position:relative;z-index:1">
+      <div class="filter-bar" role="group" aria-label="Filter portfolio by category">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="brand">Brand Identity</button>
+        <button class="filter-btn" data-filter="web">Web Design</button>
+        <button class="filter-btn" data-filter="editorial">Editorial</button>
+        <button class="filter-btn" data-filter="campaign">Campaign</button>
+        <button class="filter-btn" data-filter="system">Design System</button>
+        <span class="filter-count" id="filter-count" aria-live="polite">12 projects</span>
+      </div>
+    </div>
+
+    <!-- PORTFOLIO GRID -->
+    <div class="portfolio-grid" id="portfolio-grid" role="list">
+
+      <!-- 01 — Large -->
+      <article class="p-card p-card-lg reveal" role="listitem"
+        data-category="brand"
+        data-title="Meridian — Luxury Finance"
+        data-cat="Brand Identity"
+        data-year="2026"
+        data-client="Meridian Capital"
+        data-scope="Brand Strategy, Identity, Print, Digital"
+        data-desc="Meridian approached us with a legacy logo, an inconsistent visual language, and a client base that expected more. Over four months we rebuilt their entire brand from the ground up — a system grounded in institutional confidence but alive with warmth. The result: a 340% increase in high-net-worth client inquiries in the first quarter post-launch."
+        data-img1="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1400&q=75&auto=format&fit=crop"
+        data-img2="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=800&q=70&auto=format&fit=crop"
+        data-img3="https://images.unsplash.com/photo-1559526324-593bc073d938?w=800&q=70&auto=format&fit=crop">
+        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&q=70&auto=format&fit=crop" alt="Meridian brand identity project" loading="lazy"/>
+        <div class="p-card-overlay">
+          <span class="p-card-cat">Brand Identity</span>
+          <h2 class="p-card-title">Meridian — Luxury Finance</h2>
+          <div class="p-card-meta">
+            <span class="p-card-year">2026</span>
+            <span class="p-card-link">View Case Study <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H5M9.5 2.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 02 — Small -->
+      <article class="p-card p-card-sm reveal reveal-delay-1" role="listitem"
+        data-category="web"
+        data-title="Volta — EV Campaign Site"
+        data-cat="Web Design + Dev"
+        data-year="2025"
+        data-client="Volta Motors"
+        data-scope="UI Design, Frontend Development, Motion"
+        data-desc="A campaign microsite for Volta's Series B launch — built in three weeks, shipped to international press, and featured on Awwwards. Scroll-driven animation, cinematic hero video, and a configurator that converted 23% of visitors to dealership inquiries."
+        data-img1="https://images.unsplash.com/photo-1545235617-9465d2a55698?w=1400&q=75&auto=format&fit=crop"
+        data-img2="https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=800&q=70&auto=format&fit=crop"
+        data-img3="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=70&auto=format&fit=crop">
+        <img src="https://images.unsplash.com/photo-1545235617-9465d2a55698?w=700&q=70&auto=format&fit=crop" alt="Volta EV campaign" loading="lazy"/>
+        <div class="p-card-overlay">
+          <span class="p-card-cat">Web Design</span>
+          <h2 class="p-card-title">Volta — EV Campaign</h2>
+          <div class="p-card-meta">
+            <span class="p-card-year">2025</span>
+            <span class="p-card-link">View <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H5M9.5 2.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 03 — Full width -->
+      <article class="p-card p-card-full reveal" role="listitem"
+        data-category="editorial"
+        data-title="Nora — Creative Journal Platform"
+        data-cat="Editorial Platform"
+        data-year="2025"
+        data-client="Nora Media"
+        data-scope="Product Design, Brand Identity, Dev Handoff"
+        data-desc="Nora is what a culture publication looks like when you give designers the keys. We designed the full editorial system — article layouts, issue pages, contributor profiles, and a subscriber experience — around the principle that reading online should feel as deliberate and beautiful as opening a printed magazine."
+        data-img1="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1400&q=75&auto=format&fit=crop"
+        data-img2="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&q=70&auto=format&fit=crop"
+        data-img3="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=70&auto=format&fit=crop">
+        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1600&q=70&auto=format&fit=crop" alt="Nora editorial platform" loading="lazy"/>
+        <div class="p-card-overlay">
+          <span class="p-card-cat">Editorial Platform</span>
+          <h2 class="p-card-title">Nora — Creative Journal</h2>
+          <div class="p-card-meta">
+            <span class="p-card-year">2025</span>
+            <span class="p-card-link">View Case Study <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H5M9.5 2.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 04–06 — Three halves -->
+      <article class="p-card p-card-half reveal" role="listitem"
+        data-category="brand"
+        data-title="Crest — Architecture Firm"
+        data-cat="Brand Identity"
+        data-year="2024"
+        data-client="Crest Studio"
+        data-scope="Identity, Signage, Digital"
+        data-desc="A brutalist-refined identity for a Zurich architecture firm. Sparse, confident, and built on a single geometric mark that scales from business cards to building signage without losing its nerve."
+        data-img1="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1400&q=75&auto=format&fit=crop"
+        data-img2="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=800&q=70&auto=format&fit=crop"
+        data-img3="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&q=70&auto=format&fit=crop">
+        <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=900&q=70&auto=format&fit=crop" alt="Crest architecture brand" loading="lazy"/>
+        <div class="p-card-overlay">
+          <span class="p-card-cat">Brand Identity</span>
+          <h2 class="p-card-title">Crest — Architecture</h2>
+          <div class="p-card-meta">
+            <span class="p-card-year">2024</span>
+            <span class="p-card-link">View <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H5M9.5 2.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+          </div>
+        </div>
+      </article>
+
+      <article class="p-card p-card-half reveal reveal-delay-1" role="listitem"
+        data-category="campaign"
+        data-title="Soleil — Fragrance Campaign"
+        data-cat="Campaign"
+        data-year="2024"
+        data-client="Soleil Paris"
+        data-scope="Art Direction, Campaign Design, Social"
+        data-desc="Art direction for Soleil's autumn collection launch. Shot in the Moroccan desert with a minimal crew, the campaign ran across print, OOH, and digital — and sold out the limited edition in 72 hours."
+        data-img1="https://images.unsplash.com/photo-1541643600914-78b084683702?w=1400&q=75&auto=format&fit=crop"
+        data-img2="https://images.unsplash.com/photo-1547887538-047f482f6cae?w=800&q=70&auto=format&fit=crop"
+        data-img3="https://images.unsplash.com/photo-1563170351-be82bc888aa4?w=800&q=70&auto=format&fit=crop">
+        <img src="https://images.unsplash.com/photo-1541643600914-78b084683702?w=900&q=70&auto=format&fit=crop" alt="Soleil fragrance campaign" loading="lazy"/>
+        <div class="p-card-overlay">
+          <span class="p-card-cat">Campaign</span>
+          <h2 class="p-card-title">Soleil — Fragrance</h2>
+          <div class="p-card-meta">
+            <span class="p-card-year">2024</span>
+            <span class="p-card-link">View <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H5M9.5 2.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 07–09 — Thirds -->
+      <article class="p-card p-card-third reveal" role="listitem"
+        data-category="system"
+        data-title="Axiom — SaaS Design System"
+        data-cat="Design System"
+        data-year="2024"
+        data-client="Axiom Software"
+        data-scope="Design System, Component Library, Documentation"
+        data-desc="600+ components, 14 themes, one source of truth. We built Axiom's design system from scratch — tokens to Figma to production code — so their team of 40 designers could ship faster without drifting apart."
+        data-img1="https://images.unsplash.com/photo-1555421689-491a97ff2040?w=1400&q=75&auto=format&fit=crop"
+        data-img2="https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=800&q=70&auto=format&fit=crop"
+        data-img3="https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800&q=70&auto=format&fit=crop">
+        <img src="https://images.unsplash.com/photo-1555421689-491a97ff2040?w=700&q=70&auto=format&fit=crop" alt="Axiom design system" loading="lazy"/>
+        <div class="p-card-overlay">
+          <span class="p-card-cat">Design System</span>
+          <h2 class="p-card-title">Axiom — SaaS DS</h2>
+          <div class="p-card-meta">
+            <span class="p-card-year">2024</span>
+            <span class="p-card-link">View <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H5M9.5 2.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+          </div>
+        </div>
+      </article>
+
+      <article class="p-card p-card-third reveal reveal-delay-1" role="listitem"
+        data-category="web"
+        data-title="Opal — Restaurant Group"
+        data-cat="Web Design"
+        data-year="2023"
+        data-client="Opal Hospitality"
+        data-scope="UI/UX Design, Development, Reservations Integration"
+        data-desc="Four restaurants. One design language. Opal's new site increased direct reservations by 180% and eliminated the dependency on third-party booking platforms, saving the group $90k annually in commission fees."
+        data-img1="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1400&q=75&auto=format&fit=crop"
+        data-img2="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=70&auto=format&fit=crop"
+        data-img3="https://images.unsplash.com/photo-1552566626-52f8b828add9?w=800&q=70&auto=format&fit=crop">
+        <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=700&q=70&auto=format&fit=crop" alt="Opal restaurant website" loading="lazy"/>
+        <div class="p-card-overlay">
+          <span class="p-card-cat">Web Design</span>
+          <h2 class="p-card-title">Opal — Hospitality</h2>
+          <div class="p-card-meta">
+            <span class="p-card-year">2023</span>
+            <span class="p-card-link">View <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H5M9.5 2.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+          </div>
+        </div>
+      </article>
+
+      <article class="p-card p-card-third reveal reveal-delay-2" role="listitem"
+        data-category="editorial"
+        data-title="Typeset — Type Foundry"
+        data-cat="Editorial"
+        data-year="2023"
+        data-client="Typeset Co."
+        data-scope="Web Design, Typography Direction, Specimen Pages"
+        data-desc="A foundry site that is itself a specimen of the work it sells. Every page, every layout, every interaction is proof of concept. Visitors spend an average of 7.4 minutes on site — triple the industry average."
+        data-img1="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1400&q=75&auto=format&fit=crop"
+        data-img2="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=800&q=70&auto=format&fit=crop"
+        data-img3="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=800&q=70&auto=format&fit=crop">
+        <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=700&q=70&auto=format&fit=crop" alt="Typeset foundry site" loading="lazy"/>
+        <div class="p-card-overlay">
+          <span class="p-card-cat">Editorial</span>
+          <h2 class="p-card-title">Typeset — Foundry</h2>
+          <div class="p-card-meta">
+            <span class="p-card-year">2023</span>
+            <span class="p-card-link">View <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H5M9.5 2.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- APPROACH SECTION -->
+    <section class="section" aria-labelledby="approach-heading">
+      <div class="container">
+        <div class="section-eyebrow reveal">
+          <div class="section-eyebrow-line"></div>
+          <span class="label">How We Work</span>
+        </div>
+        <h2 class="display-md reveal reveal-delay-1" id="approach-heading" style="margin-top:12px;max-width:600px">
+          Process that earns trust, not just results.
+        </h2>
+        <div class="approach-grid">
+          <div class="approach-cell reveal reveal-delay-1">
+            <div class="approach-num">01 — Discovery</div>
+            <div class="approach-title">Understand before creating</div>
+            <p class="approach-text">We spend the first two weeks learning your business, your audience, and your competitive context. No assumptions. No templates.</p>
+          </div>
+          <div class="approach-cell reveal reveal-delay-2">
+            <div class="approach-num">02 — Direction</div>
+            <div class="approach-title">One clear creative path</div>
+            <p class="approach-text">We present a single creative direction — fully committed, well-reasoned, and ready for refinement. Not three options that dilute the vision.</p>
+          </div>
+          <div class="approach-cell reveal reveal-delay-3">
+            <div class="approach-num">03 — Execution</div>
+            <div class="approach-title">Build with obsession</div>
+            <p class="approach-text">Pixel-perfect delivery, clean handoffs, and documentation that your team will actually use. We treat every file as if it will be inspected.</p>
+          </div>
+          <div class="approach-cell reveal reveal-delay-3">
+            <div class="approach-num">04 — Launch</div>
+            <div class="approach-title">Leave nothing behind</div>
+            <p class="approach-text">Post-launch support, performance monitoring, and a standing invitation to reach out whenever the next chapter begins.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section style="background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+      <div class="container" style="text-align:center;padding:clamp(80px,12vw,160px) 0;position:relative">
+        <div style="position:absolute;width:800px;height:800px;background:radial-gradient(circle,rgba(201,169,110,.05) 0%,transparent 70%);left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none"></div>
+        <div class="section-eyebrow reveal" style="justify-content:center">
+          <div class="section-eyebrow-line"></div>
+          <span class="label">Next Project</span>
+          <div class="section-eyebrow-line"></div>
+        </div>
+        <h2 class="display-md reveal reveal-delay-1" style="margin:16px auto 32px;max-width:640px">
+          Your project could be the next one here.
+        </h2>
+        <a href="index.html#contact" class="btn btn-primary reveal reveal-delay-2">
+          Start a Conversation
+          <svg class="btn-arrow" viewBox="0 0 20 20" fill="none">
+            <path d="M4 16L16 4M16 4H8M16 4V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="mini-footer" role="contentinfo">
+    <div class="container">
+      <div class="mini-footer-inner">
+        <a href="index.html" class="nav-logo" style="display:inline-flex;font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:-.02em;align-items:center;gap:8px">
+          <div class="nav-logo-mark"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="#0A0A0C" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          Devnoxx<span style="color:var(--gold)">Kit</span>
+        </a>
+        <p class="mini-footer-copy">© 2026 <a href="index.html">DevnoxxKit</a>. Crafted with obsession.</p>
+        <p class="mini-footer-copy" style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em">PORTFOLIO PAGE</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Cursor
+    const dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring');
+    let rX=0,rY=0,dX=0,dY=0,mX=0,mY=0;
+    document.addEventListener('mousemove',e=>{mX=e.clientX;mY=e.clientY});
+    (function anim(){dX+=(mX-dX)*.85;dY+=(mY-dY)*.85;rX+=(mX-rX)*.12;rY+=(mY-rY)*.12;dot.style.left=dX+'px';dot.style.top=dY+'px';ring.style.left=rX+'px';ring.style.top=rY+'px';requestAnimationFrame(anim)})();
+
+    // Nav scroll
+    const nav=document.getElementById('nav');
+    window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
+
+    // Mobile nav
+    const hb=document.getElementById('hamburger'),mn=document.getElementById('mobile-nav');
+    hb.addEventListener('click',()=>{const o=hb.classList.toggle('open');mn.classList.toggle('open',o);hb.setAttribute('aria-expanded',String(o));mn.setAttribute('aria-hidden',String(!o));document.body.style.overflow=o?'hidden':''});
+
+    // Reveal
+    const ro=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target)}}),{threshold:.1,rootMargin:'0px 0px -48px 0px'});
+    document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+    // Back to top
+    const btt=document.getElementById('back-to-top');
+    window.addEventListener('scroll',()=>btt.classList.toggle('visible',scrollY>500),{passive:true});
+    btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+    // ── FILTER ──────────────────────────────────────────────────
+    const filterBtns=document.querySelectorAll('.filter-btn');
+    const cards=document.querySelectorAll('.p-card');
+    const countEl=document.getElementById('filter-count');
+
+    filterBtns.forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        filterBtns.forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const f=btn.dataset.filter;
+        let visible=0;
+        cards.forEach(c=>{
+          const cat=c.dataset.category;
+          const show=f==='all'||cat===f;
+          if(show){
+            delete c.dataset.hidden;
+            c.style.display='';
+            visible++;
+          } else {
+            c.dataset.hidden='true';
+            c.style.display='none';
+          }
+        });
+        countEl.textContent=visible+' project'+(visible===1?'':'s');
+      });
+    });
+
+    // ── CASE STUDY MODAL ────────────────────────────────────────
+    const modal=document.getElementById('modal');
+    const modalContent=document.getElementById('modal-content');
+    const modalClose=document.getElementById('modal-close');
+
+    function openModal(card){
+      const d=card.dataset;
+      modalContent.innerHTML=`
+        <div class="modal-header">
+          <div class="modal-cat">${d.cat} — ${d.year}</div>
+          <h2 class="modal-title">${d.title}</h2>
+        </div>
+        <img class="modal-hero-img" src="${d.img1}" alt="${d.title}" loading="lazy"/>
+        <div class="modal-grid">
+          <div class="modal-meta-list">
+            <div class="modal-meta-item">
+              <div class="modal-meta-label">Client</div>
+              <div class="modal-meta-value">${d.client}</div>
+            </div>
+            <div class="modal-meta-item">
+              <div class="modal-meta-label">Scope</div>
+              <div class="modal-meta-value">${d.scope}</div>
+            </div>
+            <div class="modal-meta-item">
+              <div class="modal-meta-label">Year</div>
+              <div class="modal-meta-value">${d.year}</div>
+            </div>
+          </div>
+          <div class="modal-body">
+            <p>${d.desc}</p>
+          </div>
+        </div>
+        <div class="modal-images">
+          <img src="${d.img2}" alt="Project detail" loading="lazy"/>
+          <img src="${d.img3}" alt="Project detail" loading="lazy"/>
+        </div>
+        <div class="modal-nav">
+          <button onclick="closeModal()" style="display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);transition:color .2s;cursor:none" onmouseenter="this.style.color='var(--gold)'" onmouseleave="this.style.color='var(--ink-3)'">
+            ← Back to Portfolio
+          </button>
+          <a href="index.html#contact" class="btn btn-primary" style="cursor:none">
+            Start a Project
+            <svg class="btn-arrow" viewBox="0 0 20 20" fill="none"><path d="M4 16L16 4M16 4H8M16 4V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </a>
+        </div>
+      `;
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden','false');
+      document.body.style.overflow='hidden';
+      modal.scrollTop=0;
+      modalClose.focus();
+    }
+
+    function closeModal(){
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden','true');
+      document.body.style.overflow='';
+    }
+    window.closeModal=closeModal;
+
+    cards.forEach(card=>{
+      card.addEventListener('click',()=>openModal(card));
+    });
+    modalClose.addEventListener('click',closeModal);
+    modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click',e=>{
+        const t=document.querySelector(a.getAttribute('href'));
+        if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}
+      });
+    });
+  </script>
+  <script src="devnoxxkit-theme.js"></script>
+</body>
+</html>

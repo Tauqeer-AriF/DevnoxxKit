@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <script>
+    (function(){
+      var s = localStorage.getItem('dnk-theme');
+      var d = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', s || d);
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Style Guide & Component Library — DevnoxxKit v2.1</title>
+  <meta name="description" content="Complete component library, design tokens, and pattern reference for DevnoxxKit."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:#0A0A0C; --bg-2:#111114; --bg-3:#18181D; --surface:#1E1E24;
+      --border:rgba(242,237,228,0.08); --border-gold:rgba(201,169,110,0.3);
+      --ink:#F2EDE4; --ink-2:#B8B0A4; --ink-3:#6E6860;
+      --gold:#C9A96E; --gold-light:#DFC28E; --gold-dim:rgba(201,169,110,0.12);
+      --teal:#1E3A3A; --teal-light:#2A5050;
+      --font-display:'Fraunces',Georgia,serif;
+      --font-body:'DM Sans',system-ui,sans-serif;
+      --font-mono:'JetBrains Mono',monospace;
+      --radius-sm:4px; --radius-md:8px; --radius-lg:16px;
+      --ease:cubic-bezier(0.16,1,0.3,1);
+      --sidebar:260px;
+    }
+    #nav.scrolled {
+      background: var(--nav-scrolled-bg) !important;
+      }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-size:16px;-webkit-font-smoothing:antialiased}
+    body{background:var(--bg);color:var(--ink);font-family:var(--font-body);overflow-x:hidden;cursor:none;line-height:1.65}
+    body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px 256px}
+    ::selection{background:var(--gold);color:var(--bg)}
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+    button{border:none;background:none;cursor:none;font:inherit}
+
+    #cd{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--gold);pointer-events:none;z-index:10000;transform:translate(-50%,-50%);will-change:transform}
+    #cr{position:fixed;width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,169,110,.5);pointer-events:none;z-index:10000;transform:translate(-50%,-50%);transition:width .3s var(--ease),height .3s var(--ease),border-color .3s;will-change:transform}
+    body:has(a:hover) #cr,body:has(button:hover) #cr{width:56px;height:56px;border-color:var(--gold)}
+
+    /* ── SHELL LAYOUT ──────────────────────── */
+    .shell{display:grid;grid-template-columns:var(--sidebar) 1fr;min-height:100svh}
+    @media(max-width:900px){.shell{grid-template-columns:1fr}}
+
+    /* ── SIDEBAR ───────────────────────────── */
+    .sidebar{
+      position:sticky;top:0;height:100svh;overflow-y:auto;
+      background:var(--bg-2);border-right:1px solid var(--border);
+      display:flex;flex-direction:column;
+      scrollbar-width:thin;scrollbar-color:var(--bg-3) transparent;
+    }
+    @media(max-width:900px){.sidebar{display:none}}
+    .sidebar::-webkit-scrollbar{width:3px}
+    .sidebar::-webkit-scrollbar-thumb{background:var(--bg-3)}
+
+    .sb-logo{
+      padding:20px;border-bottom:1px solid var(--border);
+      display:flex;align-items:center;gap:10px;flex-shrink:0;
+    }
+    .sb-logo-mark{width:24px;height:24px;background:var(--gold);border-radius:4px;display:flex;align-items:center;justify-content:center}
+    .sb-logo-text{font-family:var(--font-display);font-size:16px;font-weight:700;letter-spacing:-.02em}
+    .sb-version{font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;color:var(--ink-3);margin-left:auto}
+
+    .sb-nav{flex:1;padding:16px 0}
+    .sb-section-title{font-family:var(--font-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);padding:0 16px;margin-bottom:6px;margin-top:16px}
+    .sb-section-title:first-child{margin-top:0}
+    .sb-link{display:flex;align-items:center;gap:8px;padding:7px 16px;font-size:.8125rem;color:var(--ink-3);transition:color .2s,background .2s;border-left:2px solid transparent}
+    .sb-link:hover{color:var(--ink);background:rgba(242,237,228,.03)}
+    .sb-link.active{color:var(--gold);border-left-color:var(--gold);background:var(--gold-dim)}
+    .sb-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+    .sb-footer{padding:16px;border-top:1px solid var(--border);flex-shrink:0}
+    .sb-footer a{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;color:var(--ink-3);transition:color .2s}
+    .sb-footer a:hover{color:var(--gold)}
+
+    /* ── MAIN CONTENT ──────────────────────── */
+    .content{padding:clamp(32px,5vw,64px) clamp(20px,4vw,64px)}
+
+    /* Section */
+    .sg-section{margin-bottom:clamp(64px,8vw,96px)}
+    .sg-section-header{padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:clamp(32px,4vw,48px)}
+    .sg-section-tag{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+    .sg-section-title{font-family:var(--font-display);font-size:clamp(24px,3vw,40px);font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+    .sg-section-desc{font-size:.9375rem;color:var(--ink-2);line-height:1.75;margin-top:8px;max-width:640px}
+
+    /* Canvas (preview area) */
+    .canvas{background:var(--bg-2);border:1px solid var(--border);padding:clamp(24px,4vw,48px);margin-bottom:4px}
+    .canvas.light{background:#F7F3EC}
+    .canvas.grid-bg{background-image:linear-gradient(rgba(242,237,228,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(242,237,228,.025) 1px,transparent 1px);background-size:32px 32px}
+    .canvas-label{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);padding:10px 14px;background:var(--bg-3);border:1px solid var(--border);border-top:none;margin-bottom:clamp(20px,3vw,36px)}
+
+    /* Code snippet */
+    .code-block{background:var(--bg-3);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;margin-top:4px}
+    .code-header{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid var(--border);background:var(--surface)}
+    .code-lang{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+    .code-copy{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--ink-3);padding:3px 8px;border:1px solid var(--border);border-radius:2px;transition:color .2s,border-color .2s}
+    .code-copy:hover{color:var(--gold);border-color:var(--border-gold)}
+    .code-body{padding:16px;font-family:var(--font-mono);font-size:.8rem;line-height:1.7;color:var(--ink-2);overflow-x:auto}
+    .code-body .k{color:#7DA4C0}.code-body .s{color:#A8C99A}.code-body .v{color:var(--gold)}.code-body .c{color:var(--ink-3)}
+
+    /* ── ① COLORS ──────────────────────────── */
+    .color-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
+    .color-swatch{border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--border)}
+    .swatch-block{height:72px;position:relative}
+    .swatch-info{padding:10px 12px;background:var(--bg-3)}
+    .swatch-name{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--ink-2)}
+    .swatch-val{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);margin-top:2px}
+
+    /* ── ② TYPOGRAPHY ──────────────────────── */
+    .type-row{padding:clamp(20px,3vw,32px) 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:140px 1fr;gap:24px;align-items:baseline}
+    .type-row:last-child{border-bottom:none}
+    .type-meta{flex-shrink:0}
+    .type-meta-class{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--gold)}
+    .type-meta-desc{font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;color:var(--ink-3);margin-top:4px}
+    @media(max-width:600px){.type-row{grid-template-columns:1fr;gap:8px}}
+
+    /* ── ③ SPACING ─────────────────────────── */
+    .spacing-grid{display:flex;flex-direction:column;gap:12px}
+    .spacing-row{display:grid;grid-template-columns:120px auto 1fr;gap:16px;align-items:center}
+    .spacing-name{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--gold)}
+    .spacing-bar{background:var(--gold);height:12px;border-radius:2px;transition:width .4s var(--ease)}
+    .spacing-val{font-family:var(--font-mono);font-size:10px;color:var(--ink-3)}
+
+    /* ── ④ BUTTONS ─────────────────────────── */
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;font-size:.875rem;font-weight:600;border-radius:var(--radius-sm);transition:transform .3s var(--ease),box-shadow .3s}
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{background:var(--gold);color:var(--bg);box-shadow:0 4px 24px rgba(201,169,110,.2)}.btn-primary:hover{box-shadow:0 8px 40px rgba(201,169,110,.35)}
+    .btn-ghost{border:1px solid var(--border);color:var(--ink-2)}.btn-ghost:hover{border-color:rgba(242,237,228,.2);color:var(--ink)}
+    .btn-teal{background:var(--teal);color:var(--ink-2);border:1px solid var(--teal-light)}.btn-teal:hover{background:var(--teal-light)}
+    .btn-danger{background:#E07070;color:#fff;box-shadow:0 4px 20px rgba(224,112,112,.2)}.btn-danger:hover{box-shadow:0 8px 32px rgba(224,112,112,.35)}
+    .btn-sm{padding:8px 16px;font-size:.8rem}
+    .btn-lg{padding:18px 36px;font-size:1rem}
+    .btn-icon-only{padding:12px;aspect-ratio:1}
+    .btn-loading{opacity:.7;pointer-events:none}
+    .btn-arrow{width:18px;height:18px;transition:transform .3s var(--ease)}.btn:hover .btn-arrow{transform:translate(3px,-3px)}
+    .btn-wrap{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+
+    /* ── ⑤ BADGES ──────────────────────────── */
+    .badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;border-radius:100px}
+    .badge-gold{background:var(--gold-dim);border:1px solid var(--border-gold);color:var(--gold)}
+    .badge-green{background:rgba(109,191,138,.1);border:1px solid rgba(109,191,138,.25);color:#6DBF8A}
+    .badge-red{background:rgba(224,112,112,.1);border:1px solid rgba(224,112,112,.25);color:#E07070}
+    .badge-blue{background:rgba(125,164,192,.1);border:1px solid rgba(125,164,192,.25);color:#7DA4C0}
+    .badge-gray{background:rgba(242,237,228,.05);border:1px solid var(--border);color:var(--ink-3)}
+    .badge-dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+
+    /* ── ⑥ FORM ELEMENTS ───────────────────── */
+    .field{display:flex;flex-direction:column;gap:8px}
+    .field-label{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+    .field-req{color:var(--gold)}
+    .f-input,.f-select,.f-textarea{background:var(--bg-3);border:1px solid var(--border);color:var(--ink);font-family:var(--font-body);font-size:.9375rem;padding:13px 16px;outline:none;border-radius:var(--radius-sm);transition:border-color .2s,box-shadow .2s;width:100%;-webkit-appearance:none}
+    .f-input::placeholder,.f-textarea::placeholder{color:var(--ink-3)}
+    .f-input:focus,.f-select:focus,.f-textarea:focus{border-color:var(--border-gold);box-shadow:0 0 0 3px rgba(201,169,110,.07)}
+    .f-input.error{border-color:#E07070;box-shadow:0 0 0 3px rgba(224,112,112,.07)}
+    .f-input.success{border-color:#6DBF8A;box-shadow:0 0 0 3px rgba(109,191,138,.07)}
+    .f-hint{font-size:.8125rem;color:var(--ink-3)}
+    .f-error-text{font-size:.8125rem;color:#E07070}
+    .f-success-text{font-size:.8125rem;color:#6DBF8A}
+    .f-textarea{resize:vertical;min-height:100px;line-height:1.65}
+    .f-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media(max-width:540px){.f-grid{grid-template-columns:1fr}}
+
+    /* Toggle */
+    .toggle-wrap{display:flex;align-items:center;gap:14px}
+    .toggle{width:44px;height:24px;border-radius:100px;background:var(--bg-3);border:1px solid var(--border);position:relative;transition:background .3s,border-color .3s;flex-shrink:0}
+    .toggle.on{background:var(--gold);border-color:var(--gold)}
+    .toggle::after{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:var(--ink-3);top:3px;left:3px;transition:transform .3s var(--ease),background .3s}
+    .toggle.on::after{transform:translateX(20px);background:var(--bg)}
+    .toggle-label{font-size:.9375rem;color:var(--ink-2)}
+
+    /* Checkbox */
+    .check-wrap{display:flex;align-items:center;gap:12px}
+    .check-box-sg{width:18px;height:18px;border:1px solid var(--border);border-radius:3px;background:var(--bg-3);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s}
+    .check-box-sg.checked{background:var(--gold);border-color:var(--gold)}
+    .check-label{font-size:.9375rem;color:var(--ink-2)}
+
+    /* ── ⑦ CARDS ───────────────────────────── */
+    .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:2px}
+    .demo-card{background:var(--bg-3);border:1px solid var(--border);overflow:hidden;transition:border-color .3s,transform .4s var(--ease)}
+    .demo-card:hover{border-color:var(--border-gold);transform:translateY(-4px)}
+    .demo-card-img{width:100%;aspect-ratio:16/9;object-fit:cover;filter:brightness(.6) saturate(.6);transition:transform .6s var(--ease),filter .4s}
+    .demo-card:hover .demo-card-img{transform:scale(1.04);filter:brightness(.78) saturate(.8)}
+    .demo-card-body{padding:clamp(16px,2.5vw,24px)}
+    .demo-card-tag{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+    .demo-card-title{font-family:var(--font-display);font-size:clamp(16px,1.6vw,21px);font-weight:600;letter-spacing:-.01em;color:var(--ink);transition:color .2s}
+    .demo-card:hover .demo-card-title{color:var(--gold-light)}
+    .demo-card-text{font-size:.875rem;color:var(--ink-3);line-height:1.65;margin-top:8px}
+
+    /* ── ⑧ ALERTS ──────────────────────────── */
+    .alert{padding:14px 18px;border-radius:var(--radius-sm);display:flex;align-items:start;gap:12px;font-size:.9rem;line-height:1.6}
+    .alert-icon{flex-shrink:0;margin-top:1px}
+    .alert-info{background:rgba(125,164,192,.08);border:1px solid rgba(125,164,192,.2);color:var(--ink-2)}
+    .alert-success{background:rgba(109,191,138,.08);border:1px solid rgba(109,191,138,.2);color:var(--ink-2)}
+    .alert-warning{background:var(--gold-dim);border:1px solid var(--border-gold);color:var(--ink-2)}
+    .alert-danger{background:rgba(224,112,112,.08);border:1px solid rgba(224,112,112,.2);color:var(--ink-2)}
+
+    /* ── ⑨ STATS ───────────────────────────── */
+    .stat-demo-grid{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border)}
+    @media(max-width:600px){.stat-demo-grid{grid-template-columns:repeat(2,1fr)}}
+    .stat-demo-cell{padding:clamp(20px,3vw,36px) clamp(16px,2.5vw,28px);border-right:1px solid var(--border);position:relative;overflow:hidden;transition:background .3s}
+    .stat-demo-cell:last-child{border-right:none}
+    .stat-demo-cell::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--gold);transition:width .6s var(--ease)}
+    .stat-demo-cell:hover::after{width:100%}
+    .stat-demo-num{font-family:var(--font-display);font-size:clamp(28px,4vw,48px);font-weight:800;letter-spacing:-.04em;line-height:1}
+    .stat-demo-num sup{font-size:.45em;color:var(--gold);vertical-align:super}
+    .stat-demo-lbl{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-top:6px}
+
+    /* ── ⑩ TESTIMONIAL ─────────────────────── */
+    .testi-demo{background:var(--bg-3);border:1px solid var(--border);padding:clamp(24px,4vw,40px);position:relative;transition:border-color .3s}
+    .testi-demo:hover{border-color:var(--border-gold)}
+    .testi-demo-q{font-family:var(--font-display);font-size:clamp(56px,7vw,80px);font-weight:800;color:var(--gold);opacity:.18;line-height:.9;margin-bottom:12px;font-style:italic;position:absolute;top:12px;left:24px;pointer-events:none}
+    .testi-demo-text{font-family:var(--font-display);font-size:clamp(15px,1.5vw,19px);font-style:italic;color:var(--ink-2);line-height:1.6;margin-top:32px;position:relative}
+    .testi-demo-author{display:flex;align-items:center;gap:12px;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+    .testi-demo-av{width:40px;height:40px;border-radius:50%;object-fit:cover;filter:grayscale(.3)}
+    .testi-demo-name{font-size:.875rem;font-weight:600;color:var(--ink)}
+    .testi-demo-role{font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;color:var(--ink-3);margin-top:2px}
+
+    /* ── ⑪ ICONS ───────────────────────────── */
+    .icon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px}
+    .icon-cell{background:var(--bg-3);border:1px solid var(--border);padding:16px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color .3s,background .3s}
+    .icon-cell:hover{border-color:var(--border-gold);background:var(--gold-dim)}
+    .icon-name{font-family:var(--font-mono);font-size:9px;letter-spacing:.06em;color:var(--ink-3);text-align:center}
+
+    /* ── ⑫ DIVIDERS ────────────────────────── */
+    .divider{width:100%;height:1px;background:var(--border)}
+    .divider-gold{width:100%;height:1px;background:var(--border-gold)}
+    .divider-gradient{width:100%;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+
+    /* ── ⑬ DARK/LIGHT TOGGLE ───────────────── */
+    .theme-toggle-demo{
+      display:flex;align-items:center;gap:12px;
+      padding:12px 16px;
+      background:var(--bg-3);border:1px solid var(--border);
+      border-radius:var(--radius-sm);width:fit-content;
+    }
+    .theme-icon{color:var(--ink-2)}
+    .theme-slider-wrap{width:52px;height:28px;background:var(--surface);border:1px solid var(--border);border-radius:100px;position:relative;transition:background .3s}
+    .theme-slider-wrap.light-mode{background:var(--gold)}
+    .theme-thumb{position:absolute;width:20px;height:20px;border-radius:50%;background:var(--ink);top:3px;left:3px;transition:transform .3s var(--ease),background .3s}
+    .theme-slider-wrap.light-mode .theme-thumb{transform:translateX(24px);background:#0A0A0C}
+
+    /* ── SECTION LABELS ────────────────────── */
+    .section-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,3vw,32px);margin-bottom:clamp(16px,2.5vw,24px)}
+    @media(max-width:600px){.section-grid{grid-template-columns:1fr}}
+    .subsection-title{font-family:var(--font-display);font-size:clamp(18px,2vw,24px);font-weight:600;letter-spacing:-.01em;color:var(--ink);margin:clamp(24px,3vw,36px) 0 14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+
+    /* page header */
+    .page-header{padding:clamp(32px,5vw,64px) clamp(20px,4vw,64px) 0;border-bottom:1px solid var(--border);margin-bottom:clamp(32px,5vw,56px)}
+    .page-header-inner{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;padding-bottom:24px}
+    .page-title{font-family:var(--font-display);font-size:clamp(28px,4vw,52px);font-weight:800;letter-spacing:-.03em;color:var(--ink)}
+    .page-desc{font-size:.9375rem;color:var(--ink-2);line-height:1.75;max-width:540px;margin-top:8px}
+    .page-version{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;color:var(--gold);border:1px solid var(--border-gold);padding:5px 12px;border-radius:100px;white-space:nowrap}
+
+    /* mobile topbar */
+    .mobile-top{display:none;position:sticky;top:0;z-index:100;background:rgba(10,10,12,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:16px 20px;align-items:center;justify-content:space-between}
+    @media(max-width:900px){.mobile-top{display:flex}}
+    .mobile-top-logo{font-family:var(--font-display);font-size:16px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:8px}
+    .mobile-top-mark{width:22px;height:22px;background:var(--gold);border-radius:4px;display:flex;align-items:center;justify-content:center}
+  </style>
+</head>
+<body>
+  <div id="cd"></div>
+  <div id="cr"></div>
+
+  <div class="shell">
+
+    <!-- ── SIDEBAR ──────────────────────────── -->
+    <aside class="sidebar" role="navigation" aria-label="Style guide navigation">
+      <div class="sb-logo">
+        <div class="sb-logo-mark"><svg viewBox="0 0 14 14" fill="none" width="10" height="10"><path d="M2 7h10M7 2l5 5-5 5" stroke="#0A0A0C" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <span class="sb-logo-text">Devnoxx<span style="color:var(--gold)">Kit</span></span>
+        <span class="sb-version">v2.1</span>
+      </div>
+
+      <nav class="sb-nav">
+        <div class="sb-section-title">Foundations</div>
+        <a href="#colors" class="sb-link active"><div class="sb-dot" style="background:var(--gold)"></div>Colors</a>
+        <a href="#typography" class="sb-link"><div class="sb-dot" style="background:#7DA4C0"></div>Typography</a>
+        <a href="#spacing" class="sb-link"><div class="sb-dot" style="background:#A8C99A"></div>Spacing</a>
+        <a href="#icons" class="sb-link"><div class="sb-dot" style="background:#B8A0D4"></div>Icons</a>
+
+        <div class="sb-section-title">Components</div>
+        <a href="#buttons" class="sb-link"><div class="sb-dot" style="background:var(--gold)"></div>Buttons</a>
+        <a href="#badges" class="sb-link"><div class="sb-dot" style="background:#6DBF8A"></div>Badges</a>
+        <a href="#forms" class="sb-link"><div class="sb-dot" style="background:#7DA4C0"></div>Form Elements</a>
+        <a href="#cards" class="sb-link"><div class="sb-dot" style="background:#B8A0D4"></div>Cards</a>
+        <a href="#alerts" class="sb-link"><div class="sb-dot" style="background:#E07070"></div>Alerts</a>
+        <a href="#dividers" class="sb-link"><div class="sb-dot" style="background:var(--ink-3)"></div>Dividers</a>
+
+        <div class="sb-section-title">Patterns</div>
+        <a href="#stats" class="sb-link"><div class="sb-dot" style="background:var(--gold)"></div>Stats</a>
+        <a href="#testimonials" class="sb-link"><div class="sb-dot" style="background:#7DA4C0"></div>Testimonials</a>
+        <a href="#dark-light" class="sb-link"><div class="sb-dot" style="background:#B8A0D4"></div>Dark / Light Toggle</a>
+        <a href="#motion" class="sb-link"><div class="sb-dot" style="background:#A8C99A"></div>Motion Tokens</a>
+      </nav>
+
+      <div class="sb-footer">
+        <a href="index.html">← Back to site</a>
+      </div>
+    </aside>
+
+    <!-- ── CONTENT ───────────────────────────── -->
+    <main>
+
+      <!-- Mobile top bar -->
+      <div class="mobile-top">
+        <div class="mobile-top-logo">
+          <div class="mobile-top-mark"><svg viewBox="0 0 14 14" fill="none" width="10" height="10"><path d="M2 7h10M7 2l5 5-5 5" stroke="#0A0A0C" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          DevnoxxKit Style Guide
+        </div>
+        <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3)">v2.1</span>
+      </div>
+
+      <!-- Page header -->
+      <div class="page-header">
+        <div class="page-header-inner">
+          <div>
+            <h1 class="page-title">Style Guide</h1>
+            <p class="page-desc">Every design token, component, and pattern in DevnoxxKit — documented and ready to use. Copy snippets directly into your project.</p>
+          </div>
+          <span class="page-version">v2.1.0 · Cinematic Dark</span>
+        </div>
+      </div>
+
+      <div class="content">
+
+        <!-- ══════════════════════════════════════
+             ① COLORS
+        ══════════════════════════════════════ -->
+        <section class="sg-section" id="colors">
+          <div class="sg-section-header">
+            <div class="sg-section-tag">01 — Foundations</div>
+            <h2 class="sg-section-title">Colors</h2>
+            <p class="sg-section-desc">All colors are CSS custom properties defined in <code style="font-family:var(--font-mono);font-size:.85em;color:var(--gold)">:root</code>. Change a single variable to retheme the entire system.</p>
+          </div>
+
+          <div class="subsection-title">Background Scale</div>
+          <div class="color-grid">
+            <div class="color-swatch"><div class="swatch-block" style="background:#0A0A0C;border-bottom:1px solid rgba(255,255,255,.06)"></div><div class="swatch-info"><div class="swatch-name">--bg</div><div class="swatch-val">#0A0A0C</div></div></div>
+            <div class="color-swatch"><div class="swatch-block" style="background:#111114;border-bottom:1px solid rgba(255,255,255,.06)"></div><div class="swatch-info"><div class="swatch-name">--bg-2</div><div class="swatch-val">#111114</div></div></div>
+            <div class="color-swatch"><div class="swatch-block" style="background:#18181D;border-bottom:1px solid rgba(255,255,255,.06)"></div><div class="swatch-info"><div class="swatch-name">--bg-3</div><div class="swatch-val">#18181D</div></div></div>
+            <div class="color-swatch"><div class="swatch-block" style="background:#1E1E24;border-bottom:1px solid rgba(255,255,255,.06)"></div><div class="swatch-info"><div class="swatch-name">--surface</div><div class="swatch-val">#1E1E24</div></div></div>
+          </div>
+
+          <div class="subsection-title">Accent — Gold</div>
+          <div class="color-grid">
+            <div class="color-swatch"><div class="swatch-block" style="background:#C9A96E"></div><div class="swatch-info"><div class="swatch-name">--gold</div><div class="swatch-val">#C9A96E</div></div></div>
+            <div class="color-swatch"><div class="swatch-block" style="background:#DFC28E"></div><div class="swatch-info"><div class="swatch-name">--gold-light</div><div class="swatch-val">#DFC28E</div></div></div>
+            <div class="color-swatch"><div class="swatch-block" style="background:rgba(201,169,110,.12)"></div><div class="swatch-info"><div class="swatch-name">--gold-dim</div><div class="swatch-val">rgba(201,169,110,.12)</div></div></div>
+            <div class="color-swatch"><div class="swatch-block" style="background:rgba(201,169,110,.3)"></div><div class="swatch-info"><div class="swatch-name">--border-gold</div><div class="swatch-val">rgba(201,169,110,.3)</div></div></div>
+          </div>
+
+          <div class="subsection-title">Ink Scale (Text)</div>
+          <div class="color-grid">
+            <div class="color-swatch"><div class="swatch-block" style="background:#F2EDE4"></div><div class="swatch-info"><div class="swatch-name">--ink</div><div class="swatch-val">#F2EDE4 · Primary</div></div></div>
+            <div class="color-swatch"><div class="swatch-block" style="background:#B8B0A4"></div><div class="swatch-info"><div class="swatch-name">--ink-2</div><div class="swatch-val">#B8B0A4 · Secondary</div></div></div>
+            <div class="color-swatch"><div class="swatch-block" style="background:#6E6860"></div><div class="swatch-info"><div class="swatch-name">--ink-3</div><div class="swatch-val">#6E6860 · Muted</div></div></div>
+          </div>
+
+          <div class="subsection-title">Secondary — Teal</div>
+          <div class="color-grid">
+            <div class="color-swatch"><div class="swatch-block" style="background:#1E3A3A"></div><div class="swatch-info"><div class="swatch-name">--teal</div><div class="swatch-val">#1E3A3A</div></div></div>
+            <div class="color-swatch"><div class="swatch-block" style="background:#2A5050"></div><div class="swatch-info"><div class="swatch-name">--teal-light</div><div class="swatch-val">#2A5050</div></div></div>
+          </div>
+
+          <div class="subsection-title">Semantic</div>
+          <div class="color-grid">
+            <div class="color-swatch"><div class="swatch-block" style="background:#6DBF8A"></div><div class="swatch-info"><div class="swatch-name">Success</div><div class="swatch-val">#6DBF8A</div></div></div>
+            <div class="color-swatch"><div class="swatch-block" style="background:#E07070"></div><div class="swatch-info"><div class="swatch-name">Danger</div><div class="swatch-val">#E07070</div></div></div>
+            <div class="color-swatch"><div class="swatch-block" style="background:#7DA4C0"></div><div class="swatch-info"><div class="swatch-name">Info</div><div class="swatch-val">#7DA4C0</div></div></div>
+            <div class="color-swatch"><div class="swatch-block" style="background:#D4AA70"></div><div class="swatch-info"><div class="swatch-name">Warning</div><div class="swatch-val">#D4AA70</div></div></div>
+          </div>
+
+          <div class="code-block" style="margin-top:24px">
+            <div class="code-header"><span class="code-lang">CSS · Change the accent</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+            <div class="code-body">
+<span class="c">/* Swap gold for electric blue — entire theme updates */</span>
+<span class="k">:root</span> {
+  <span class="v">--gold</span>:       <span class="s">#4B8CF5</span>;
+  <span class="v">--gold-light</span>: <span class="s">#7AAFF8</span>;
+  <span class="v">--gold-dim</span>:   <span class="s">rgba(75, 140, 245, 0.12)</span>;
+  <span class="v">--border-gold</span>:<span class="s">rgba(75, 140, 245, 0.30)</span>;
+}</div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════
+             ② TYPOGRAPHY
+        ══════════════════════════════════════ -->
+        <section class="sg-section" id="typography">
+          <div class="sg-section-header">
+            <div class="sg-section-tag">02 — Foundations</div>
+            <h2 class="sg-section-title">Typography</h2>
+            <p class="sg-section-desc">Three typefaces. Fraunces for display, DM Sans for body, JetBrains Mono for labels and code. Fluid scaling with <code style="font-family:var(--font-mono);font-size:.85em;color:var(--gold)">clamp()</code>.</p>
+          </div>
+
+          <div class="canvas grid-bg">
+            <div class="type-row">
+              <div class="type-meta"><div class="type-meta-class">.display-xl</div><div class="type-meta-desc">clamp(64px,10vw,148px)</div></div>
+              <div style="font-family:var(--font-display);font-size:clamp(48px,7vw,100px);font-weight:800;line-height:.92;letter-spacing:-.03em">The Craft</div>
+            </div>
+            <div class="type-row">
+              <div class="type-meta"><div class="type-meta-class">.display-lg</div><div class="type-meta-desc">clamp(44px,6vw,96px)</div></div>
+              <div style="font-family:var(--font-display);font-size:clamp(36px,5vw,72px);font-weight:700;line-height:.95;letter-spacing:-.025em">Display Large</div>
+            </div>
+            <div class="type-row">
+              <div class="type-meta"><div class="type-meta-class">.display-md</div><div class="type-meta-desc">clamp(28px,3.5vw,52px)</div></div>
+              <div style="font-family:var(--font-display);font-size:clamp(24px,3vw,44px);font-weight:600;line-height:1.1;letter-spacing:-.015em">Section Title</div>
+            </div>
+            <div class="type-row">
+              <div class="type-meta"><div class="type-meta-class">.heading-sm</div><div class="type-meta-desc">clamp(20px,2vw,30px)</div></div>
+              <div style="font-family:var(--font-display);font-size:clamp(18px,2vw,26px);font-weight:500;line-height:1.25">Card Heading</div>
+            </div>
+            <div class="type-row">
+              <div class="type-meta"><div class="type-meta-class">.body-lg</div><div class="type-meta-desc">18px / 1.75</div></div>
+              <div style="font-size:1.125rem;line-height:1.75;color:var(--ink-2)">Body large — used for introductory paragraphs and hero subtext.</div>
+            </div>
+            <div class="type-row">
+              <div class="type-meta"><div class="type-meta-class">body</div><div class="type-meta-desc">16px / 1.65</div></div>
+              <div style="font-size:1rem;line-height:1.65;color:var(--ink-2)">Default body — the workhorse of the system. DM Sans at 16px with 1.65 line-height.</div>
+            </div>
+            <div class="type-row">
+              <div class="type-meta"><div class="type-meta-class">.body-sm</div><div class="type-meta-desc">14px / 1.6</div></div>
+              <div style="font-size:.875rem;line-height:1.6;color:var(--ink-3)">Small body — captions, metadata, secondary information.</div>
+            </div>
+            <div class="type-row">
+              <div class="type-meta"><div class="type-meta-class">.label</div><div class="type-meta-desc">JetBrains Mono 11px</div></div>
+              <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)">Eyebrow Label</div>
+            </div>
+            <div class="type-row">
+              <div class="type-meta"><div class="type-meta-class">mono</div><div class="type-meta-desc">JetBrains Mono 13px</div></div>
+              <div style="font-family:var(--font-mono);font-size:.8125rem;color:var(--ink-2)">const theme = 'cinematic-dark';</div>
+            </div>
+          </div>
+          <div class="canvas-label">Typography Scale — all sizes are fluid via clamp()</div>
+        </section>
+
+        <!-- ══════════════════════════════════════
+             ③ SPACING
+        ══════════════════════════════════════ -->
+        <section class="sg-section" id="spacing">
+          <div class="sg-section-header">
+            <div class="sg-section-tag">03 — Foundations</div>
+            <h2 class="sg-section-title">Spacing Scale</h2>
+            <p class="sg-section-desc">Based on a 4px base unit. Sections use <code style="font-family:var(--font-mono);font-size:.85em;color:var(--gold)">clamp()</code> for responsive padding. Use multiples of 4 for all custom spacing.</p>
+          </div>
+          <div class="canvas">
+            <div class="spacing-grid">
+              <div class="spacing-row"><span class="spacing-name">sp-1 · 4px</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-val">0.25rem</span></div>
+              <div class="spacing-row"><span class="spacing-name">sp-2 · 8px</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-val">0.5rem</span></div>
+              <div class="spacing-row"><span class="spacing-name">sp-3 · 12px</span><div class="spacing-bar" style="width:12px"></div><span class="spacing-val">0.75rem</span></div>
+              <div class="spacing-row"><span class="spacing-name">sp-4 · 16px</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-val">1rem</span></div>
+              <div class="spacing-row"><span class="spacing-name">sp-6 · 24px</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-val">1.5rem</span></div>
+              <div class="spacing-row"><span class="spacing-name">sp-8 · 32px</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-val">2rem</span></div>
+              <div class="spacing-row"><span class="spacing-name">sp-12 · 48px</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-val">3rem</span></div>
+              <div class="spacing-row"><span class="spacing-name">sp-16 · 64px</span><div class="spacing-bar" style="width:64px"></div><span class="spacing-val">4rem</span></div>
+              <div class="spacing-row"><span class="spacing-name">sp-24 · 96px</span><div class="spacing-bar" style="width:96px"></div><span class="spacing-val">6rem</span></div>
+              <div class="spacing-row"><span class="spacing-name">sp-32 · 128px</span><div class="spacing-bar" style="width:128px"></div><span class="spacing-val">8rem</span></div>
+              <div class="spacing-row"><span class="spacing-name">section · fluid</span><div class="spacing-bar" style="width:160px;background:linear-gradient(to right,var(--gold),var(--gold-light))"></div><span class="spacing-val">clamp(80px,10vw,160px)</span></div>
+            </div>
+          </div>
+          <div class="canvas-label">Spacing Scale — 4px base unit, multiples of 4</div>
+        </section>
+
+        <!-- ══════════════════════════════════════
+             ④ BUTTONS
+        ══════════════════════════════════════ -->
+        <section class="sg-section" id="buttons">
+          <div class="sg-section-header">
+            <div class="sg-section-tag">04 — Components</div>
+            <h2 class="sg-section-title">Buttons</h2>
+            <p class="sg-section-desc">Built on a shared <code style="font-family:var(--font-mono);font-size:.85em;color:var(--gold)">.btn</code> base class. All include hover lift, focus ring, and transition. Never use <code style="font-family:var(--font-mono);font-size:.85em;color:var(--gold)">&lt;div&gt;</code> for buttons.</p>
+          </div>
+
+          <div class="subsection-title">Variants</div>
+          <div class="canvas">
+            <div class="btn-wrap">
+              <button class="btn btn-primary">Primary Button</button>
+              <button class="btn btn-ghost">Ghost Button</button>
+              <button class="btn btn-teal">Teal Button</button>
+              <button class="btn btn-danger">Danger</button>
+            </div>
+          </div>
+          <div class="canvas-label">Variants — Primary, Ghost, Teal, Danger</div>
+
+          <div class="subsection-title">Sizes</div>
+          <div class="canvas">
+            <div class="btn-wrap" style="align-items:center">
+              <button class="btn btn-primary btn-sm">Small Button</button>
+              <button class="btn btn-primary">Default Button</button>
+              <button class="btn btn-primary btn-lg">Large Button</button>
+            </div>
+          </div>
+          <div class="canvas-label">Sizes — sm (8/16), default (14/28), lg (18/36)</div>
+
+          <div class="subsection-title">With Icons & States</div>
+          <div class="canvas">
+            <div class="btn-wrap">
+              <button class="btn btn-primary">
+                View Work
+                <svg class="btn-arrow" viewBox="0 0 20 20" fill="none"><path d="M4 16L16 4M16 4H8M16 4V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </button>
+              <button class="btn btn-ghost">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 12V4M4 7l4-4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                Download
+              </button>
+              <button class="btn btn-primary btn-loading">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="animation:spin .8s linear infinite"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.5" stroke-dasharray="20 10"/></svg>
+                Loading…
+              </button>
+              <button class="btn btn-primary btn-icon-only" aria-label="Search">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="canvas-label">With arrow, leading icon, loading state, icon-only</div>
+
+          <div class="code-block" style="margin-top:24px">
+            <div class="code-header"><span class="code-lang">HTML</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+            <div class="code-body"><span class="c">&lt;!-- Primary with arrow --&gt;</span>
+&lt;<span class="k">button</span> class=<span class="s">"btn btn-primary"</span>&gt;
+  View Work
+  &lt;<span class="k">svg</span> class=<span class="s">"btn-arrow"</span> viewBox=<span class="s">"0 0 20 20"</span> fill=<span class="s">"none"</span>&gt;
+    &lt;<span class="k">path</span> d=<span class="s">"M4 16L16 4M16 4H8M16 4V12"</span> stroke=<span class="s">"currentColor"</span> stroke-width=<span class="s">"1.5"</span>/&gt;
+  &lt;/<span class="k">svg</span>&gt;
+&lt;/<span class="k">button</span>&gt;</div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════
+             ⑤ BADGES
+        ══════════════════════════════════════ -->
+        <section class="sg-section" id="badges">
+          <div class="sg-section-header">
+            <div class="sg-section-tag">05 — Components</div>
+            <h2 class="sg-section-title">Badges & Pills</h2>
+            <p class="sg-section-desc">Use for categories, statuses, labels, and counts. Always use JetBrains Mono. Never use heavy colour fills.</p>
+          </div>
+          <div class="canvas">
+            <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+              <span class="badge badge-gold"><div class="badge-dot"></div>Featured</span>
+              <span class="badge badge-green"><div class="badge-dot"></div>Available</span>
+              <span class="badge badge-red"><div class="badge-dot"></div>Sold Out</span>
+              <span class="badge badge-blue">In Progress</span>
+              <span class="badge badge-gray">Draft</span>
+              <span class="badge badge-gold">v2.1.0</span>
+              <span class="badge badge-green">✓ Verified</span>
+              <span class="badge badge-gray">Design Theory</span>
+              <span class="badge badge-gray">11 min read</span>
+            </div>
+          </div>
+          <div class="canvas-label">Badge variants — Gold, Green, Red, Blue, Gray</div>
+        </section>
+
+        <!-- ══════════════════════════════════════
+             ⑥ FORMS
+        ══════════════════════════════════════ -->
+        <section class="sg-section" id="forms">
+          <div class="sg-section-header">
+            <div class="sg-section-tag">06 — Components</div>
+            <h2 class="sg-section-title">Form Elements</h2>
+            <p class="sg-section-desc">All inputs use the same visual language. Gold border on focus, red on error, green on success. Never use <code style="font-family:var(--font-mono);font-size:.85em;color:var(--gold)">outline:none</code> without providing a focus style.</p>
+          </div>
+
+          <div class="canvas">
+            <div style="max-width:560px;display:flex;flex-direction:column;gap:20px">
+
+              <div class="f-grid">
+                <div class="field">
+                  <label class="field-label" for="sg-fname">First Name <span class="field-req">*</span></label>
+                  <input class="f-input" type="text" id="sg-fname" placeholder="Jane"/>
+                </div>
+                <div class="field">
+                  <label class="field-label" for="sg-lname">Last Name</label>
+                  <input class="f-input" type="text" id="sg-lname" placeholder="Smith"/>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="field-label" for="sg-email">Email <span class="field-req">*</span></label>
+                <input class="f-input success" type="email" id="sg-email" value="jane@studio.com"/>
+                <span class="f-success-text">✓ Valid email address</span>
+              </div>
+
+              <div class="field">
+                <label class="field-label" for="sg-phone">Phone</label>
+                <input class="f-input error" type="tel" id="sg-phone" value="not a phone"/>
+                <span class="f-error-text">Please enter a valid phone number</span>
+              </div>
+
+              <div class="field">
+                <label class="field-label" for="sg-select">Project Type</label>
+                <select class="f-select" id="sg-select">
+                  <option>Brand Identity</option>
+                  <option>Web Design</option>
+                  <option>Design System</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label class="field-label" for="sg-msg">Message</label>
+                <textarea class="f-textarea" id="sg-msg" placeholder="Tell us about your project…"></textarea>
+                <span class="f-hint">Minimum 50 characters</span>
+              </div>
+
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <label class="toggle-wrap">
+                  <div class="toggle on" aria-label="Toggle on" role="switch" aria-checked="true" onclick="this.classList.toggle('on')"></div>
+                  <span class="toggle-label">Receive project updates via email</span>
+                </label>
+                <label class="toggle-wrap">
+                  <div class="toggle" aria-label="Toggle off" role="switch" aria-checked="false" onclick="this.classList.toggle('on')"></div>
+                  <span class="toggle-label">Subscribe to the journal</span>
+                </label>
+                <div class="check-wrap">
+                  <div class="check-box-sg checked" role="checkbox" aria-checked="true" onclick="this.classList.toggle('checked')"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="var(--bg)" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                  <span class="check-label">I agree to the terms and privacy policy</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="canvas-label">Inputs, select, textarea, toggle, checkbox — default / success / error states</div>
+        </section>
+
+        <!-- ══════════════════════════════════════
+             ⑦ CARDS
+        ══════════════════════════════════════ -->
+        <section class="sg-section" id="cards">
+          <div class="sg-section-header">
+            <div class="sg-section-tag">07 — Components</div>
+            <h2 class="sg-section-title">Cards</h2>
+            <p class="sg-section-desc">Cards use <code style="font-family:var(--font-mono);font-size:.85em;color:var(--gold)">--bg-3</code> background with a <code style="font-family:var(--font-mono);font-size:.85em;color:var(--gold)">--border</code> stroke. Gold border on hover, 4px upward translate. Never add drop shadows.</p>
+          </div>
+          <div class="canvas">
+            <div class="card-grid">
+              <div class="demo-card">
+                <img class="demo-card-img" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&q=70&auto=format&fit=crop" alt=""/>
+                <div class="demo-card-body">
+                  <div class="demo-card-tag">Brand Identity</div>
+                  <div class="demo-card-title">Meridian Capital</div>
+                  <p class="demo-card-text">Luxury finance brand identity and complete digital presence redesign.</p>
+                </div>
+              </div>
+              <div class="demo-card">
+                <img class="demo-card-img" src="https://images.unsplash.com/photo-1545235617-9465d2a55698?w=600&q=70&auto=format&fit=crop" alt=""/>
+                <div class="demo-card-body">
+                  <div class="demo-card-tag">Web Design</div>
+                  <div class="demo-card-title">Volta EV Campaign</div>
+                  <p class="demo-card-text">Campaign microsite for Volta's Series B international launch.</p>
+                </div>
+              </div>
+              <div class="demo-card">
+                <img class="demo-card-img" src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&q=70&auto=format&fit=crop" alt=""/>
+                <div class="demo-card-body">
+                  <div class="demo-card-tag">Editorial</div>
+                  <div class="demo-card-title">Nora Journal</div>
+                  <p class="demo-card-text">Editorial platform that reads like a magazine and performs like a dashboard.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="canvas-label">Work card — hover to see gold border + image zoom</div>
+        </section>
+
+        <!-- ══════════════════════════════════════
+             ⑧ ALERTS
+        ══════════════════════════════════════ -->
+        <section class="sg-section" id="alerts">
+          <div class="sg-section-header">
+            <div class="sg-section-tag">08 — Components</div>
+            <h2 class="sg-section-title">Alerts & Callouts</h2>
+            <p class="sg-section-desc">Four semantic variants. Always include a descriptive icon. Use role="alert" for errors, role="status" for informational.</p>
+          </div>
+          <div class="canvas">
+            <div style="display:flex;flex-direction:column;gap:12px;max-width:640px">
+              <div class="alert alert-info" role="status">
+                <svg class="alert-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#7DA4C0" stroke-width="1.5"/><path d="M8 7v4M8 5v.5" stroke="#7DA4C0" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <div><strong style="color:var(--ink)">Information:</strong> This action will apply to all projects in your workspace.</div>
+              </div>
+              <div class="alert alert-success" role="status">
+                <svg class="alert-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#6DBF8A" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="#6DBF8A" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <div><strong style="color:var(--ink)">Success:</strong> Your project has been saved and published successfully.</div>
+              </div>
+              <div class="alert alert-warning" role="status">
+                <svg class="alert-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3L14 13H2L8 3z" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 7v3M8 11.5v.5" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <div><strong style="color:var(--ink)">Warning:</strong> You have unsaved changes. They will be lost if you navigate away.</div>
+              </div>
+              <div class="alert alert-danger" role="alert">
+                <svg class="alert-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#E07070" stroke-width="1.5"/><path d="M5 5l6 6M11 5l-6 6" stroke="#E07070" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <div><strong style="color:var(--ink)">Error:</strong> Something went wrong. Please check your connection and try again.</div>
+              </div>
+            </div>
+          </div>
+          <div class="canvas-label">Alert variants — Info, Success, Warning, Danger</div>
+        </section>
+
+        <!-- ══════════════════════════════════════
+             ⑨ STATS
+        ══════════════════════════════════════ -->
+        <section class="sg-section" id="stats">
+          <div class="sg-section-header">
+            <div class="sg-section-tag">09 — Patterns</div>
+            <h2 class="sg-section-title">Stats</h2>
+            <p class="sg-section-desc">Use Fraunces for the number, JetBrains Mono for the label. Gold <code style="font-family:var(--font-mono);font-size:.85em;color:var(--gold)">sup</code> for the suffix. Bottom border animates on hover.</p>
+          </div>
+          <div class="canvas" style="padding:0">
+            <div class="stat-demo-grid">
+              <div class="stat-demo-cell"><div class="stat-demo-num">230<sup>+</sup></div><div class="stat-demo-lbl">Projects</div></div>
+              <div class="stat-demo-cell"><div class="stat-demo-num">98<sup>%</sup></div><div class="stat-demo-lbl">Retention</div></div>
+              <div class="stat-demo-cell"><div class="stat-demo-num">13<sup>yr</sup></div><div class="stat-demo-lbl">In Practice</div></div>
+              <div class="stat-demo-cell" style="border-right:none"><div class="stat-demo-num">47</div><div class="stat-demo-lbl">Awards</div></div>
+            </div>
+          </div>
+          <div class="canvas-label">Stats grid — hover each cell to see the gold underline reveal</div>
+        </section>
+
+        <!-- ══════════════════════════════════════
+             ⑩ TESTIMONIALS
+        ══════════════════════════════════════ -->
+        <section class="sg-section" id="testimonials">
+          <div class="sg-section-header">
+            <div class="sg-section-tag">10 — Patterns</div>
+            <h2 class="sg-section-title">Testimonials</h2>
+            <p class="sg-section-desc">Quote mark is decorative Fraunces italic at low opacity. Text in Fraunces italic. Author always includes photo and role. Gold border on hover.</p>
+          </div>
+          <div class="canvas">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px">
+              <div class="testi-demo">
+                <div class="testi-demo-q" aria-hidden="true">"</div>
+                <p class="testi-demo-text">"The team completely transformed how we present ourselves. Conversions up 340% in 90 days."</p>
+                <div class="testi-demo-author">
+                  <img class="testi-demo-av" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&q=70&auto=format&fit=crop&crop=faces" alt="Marcus Webb"/>
+                  <div><div class="testi-demo-name">Marcus Webb</div><div class="testi-demo-role">CEO, Apexio Capital</div></div>
+                </div>
+              </div>
+              <div class="testi-demo">
+                <div class="testi-demo-q" aria-hidden="true">"</div>
+                <p class="testi-demo-text">"The only agency that delivered something I genuinely didn't think was possible."</p>
+                <div class="testi-demo-author">
+                  <img class="testi-demo-av" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&q=70&auto=format&fit=crop&crop=faces" alt="Nadia Osei"/>
+                  <div><div class="testi-demo-name">Nadia Osei</div><div class="testi-demo-role">Creative Director, Thread</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="canvas-label">Testimonial cards — hover to see gold border</div>
+        </section>
+
+        <!-- ══════════════════════════════════════
+             ⑪ ICONS
+        ══════════════════════════════════════ -->
+        <section class="sg-section" id="icons">
+          <div class="sg-section-header">
+            <div class="sg-section-tag">11 — Foundations</div>
+            <h2 class="sg-section-title">Icons</h2>
+            <p class="sg-section-desc">All icons are inline SVG. Stroke-based, 1.5px stroke-width, round linecap/linejoin. Always set <code style="font-family:var(--font-mono);font-size:.85em;color:var(--gold)">width</code>, <code style="font-family:var(--font-mono);font-size:.85em;color:var(--gold)">height</code>, and <code style="font-family:var(--font-mono);font-size:.85em;color:var(--gold)">aria-hidden="true"</code> on decorative icons.</p>
+          </div>
+          <div class="canvas">
+            <div class="icon-grid">
+              <div class="icon-cell"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-label="Home"><path d="M2 8L10 2l8 6v10H13V14H7v4H2V8z" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="icon-name">Home</span></div>
+              <div class="icon-cell"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-label="Search"><circle cx="9" cy="9" r="6" stroke="var(--ink-2)" stroke-width="1.5"/><path d="M14 14l5 5" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg><span class="icon-name">Search</span></div>
+              <div class="icon-cell"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-label="User"><circle cx="10" cy="7" r="3" stroke="var(--ink-2)" stroke-width="1.5"/><path d="M3 18c0-3.87 3.13-7 7-7s7 3.13 7 7" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg><span class="icon-name">User</span></div>
+              <div class="icon-cell"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-label="Settings"><circle cx="10" cy="10" r="3" stroke="var(--ink-2)" stroke-width="1.5"/><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.22 4.22l1.42 1.42M14.36 14.36l1.42 1.42M4.22 15.78l1.42-1.42M14.36 5.64l1.42-1.42" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg><span class="icon-name">Settings</span></div>
+              <div class="icon-cell"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-label="Arrow Up Right"><path d="M5 15L15 5M15 5H8M15 5v7" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg><span class="icon-name">Arrow ↗</span></div>
+              <div class="icon-cell"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-label="Check"><path d="M4 10l4.5 4.5L16 7" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="icon-name">Check</span></div>
+              <div class="icon-cell"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-label="Close"><path d="M5 5l10 10M15 5L5 15" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg><span class="icon-name">Close</span></div>
+              <div class="icon-cell"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-label="Plus"><path d="M10 4v12M4 10h12" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg><span class="icon-name">Plus</span></div>
+              <div class="icon-cell"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-label="Menu"><path d="M3 6h14M3 10h14M3 14h14" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg><span class="icon-name">Menu</span></div>
+              <div class="icon-cell"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-label="Star"><path d="M10 2l2.47 5.01L18 7.82l-4 3.89.94 5.5L10 14.77l-4.94 2.44.94-5.5L2 7.82l5.53-.81L10 2z" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="icon-name">Star</span></div>
+              <div class="icon-cell"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-label="Heart"><path d="M10 17s-7-4.5-7-9a4 4 0 018 0 4 4 0 018 0c0 4.5-7 9-7 9z" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="icon-name">Heart</span></div>
+              <div class="icon-cell"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-label="Mail"><rect x="2" y="4" width="16" height="12" rx="1" stroke="var(--ink-2)" stroke-width="1.5"/><path d="M2 6l8 5 8-5" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg><span class="icon-name">Mail</span></div>
+            </div>
+          </div>
+          <div class="canvas-label">Icon system — all stroke-based, 20×20 viewBox, 1.5px stroke-width</div>
+        </section>
+
+        <!-- ══════════════════════════════════════
+             ⑫ DIVIDERS
+        ══════════════════════════════════════ -->
+        <section class="sg-section" id="dividers">
+          <div class="sg-section-header">
+            <div class="sg-section-tag">12 — Components</div>
+            <h2 class="sg-section-title">Dividers</h2>
+            <p class="sg-section-desc">Three styles: standard border, gold tint, and gradient. Use sparingly — the grid is your primary structural element.</p>
+          </div>
+          <div class="canvas">
+            <div style="display:flex;flex-direction:column;gap:20px">
+              <div>
+                <p style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);margin-bottom:12px">Default · <code>.divider</code></p>
+                <div class="divider"></div>
+              </div>
+              <div>
+                <p style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);margin-bottom:12px">Gold · <code>.divider-gold</code></p>
+                <div class="divider-gold"></div>
+              </div>
+              <div>
+                <p style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);margin-bottom:12px">Gradient · <code>.divider-gradient</code></p>
+                <div class="divider-gradient"></div>
+              </div>
+            </div>
+          </div>
+          <div class="canvas-label">Divider styles — 1px height, three tint levels</div>
+        </section>
+
+        <!-- ══════════════════════════════════════
+             ⑬ DARK / LIGHT TOGGLE
+        ══════════════════════════════════════ -->
+        <section class="sg-section" id="dark-light">
+          <div class="sg-section-header">
+            <div class="sg-section-tag">13 — Patterns</div>
+            <h2 class="sg-section-title">Dark / Light Mode Toggle</h2>
+            <p class="sg-section-desc">System preference detection + <code style="font-family:var(--font-mono);font-size:.85em;color:var(--gold)">localStorage</code> persistence. Click the toggle below — your preference is saved.</p>
+          </div>
+
+          <div class="canvas" style="display:flex;align-items:center;gap:24px;flex-wrap:wrap">
+            <!-- Live toggle demo -->
+            <div class="theme-toggle-demo" id="theme-toggle-demo">
+              <svg class="theme-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" id="theme-icon-moon"><path d="M13 9.5A6 6 0 117 3.5a4.5 4.5 0 006 6z" stroke="currentColor" stroke-width="1.5"/></svg>
+              <div class="theme-slider-wrap" id="theme-slider" role="switch" aria-label="Toggle light mode" aria-checked="false" onclick="toggleTheme()">
+                <div class="theme-thumb"></div>
+              </div>
+              <svg class="theme-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" id="theme-icon-sun"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M8 2v1M8 13v1M2 8H1M15 8h-1M4.22 4.22L3.5 3.5M12.5 12.5l-.72-.72M4.22 11.78L3.5 12.5M12.5 3.5l-.72.72" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <div style="font-size:.875rem;color:var(--ink-2)">Click to toggle — preference saved to <code style="font-family:var(--font-mono);font-size:.85em;color:var(--gold)">localStorage</code></div>
+          </div>
+          <div class="canvas-label">Dark/Light toggle — functional demo with system preference detection</div>
+
+          <div class="code-block" style="margin-top:16px">
+            <div class="code-header"><span class="code-lang">JavaScript · Dark/Light persistence</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+            <div class="code-body"><span class="c">// Detects system preference, reads localStorage, applies theme</span>
+const <span class="v">STORAGE_KEY</span> = <span class="s">'dnk-theme'</span>;
+const <span class="v">root</span> = document.documentElement;
+
+<span class="c">// On load — apply saved or system preference</span>
+const <span class="v">saved</span> = localStorage.getItem(<span class="v">STORAGE_KEY</span>);
+const <span class="v">prefersDark</span> = window.matchMedia(<span class="s">'(prefers-color-scheme: dark)'</span>).matches;
+const <span class="v">theme</span> = <span class="v">saved</span> ?? (<span class="v">prefersDark</span> ? <span class="s">'dark'</span> : <span class="s">'light'</span>);
+<span class="v">root</span>.setAttribute(<span class="s">'data-theme'</span>, <span class="v">theme</span>);
+
+<span class="c">// Toggle function</span>
+function <span class="k">toggleTheme</span>() {
+  const <span class="v">next</span> = <span class="v">root</span>.getAttribute(<span class="s">'data-theme'</span>) === <span class="s">'dark'</span> ? <span class="s">'light'</span> : <span class="s">'dark'</span>;
+  <span class="v">root</span>.setAttribute(<span class="s">'data-theme'</span>, <span class="v">next</span>);
+  localStorage.setItem(<span class="v">STORAGE_KEY</span>, <span class="v">next</span>);
+}</div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════
+             ⑭ MOTION TOKENS
+        ══════════════════════════════════════ -->
+        <section class="sg-section" id="motion">
+          <div class="sg-section-header">
+            <div class="sg-section-tag">14 — Patterns</div>
+            <h2 class="sg-section-title">Motion Tokens</h2>
+            <p class="sg-section-desc">Three easing curves and three duration tiers. Use the same motion language throughout — never mix different easing styles on adjacent elements.</p>
+          </div>
+          <div class="canvas">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px">
+              <div style="padding:24px;background:var(--bg-3);border:1px solid var(--border)">
+                <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:16px">Easing Curves</div>
+                <div style="display:flex;flex-direction:column;gap:12px">
+                  <div>
+                    <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink-2);margin-bottom:4px">--ease (Spring Out)</div>
+                    <div style="font-family:var(--font-mono);font-size:10px;color:var(--ink-3)">cubic-bezier(0.16, 1, 0.3, 1)</div>
+                    <div style="font-size:.8125rem;color:var(--ink-3);margin-top:4px">Default for all reveals, hover states</div>
+                  </div>
+                  <div>
+                    <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink-2);margin-bottom:4px">--ease-in-out (Smooth)</div>
+                    <div style="font-family:var(--font-mono);font-size:10px;color:var(--ink-3)">cubic-bezier(0.65, 0, 0.35, 1)</div>
+                    <div style="font-size:.8125rem;color:var(--ink-3);margin-top:4px">For modals, drawers, heavy transitions</div>
+                  </div>
+                  <div>
+                    <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink-2);margin-bottom:4px">ease-in (Enter)</div>
+                    <div style="font-family:var(--font-mono);font-size:10px;color:var(--ink-3)">cubic-bezier(0.4, 0, 1, 1)</div>
+                    <div style="font-size:.8125rem;color:var(--ink-3);margin-top:4px">For exit animations only</div>
+                  </div>
+                </div>
+              </div>
+              <div style="padding:24px;background:var(--bg-3);border:1px solid var(--border)">
+                <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:16px">Duration Tiers</div>
+                <div style="display:flex;flex-direction:column;gap:12px">
+                  <div>
+                    <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink-2);margin-bottom:4px">Fast · 150–200ms</div>
+                    <div style="font-size:.8125rem;color:var(--ink-3)">Hover states, color changes, opacity</div>
+                    <div style="height:2px;background:var(--gold);width:15%;margin-top:6px;border-radius:2px"></div>
+                  </div>
+                  <div>
+                    <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink-2);margin-bottom:4px">Default · 300–500ms</div>
+                    <div style="font-size:.8125rem;color:var(--ink-3)">Transform, border, background transitions</div>
+                    <div style="height:2px;background:var(--gold);width:40%;margin-top:6px;border-radius:2px"></div>
+                  </div>
+                  <div>
+                    <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink-2);margin-bottom:4px">Slow · 700–1000ms</div>
+                    <div style="font-size:.8125rem;color:var(--ink-3)">Scroll reveals, page load animations</div>
+                    <div style="height:2px;background:var(--gold);width:80%;margin-top:6px;border-radius:2px"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="canvas-label">Motion tokens — easing curves and duration scale</div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Cursor
+    const cd=document.getElementById('cd'),cr=document.getElementById('cr');
+    let rx=0,ry=0,dx=0,dy=0,mx=0,my=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+    (function loop(){dx+=(mx-dx)*.85;dy+=(my-dy)*.85;rx+=(mx-rx)*.1;ry+=(my-ry)*.1;cd.style.left=dx+'px';cd.style.top=dy+'px';cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(loop)})();
+
+    // Active sidebar nav on scroll
+    const sectionEls=document.querySelectorAll('section[id]');
+    const sbLinks=document.querySelectorAll('.sb-link');
+    const observer=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          sbLinks.forEach(l=>l.classList.remove('active'));
+          const a=document.querySelector(`.sb-link[href="#${e.target.id}"]`);
+          if(a)a.classList.add('active');
+        }
+      });
+    },{rootMargin:'-20% 0px -65% 0px'});
+    sectionEls.forEach(s=>observer.observe(s));
+
+    // Copy code
+    function copyCode(btn){
+      const code=btn.closest('.code-block').querySelector('.code-body').innerText;
+      navigator.clipboard.writeText(code).then(()=>{
+        const orig=btn.textContent;btn.textContent='Copied!';btn.style.color='var(--gold)';
+        setTimeout(()=>{btn.textContent=orig;btn.style.color=''},2000);
+      });
+    }
+    window.copyCode=copyCode;
+
+    // Dark/Light toggle demo
+    let isLight=false;
+    function toggleTheme(){
+      isLight=!isLight;
+      const slider=document.getElementById('theme-slider');
+      slider.classList.toggle('light-mode',isLight);
+      slider.setAttribute('aria-checked',String(isLight));
+    }
+    window.toggleTheme=toggleTheme;
+
+    // Smooth scroll for sidebar links
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click',e=>{
+        const t=document.querySelector(a.getAttribute('href'));
+        if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}
+      });
+    });
+
+    // Spin keyframe for loading button
+    const style=document.createElement('style');
+    style.textContent='@keyframes spin{to{transform:rotate(360deg)}}';
+    document.head.appendChild(style);
+  </script>
+  <script src="devnoxxkit-theme.js"></script>
+</body>
+</html>

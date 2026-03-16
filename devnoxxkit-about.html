@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" sizes="any">
+  <link rel="shortcut icon" href="favicon.svg">
+  <script>
+  (function(){
+    var s = localStorage.getItem('dnk-theme');
+    var d = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', s || d);
+  })(); 
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About — DevnoxxKit</title>
+  <meta name="description" content="The story behind DevnoxxKit — who we are, what we believe, and why we refuse to ship mediocre work."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#0A0A0C;--bg-2:#111114;--bg-3:#18181D;--surface:#1E1E24;--border:rgba(242,237,228,0.08);--border-gold:rgba(201,169,110,0.3);--ink:#F2EDE4;--ink-2:#B8B0A4;--ink-3:#6E6860;--gold:#C9A96E;--gold-light:#DFC28E;--gold-dim:rgba(201,169,110,0.12);--teal:#1E3A3A;--font-display:'Fraunces',Georgia,serif;--font-body:'DM Sans',system-ui,sans-serif;--font-mono:'JetBrains Mono',monospace;--radius-sm:4px;--ease-out:cubic-bezier(0.16,1,0.3,1)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-size:16px;-webkit-font-smoothing:antialiased}
+    body{background:var(--bg);color:var(--ink);font-family:var(--font-body);overflow-x:hidden;cursor:none;line-height:1.65}
+    body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.032;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");background-size:256px 256px}
+    ::selection{background:var(--gold);color:var(--bg)}
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+    button{border:none;background:none;cursor:none;font:inherit}
+    #cursor-dot{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--gold);pointer-events:none;z-index:10000;transform:translate(-50%,-50%);will-change:transform}
+    #cursor-ring{position:fixed;width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,169,110,.5);pointer-events:none;z-index:10000;transform:translate(-50%,-50%);transition:width .3s var(--ease-out),height .3s var(--ease-out),border-color .3s;will-change:transform}
+    body:has(a:hover) #cursor-ring,body:has(button:hover) #cursor-ring{width:56px;height:56px;border-color:var(--gold)}
+    .container{width:100%;max-width:1320px;margin:0 auto;padding:0 clamp(20px,4vw,80px)}
+    .section{padding:clamp(80px,10vw,160px) 0}
+    .display-xl{font-family:var(--font-display);font-size:clamp(52px,8vw,128px);font-weight:800;line-height:.92;letter-spacing:-.03em}
+    .display-lg{font-family:var(--font-display);font-size:clamp(38px,5vw,80px);font-weight:700;line-height:.95;letter-spacing:-.025em}
+    .display-md{font-family:var(--font-display);font-size:clamp(26px,3.2vw,50px);font-weight:600;line-height:1.1;letter-spacing:-.015em}
+    .label{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+    .section-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+    .section-eyebrow-line{width:32px;height:1px;background:var(--gold)}
+    #nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 0;transition:padding .4s var(--ease-out),background .4s,border-color .4s;border-bottom:1px solid transparent}
+    #nav.scrolled{padding:16px 0;background:rgba(10,10,12,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom-color:var(--border)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+    .nav-logo-mark{width:28px;height:28px;background:var(--gold);border-radius:6px;display:flex;align-items:center;justify-content:center}
+    .nav-links{display:flex;align-items:center;gap:40px;list-style:none}
+    .nav-links a{font-size:.875rem;color:var(--ink-2);transition:color .2s;position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s var(--ease-out)}
+    .nav-links a:hover{color:var(--ink)}.nav-links a:hover::after,.nav-links a.active::after{width:100%}.nav-links a.active{color:var(--gold)}
+    .nav-cta{padding:10px 22px;background:var(--gold);color:var(--bg)!important;font-size:.8125rem!important;font-weight:600;border-radius:var(--radius-sm)}.nav-cta::after{display:none!important}.nav-cta:hover{background:var(--gold-light)!important}
+    .nav-hamburger{display:none;flex-direction:column;gap:5px;width:26px}.nav-hamburger span{display:block;height:1.5px;background:var(--ink);transition:transform .3s,opacity .3s;transform-origin:center}.nav-hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}.nav-hamburger.open span:nth-child(2){opacity:0}.nav-hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+    @media(max-width:768px){.nav-links{display:none}.nav-hamburger{display:flex}}
+    #mobile-nav{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;transform:translateX(100%);transition:transform .5s var(--ease-out)}
+    #mobile-nav.open{transform:translateX(0)}
+    #mobile-nav a{font-family:var(--font-display);font-size:clamp(32px,8vw,52px);font-weight:700;color:var(--ink-2);transition:color .2s}
+    #mobile-nav a:hover{color:var(--gold)}
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)}.reveal.visible{opacity:1;transform:none}.reveal-delay-1{transition-delay:.1s}.reveal-delay-2{transition-delay:.2s}.reveal-delay-3{transition-delay:.3s}.reveal-delay-4{transition-delay:.4s}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;font-size:.875rem;font-weight:600;border-radius:var(--radius-sm);transition:transform .3s var(--ease-out),box-shadow .3s}.btn:hover{transform:translateY(-2px)}.btn-primary{background:var(--gold);color:var(--bg);box-shadow:0 4px 24px rgba(201,169,110,.2)}.btn-primary:hover{box-shadow:0 8px 40px rgba(201,169,110,.35)}.btn-ghost{border:1px solid var(--border);color:var(--ink-2)}.btn-ghost:hover{border-color:rgba(242,237,228,.2);color:var(--ink)}.btn-arrow{width:20px;height:20px;transition:transform .3s var(--ease-out)}.btn:hover .btn-arrow{transform:translate(3px,-3px)}
+    #back-to-top{position:fixed;bottom:32px;right:32px;width:44px;height:44px;background:var(--bg-3);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(16px);transition:opacity .3s,transform .3s,background .2s;z-index:100}
+    #back-to-top.visible{opacity:1;transform:none}#back-to-top:hover{background:var(--gold);border-color:var(--gold)}
+
+    /* ── HERO ─────────────────────────────────────── */
+    .page-hero{min-height:80svh;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:clamp(48px,7vw,100px);padding-top:130px;position:relative;overflow:hidden}
+    .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(242,237,228,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(242,237,228,.022) 1px,transparent 1px);background-size:80px 80px;pointer-events:none}
+    .hero-glow{position:absolute;border-radius:50%;filter:blur(120px);pointer-events:none}
+    .hero-glow-1{width:700px;height:700px;background:rgba(201,169,110,.065);top:-150px;right:-100px}
+    .hero-glow-2{width:500px;height:500px;background:rgba(30,58,58,.2);bottom:-100px;left:-80px}
+    .hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:32px;opacity:0;animation:fadeUp .8s .1s var(--ease-out) forwards}
+    .hero-eyebrow-line{width:40px;height:1px;background:var(--gold)}
+    @keyframes fadeUp{to{opacity:1;transform:none}}
+    .hero-line-wrap{overflow:hidden}
+    .hero-line{display:block;transform:translateY(110%);opacity:0;animation:lineReveal .95s var(--ease-out) forwards}
+    .hero-line:nth-child(1){animation-delay:.22s}.hero-line:nth-child(2){animation-delay:.38s}.hero-line:nth-child(3){animation-delay:.54s}
+    @keyframes lineReveal{to{transform:none;opacity:1}}
+    .hero-scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeUp 1s 1.2s forwards}
+    .scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollPulse 2s ease-in-out infinite}
+    @keyframes scrollPulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+    /* ── MANIFESTO ─────────────────────────────────── */
+    .manifesto{padding:clamp(80px,12vw,180px) 0;background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+    .manifesto-glow{position:absolute;width:900px;height:900px;background:radial-gradient(circle,rgba(201,169,110,.05) 0%,transparent 70%);left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none}
+    .manifesto-inner{position:relative;max-width:960px;margin:0 auto;text-align:center}
+    .manifesto-text{font-family:var(--font-display);font-size:clamp(24px,3.5vw,52px);font-weight:600;line-height:1.25;letter-spacing:-.02em;color:var(--ink-2)}
+    .manifesto-text em{color:var(--ink);font-style:italic}
+    .manifesto-text strong{color:var(--gold)}
+
+    /* ── STORY ─────────────────────────────────────── */
+    .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,7vw,120px);align-items:start}
+    @media(max-width:900px){.story-grid{grid-template-columns:1fr}}
+    .story-img-wrap{position:relative}
+    .story-img{width:100%;aspect-ratio:3/4;object-fit:cover;filter:brightness(.65) saturate(.6)}
+    .story-img-frame{position:absolute;inset:0;border:1px solid var(--border-gold);transform:translate(16px,16px);pointer-events:none}
+    .story-year-badge{position:absolute;bottom:32px;right:-28px;background:var(--bg-3);border:1px solid var(--border);padding:20px 28px}
+    @media(max-width:900px){.story-year-badge{right:24px}}
+    .story-body p{font-size:1.0625rem;color:var(--ink-2);line-height:1.85;margin-bottom:20px}
+    .story-body p + p{margin-top:0}
+    .story-body strong{color:var(--ink)}
+    .story-values{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:clamp(32px,4vw,48px)}
+    @media(max-width:540px){.story-values{grid-template-columns:1fr}}
+    .value-card{background:var(--bg-3);border:1px solid var(--border);padding:clamp(20px,3vw,32px);transition:border-color .3s}
+    .value-card:hover{border-color:var(--border-gold)}
+    .value-icon{font-size:20px;margin-bottom:12px}
+    .value-title{font-family:var(--font-display);font-size:clamp(16px,1.6vw,20px);font-weight:600;color:var(--ink);letter-spacing:-.01em;margin-bottom:8px}
+    .value-text{font-size:.875rem;color:var(--ink-3);line-height:1.7}
+
+    /* ── STATS ─────────────────────────────────────── */
+    .stats-band{background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+    .stats-inner{display:grid;grid-template-columns:repeat(4,1fr);border-left:1px solid var(--border)}
+    @media(max-width:768px){.stats-inner{grid-template-columns:repeat(2,1fr)}}
+    .stat-col{padding:clamp(32px,4vw,56px) clamp(24px,3vw,48px);border-right:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+    .stat-col::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--gold);transition:width .6s var(--ease-out)}
+    .stat-col:hover::after{width:100%}
+    .stat-number{font-family:var(--font-display);font-size:clamp(40px,5.5vw,72px);font-weight:800;letter-spacing:-.04em;color:var(--ink);line-height:1;margin-bottom:8px}
+    .stat-number sup{font-size:.45em;color:var(--gold)}
+    .stat-label{font-size:.8125rem;color:var(--ink-3);letter-spacing:.02em}
+
+    /* ── TEAM ──────────────────────────────────────── */
+    .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:clamp(40px,5vw,72px)}
+    @media(max-width:900px){.team-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:480px){.team-grid{grid-template-columns:1fr}}
+    .team-card{position:relative;overflow:hidden;background:var(--bg-3);border:1px solid var(--border);transition:border-color .3s}
+    .team-card:hover{border-color:var(--border-gold)}
+    .team-photo{width:100%;aspect-ratio:3/4;object-fit:cover;filter:brightness(.65) grayscale(.4);transition:filter .5s}
+    .team-card:hover .team-photo{filter:brightness(.75) grayscale(.1)}
+    .team-info{padding:clamp(16px,2.5vw,28px)}
+    .team-name{font-family:var(--font-display);font-size:clamp(18px,1.8vw,24px);font-weight:600;color:var(--ink);letter-spacing:-.01em;margin-bottom:4px}
+    .team-role{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+    .team-bio{font-size:.8125rem;color:var(--ink-3);line-height:1.7}
+    .team-links{display:flex;gap:10px;margin-top:14px}
+    .team-link{width:30px;height:30px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:border-color .2s,background .2s}
+    .team-link:hover{border-color:var(--border-gold);background:var(--gold-dim)}
+
+    /* ── AWARDS ────────────────────────────────────── */
+    .awards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:clamp(40px,5vw,72px)}
+    @media(max-width:768px){.awards-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:480px){.awards-grid{grid-template-columns:1fr}}
+    .award-card{background:var(--bg-3);border:1px solid var(--border);padding:clamp(24px,3.5vw,40px);transition:border-color .3s}
+    .award-card:hover{border-color:var(--border-gold)}
+    .award-year{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;color:var(--ink-3);text-transform:uppercase;margin-bottom:12px}
+    .award-name{font-family:var(--font-display);font-size:clamp(17px,1.7vw,22px);font-weight:600;color:var(--ink);letter-spacing:-.01em;margin-bottom:6px}
+    .award-body{font-size:.8125rem;color:var(--ink-3);margin-bottom:14px}
+    .award-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--gold)}
+    .award-badge::before{content:'✦';font-size:8px}
+
+    /* ── CLIENTS ────────────────────────────────────── */
+    .clients-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;margin-top:clamp(40px,5vw,72px)}
+    @media(max-width:900px){.clients-grid{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:480px){.clients-grid{grid-template-columns:repeat(2,1fr)}}
+    .client-cell{background:var(--bg-3);border:1px solid var(--border);padding:clamp(20px,3vw,32px);display:flex;align-items:center;justify-content:center;transition:border-color .3s,background .3s}
+    .client-cell:hover{border-color:var(--border-gold);background:var(--gold-dim)}
+    .client-name{font-family:var(--font-display);font-size:clamp(13px,1.2vw,16px);font-weight:600;color:var(--ink-3);letter-spacing:-.01em;text-align:center;transition:color .3s}
+    .client-cell:hover .client-name{color:var(--ink)}
+
+    /* ── TIMELINE ───────────────────────────────────── */
+    .timeline{position:relative;margin-top:clamp(40px,5vw,72px)}
+    .timeline::before{content:'';position:absolute;left:96px;top:0;bottom:0;width:1px;background:var(--border)}
+    @media(max-width:600px){.timeline::before{left:24px}}
+    .timeline-item{display:grid;grid-template-columns:96px 1fr;gap:clamp(24px,4vw,48px);margin-bottom:clamp(32px,4vw,56px);position:relative}
+    @media(max-width:600px){.timeline-item{grid-template-columns:24px 1fr;gap:20px}}
+    .timeline-year{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;color:var(--gold);text-align:right;padding-top:4px;flex-shrink:0}
+    @media(max-width:600px){.timeline-year{font-size:9px;text-align:left}}
+    .timeline-dot{position:absolute;left:90px;top:6px;width:13px;height:13px;border-radius:50%;background:var(--bg);border:2px solid var(--gold);z-index:1}
+    @media(max-width:600px){.timeline-dot{left:18px}}
+    .timeline-content{padding-left:20px}
+    @media(max-width:600px){.timeline-content{padding-left:12px}}
+    .timeline-title{font-family:var(--font-display);font-size:clamp(17px,1.8vw,24px);font-weight:600;color:var(--ink);letter-spacing:-.01em;margin-bottom:8px}
+    .timeline-text{font-size:.9rem;color:var(--ink-3);line-height:1.75}
+
+    /* ── CTA ───────────────────────────────────────── */
+    .cta-band{background:var(--bg-2);border-top:1px solid var(--border);position:relative;overflow:hidden}
+    .cta-glow{position:absolute;width:800px;height:800px;background:radial-gradient(circle,rgba(201,169,110,.055) 0%,transparent 70%);left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none}
+    .cta-inner{position:relative;text-align:center;padding:clamp(80px,12vw,180px) 0}
+    .cta-inner .display-lg em{color:var(--gold);font-style:italic}
+    .cta-inner .display-lg{max-width:800px;margin:16px auto 40px}
+    .cta-actions{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+    .mini-footer{border-top:1px solid var(--border);padding:24px 0}.mini-footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}.mini-footer-copy{font-size:.8125rem;color:var(--ink-3)}.mini-footer-copy a{color:var(--gold)}
+    #nav.scrolled {
+  background: var(--nav-scrolled-bg) !important;
+}
+  </style>
+</head>
+<body>
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <button id="back-to-top" aria-label="Back to top"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 12V4M4 7l4-4 4 4" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+  <nav id="mobile-nav" aria-hidden="true">
+    <a href="index.html">Home</a>
+    <a href="devnoxxkit-services.html">Services</a>
+    <a href="devnoxxkit-portfolio.html">Work</a>
+    <a href="devnoxxkit-about.html">About</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+
+  <header id="nav" role="banner">
+    <div class="container"><div class="nav-inner">
+      <a href="index.html" class="nav-logo"><div class="nav-logo-mark"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="#0A0A0C" stroke-width="1.5" stroke-linecap="round"/></svg></div>Devnoxx<span style="color:var(--gold)">Kit</span></a>
+      <ul class="nav-links" role="list">
+        <li class="relative">
+          <a href="index.html" class="home-trigger" aria-haspopup="true" aria-expanded="false">Home</a>
+          <div class="nav-home-dropdown">
+
+            <a href="devnoxxkit-home-brutalist.html" class="nav-home-item">Brutalist</a>
+            <a href="devnoxxkit-home-ivory.html" class="nav-home-item">Ivory</a>
+            <a href="devnoxxkit-home-monochrome.html" class="nav-home-item">Monochrome</a>
+            <a href="devnoxxkit-home-teal.html" class="nav-home-item">Teal</a>
+          </div>
+        </li>
+        <li><a href="devnoxxkit-services.html">Services</a></li>
+        <li><a href="devnoxxkit-portfolio.html">Work</a></li>
+        <li><a href="devnoxxkit-about.html" class="active">About</a></li>
+        <li><a href="devnoxxkit-blog-single.html">Journal</a></li>
+        <li><a href="devnoxxkit-contact.html" class="nav-cta">Let's Talk</a></li>
+      </ul>
+      <button class="nav-hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div></div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <div class="page-hero">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow-1" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow-2" aria-hidden="true"></div>
+      <div class="container" style="position:relative;z-index:1">
+        <div class="hero-eyebrow"><div class="hero-eyebrow-line"></div><span class="label">Our Story</span></div>
+        <h1 class="display-xl">
+          <div class="hero-line-wrap"><span class="hero-line">We are a</span></div>
+          <div class="hero-line-wrap"><span class="hero-line">studio built on</span></div>
+          <div class="hero-line-wrap"><span class="hero-line"><em style="color:var(--gold);font-style:italic">obsession.</em></span></div>
+        </h1>
+      </div>
+      <div class="hero-scroll-hint" aria-hidden="true"><div class="scroll-line"></div></div>
+    </div>
+
+    <!-- MANIFESTO -->
+    <div class="manifesto">
+      <div class="manifesto-glow" aria-hidden="true"></div>
+      <div class="container">
+        <div class="manifesto-inner">
+          <p class="manifesto-text reveal">
+            We believe that <strong>anonymous is not safe</strong> — it's invisible. That design is not decoration. That the best work earns silence before it earns applause. That every pixel is either <em>earning its place</em> or wasting space. That clients deserve honesty more than agreement. That <strong>good enough is the enemy</strong> of everything worth making.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STORY -->
+    <section class="section" aria-labelledby="story-heading">
+      <div class="container">
+        <div class="story-grid">
+          <div class="story-img-wrap reveal">
+            <img class="story-img" src="https://images.unsplash.com/photo-1600132806370-bf17e65e942f?w=800&q=70&auto=format&fit=crop" alt="DevnoxxKit studio space" loading="lazy"/>
+            <div class="story-img-frame" aria-hidden="true"></div>
+            <div class="story-year-badge">
+              <div class="label" style="margin-bottom:4px;display:block">Founded</div>
+              <div style="font-family:var(--font-display);font-size:40px;font-weight:800;letter-spacing:-.04em;color:var(--ink);line-height:1">2013</div>
+            </div>
+          </div>
+          <div>
+            <div class="section-eyebrow reveal"><div class="section-eyebrow-line"></div><span class="label">The Origin</span></div>
+            <h2 class="display-md reveal reveal-delay-1" id="story-heading">Started with<br>one rule: <em style="color:var(--gold);font-style:italic">no mediocrity.</em></h2>
+            <div class="story-body" style="margin-top:28px">
+              <p class="reveal reveal-delay-2">DevnoxxKit began in a 14-square-metre studio in Lisbon with two designers, one client, and a shared conviction that the creative industry was producing too much forgettable work at too low a price. We decided to do the opposite.</p>
+              <p class="reveal reveal-delay-3">Thirteen years later, we've worked with over 230 clients across 40 countries. We've been featured on Awwwards, FWA, and Dezeen. We've shipped work that has won D&AD Wood Pencils and Red Dot awards. <strong>We still work in the same way we always have:</strong> one project at a time, with the full team's attention, from strategy to final pixel.</p>
+              <p class="reveal reveal-delay-3">We don't take every project we're offered. We take the ones we can do justice to — the ones where the client's ambition matches ours.</p>
+            </div>
+            <div class="story-values">
+              <div class="value-card reveal reveal-delay-2">
+                <div class="value-icon">✦</div>
+                <div class="value-title">Honesty over comfort</div>
+                <p class="value-text">We'll tell you when an idea isn't working, even if it's yours.</p>
+              </div>
+              <div class="value-card reveal reveal-delay-3">
+                <div class="value-icon">◈</div>
+                <div class="value-title">One direction, fully committed</div>
+                <p class="value-text">We don't give you three options. We give you the right answer.</p>
+              </div>
+              <div class="value-card reveal reveal-delay-2">
+                <div class="value-icon">⬡</div>
+                <div class="value-title">Craft at every scale</div>
+                <p class="value-text">The favicon gets as much thought as the hero.</p>
+              </div>
+              <div class="value-card reveal reveal-delay-3">
+                <div class="value-icon">▲</div>
+                <div class="value-title">Work that lasts</div>
+                <p class="value-text">We design for decade-long relevance, not next quarter's trend.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats-band">
+      <div class="container" style="padding:0 clamp(20px,4vw,80px)">
+        <div class="stats-inner">
+          <div class="stat-col reveal"><div class="stat-number">230<sup>+</sup></div><div class="stat-label">Projects delivered</div></div>
+          <div class="stat-col reveal reveal-delay-1"><div class="stat-number">13<sup>yr</sup></div><div class="stat-label">Years in practice</div></div>
+          <div class="stat-col reveal reveal-delay-2"><div class="stat-number">40<sup>+</sup></div><div class="stat-label">Countries served</div></div>
+          <div class="stat-col reveal reveal-delay-3"><div class="stat-number">98<sup>%</sup></div><div class="stat-label">Client return rate</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEAM -->
+    <section class="section" aria-labelledby="team-heading">
+      <div class="container">
+        <div class="section-eyebrow reveal"><div class="section-eyebrow-line"></div><span class="label">The Team</span></div>
+        <h2 class="display-md reveal reveal-delay-1" id="team-heading" style="margin-top:12px;max-width:600px">Small on purpose.<br><em style="color:var(--gold);font-style:italic">Precise by design.</em></h2>
+        <p class="reveal reveal-delay-2" style="color:var(--ink-2);font-size:1.0625rem;line-height:1.8;max-width:600px;margin-top:16px">We are eight people. We'll never be eighty. Every person on a project knows the whole project.</p>
+        <div class="team-grid">
+          <div class="team-card reveal reveal-delay-1">
+            <img class="team-photo" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&q=70&auto=format&fit=crop&crop=faces" alt="Portrait of Marcus Webb" loading="lazy"/>
+            <div class="team-info">
+              <div class="team-name">Marcus Webb</div>
+              <div class="team-role">Creative Director</div>
+              <p class="team-bio">13 years building and destroying things in the name of good work. Believes typeface choice is a moral act.</p>
+              <div class="team-links">
+                <a class="team-link" href="#" aria-label="Marcus on X"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M4 4l16 16M4 20L20 4" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+                <a class="team-link" href="#" aria-label="Marcus on LinkedIn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="3" stroke="var(--ink-2)" stroke-width="1.5"/><path d="M7 10v7M7 7v.5M11 17v-4c0-1.1.9-2 2-2s2 .9 2 2v4M11 10v7" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+              </div>
+            </div>
+          </div>
+          <div class="team-card reveal reveal-delay-2">
+            <img class="team-photo" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=70&auto=format&fit=crop&crop=faces" alt="Portrait of Nadia Osei" loading="lazy"/>
+            <div class="team-info">
+              <div class="team-name">Nadia Osei</div>
+              <div class="team-role">Brand Strategist</div>
+              <p class="team-bio">Former head of brand at two category-defining companies. Now applies that thinking from the outside.</p>
+              <div class="team-links">
+                <a class="team-link" href="#" aria-label="Nadia on X"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M4 4l16 16M4 20L20 4" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+                <a class="team-link" href="#" aria-label="Nadia on LinkedIn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="3" stroke="var(--ink-2)" stroke-width="1.5"/><path d="M7 10v7M7 7v.5M11 17v-4c0-1.1.9-2 2-2s2 .9 2 2v4M11 10v7" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+              </div>
+            </div>
+          </div>
+          <div class="team-card reveal reveal-delay-3">
+            <img class="team-photo" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&q=70&auto=format&fit=crop&crop=faces" alt="Portrait of Liam Foster" loading="lazy"/>
+            <div class="team-info">
+              <div class="team-name">Liam Foster</div>
+              <div class="team-role">Frontend Architect</div>
+              <p class="team-bio">Writes the kind of CSS that other developers read and feel a little ashamed of their own. Accessibility obsessive.</p>
+              <div class="team-links">
+                <a class="team-link" href="#" aria-label="Liam on GitHub"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0112 6.8c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0022 12c0-5.52-4.48-10-10-10z" fill="var(--ink-2)"/></svg></a>
+              </div>
+            </div>
+          </div>
+          <div class="team-card reveal reveal-delay-4">
+            <img class="team-photo" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=70&auto=format&fit=crop&crop=faces" alt="Portrait of Aya Tanaka" loading="lazy"/>
+            <div class="team-info">
+              <div class="team-name">Aya Tanaka</div>
+              <div class="team-role">Motion Designer</div>
+              <p class="team-bio">Animation as language, not decoration. Previously at Framestore. Speaks in easing curves and keyframes.</p>
+              <div class="team-links">
+                <a class="team-link" href="#" aria-label="Aya on Dribbble"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="var(--ink-2)" stroke-width="1.5"/><path d="M6.5 6.5c3 2.5 5 6 5.5 10M17.5 7c-2 1-6 2-11 1.5M22 12c-3.5 0-7-1-9.5-3" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AWARDS -->
+    <section class="section" style="background:var(--bg-2)" aria-labelledby="awards-heading">
+      <div class="container">
+        <div class="section-eyebrow reveal"><div class="section-eyebrow-line"></div><span class="label">Recognition</span></div>
+        <h2 class="display-md reveal reveal-delay-1" id="awards-heading" style="margin-top:12px;max-width:600px">The work earned it.<br>Not the other way around.</h2>
+        <div class="awards-grid">
+          <div class="award-card reveal reveal-delay-1"><div class="award-year">2026</div><div class="award-name">Awwwards Site of the Day</div><p class="award-body">Nora Editorial Platform — recognized for typographic innovation and editorial UI design.</p><div class="award-badge">Gold</div></div>
+          <div class="award-card reveal reveal-delay-2"><div class="award-year">2025</div><div class="award-name">D&AD Wood Pencil</div><p class="award-body">Meridian Brand Identity — Digital Design / Brand Experience category.</p><div class="award-badge">Wood Pencil</div></div>
+          <div class="award-card reveal reveal-delay-3"><div class="award-year">2025</div><div class="award-name">Red Dot Design Award</div><p class="award-body">Volta EV Campaign — Communication Design / Interactive category.</p><div class="award-badge">Winner</div></div>
+          <div class="award-card reveal reveal-delay-1"><div class="award-year">2024</div><div class="award-name">FWA Site of the Month</div><p class="award-body">Axiom Design System documentation site — for interactive documentation design.</p><div class="award-badge">FOTM</div></div>
+          <div class="award-card reveal reveal-delay-2"><div class="award-year">2024</div><div class="award-name">Webby Award</div><p class="award-body">Opal Restaurant Group — Best Restaurant Website, Professional category.</p><div class="award-badge">Winner</div></div>
+          <div class="award-card reveal reveal-delay-3"><div class="award-year">2023</div><div class="award-name">Communication Arts Award</div><p class="award-body">Typeset Foundry — Interactive Media category, outstanding UX through typography.</p><div class="award-badge">Excellence</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CLIENTS -->
+    <section class="section" aria-labelledby="clients-heading">
+      <div class="container">
+        <div class="section-eyebrow reveal"><div class="section-eyebrow-line"></div><span class="label">Trusted By</span></div>
+        <h2 class="display-md reveal reveal-delay-1" id="clients-heading" style="margin-top:12px;max-width:500px">Companies who trust us<br>with the things that matter.</h2>
+        <div class="clients-grid">
+          <div class="client-cell reveal reveal-delay-1"><div class="client-name">Meridian Capital</div></div>
+          <div class="client-cell reveal reveal-delay-1"><div class="client-name">Volta Motors</div></div>
+          <div class="client-cell reveal reveal-delay-2"><div class="client-name">Nora Media</div></div>
+          <div class="client-cell reveal reveal-delay-2"><div class="client-name">Crest Studio</div></div>
+          <div class="client-cell reveal reveal-delay-3"><div class="client-name">Axiom Software</div></div>
+          <div class="client-cell reveal reveal-delay-3"><div class="client-name">Opal Group</div></div>
+          <div class="client-cell reveal reveal-delay-1"><div class="client-name">Soleil Paris</div></div>
+          <div class="client-cell reveal reveal-delay-1"><div class="client-name">Typeset Co.</div></div>
+          <div class="client-cell reveal reveal-delay-2"><div class="client-name">Luminary Labs</div></div>
+          <div class="client-cell reveal reveal-delay-2"><div class="client-name">Thread Studio</div></div>
+          <div class="client-cell reveal reveal-delay-3"><div class="client-name">Apexio Capital</div></div>
+          <div class="client-cell reveal reveal-delay-3"><div class="client-name">+ many more</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section class="section" style="background:var(--bg-2)" aria-labelledby="timeline-heading">
+      <div class="container" style="max-width:900px">
+        <div class="section-eyebrow reveal"><div class="section-eyebrow-line"></div><span class="label">Our History</span></div>
+        <h2 class="display-md reveal reveal-delay-1" id="timeline-heading" style="margin-top:12px;max-width:500px">Thirteen years of<br><em style="color:var(--gold);font-style:italic">building things right.</em></h2>
+        <div class="timeline reveal reveal-delay-2">
+          <div class="timeline-item"><div class="timeline-year">2013</div><div class="timeline-dot" aria-hidden="true"></div><div class="timeline-content"><div class="timeline-title">Founded in Lisbon</div><p class="timeline-text">Two designers, a shared conviction, and a 14-square-metre studio. First client: a Lisbon restaurant that needed more than a logo. We gave them a complete identity and a philosophy.</p></div></div>
+          <div class="timeline-item"><div class="timeline-year">2016</div><div class="timeline-dot" aria-hidden="true"></div><div class="timeline-content"><div class="timeline-title">First international client</div><p class="timeline-text">A Berlin fintech startup found us through Dribbble. We designed their identity and web presence remotely — before remote work was fashionable. The work won a Red Dot nomination.</p></div></div>
+          <div class="timeline-item"><div class="timeline-year">2019</div><div class="timeline-dot" aria-hidden="true"></div><div class="timeline-content"><div class="timeline-title">Expanded to 8 people</div><p class="timeline-text">Added our first brand strategist, motion designer, and frontend architect. Deliberately stopped at eight. The work got sharper, not broader.</p></div></div>
+          <div class="timeline-item"><div class="timeline-year">2022</div><div class="timeline-dot" aria-hidden="true"></div><div class="timeline-content"><div class="timeline-title">First D&AD recognition</div><p class="timeline-text">The Meridian Capital rebrand earned a Wood Pencil — the first of what would become a consistent presence in international award circuits.</p></div></div>
+          <div class="timeline-item"><div class="timeline-year">2024</div><div class="timeline-dot" aria-hidden="true"></div><div class="timeline-content"><div class="timeline-title">DevnoxxKit launched</div><p class="timeline-text">After three years of internal use, we opened up our design system to the world. It became one of the top-rated HTML templates on Gumroad within 90 days.</p></div></div>
+          <div class="timeline-item"><div class="timeline-year">2026</div><div class="timeline-dot" aria-hidden="true" style="border-color:var(--gold);background:var(--gold)"></div><div class="timeline-content"><div class="timeline-title">Today</div><p class="timeline-text">230+ projects. 40+ countries. The same eight people. Open for Q3 2026.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-band">
+      <div class="cta-glow" aria-hidden="true"></div>
+      <div class="container"><div class="cta-inner">
+        <div class="section-eyebrow reveal" style="justify-content:center"><div class="section-eyebrow-line"></div><span class="label">Work Together</span><div class="section-eyebrow-line"></div></div>
+        <h2 class="display-lg reveal reveal-delay-1">If this sounds like<br>the team you need — <em>let's talk.</em></h2>
+        <div class="cta-actions reveal reveal-delay-2">
+<a href="devnoxxkit-contact.html" class="btn btn-primary">Start a Project <svg class="btn-arrow" viewBox="0 0 20 20" fill="none"><path d="M4 16L16 4M16 4H8M16 4V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          <a href="devnoxxkit-portfolio.html" class="btn btn-ghost">See Our Work</a>
+        </div>
+      </div></div>
+    </div>
+
+  </main>
+
+  <footer class="mini-footer" role="contentinfo"><div class="container"><div class="mini-footer-inner">
+    <a href="index.html" style="font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:8px"><div class="nav-logo-mark"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="#0A0A0C" stroke-width="1.5" stroke-linecap="round"/></svg></div>Devnoxx<span style="color:var(--gold)">Kit</span></a>
+    <p class="mini-footer-copy">© 2026 <a href="index.html">DevnoxxKit</a>. Crafted with obsession.</p>
+    <p class="mini-footer-copy" style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em">ABOUT PAGE</p>
+  </div></div></footer>
+
+  <script>
+    const dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring');
+    let rX=0,rY=0,dX=0,dY=0,mX=0,mY=0;
+    document.addEventListener('mousemove',e=>{mX=e.clientX;mY=e.clientY});
+    (function a(){dX+=(mX-dX)*.85;dY+=(mY-dY)*.85;rX+=(mX-rX)*.12;rY+=(mY-rY)*.12;dot.style.left=dX+'px';dot.style.top=dY+'px';ring.style.left=rX+'px';ring.style.top=rY+'px';requestAnimationFrame(a)})();
+    const nav=document.getElementById('nav');
+    window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
+    const hb=document.getElementById('hamburger'),mn=document.getElementById('mobile-nav');
+    hb.addEventListener('click',()=>{const o=hb.classList.toggle('open');mn.classList.toggle('open',o);hb.setAttribute('aria-expanded',String(o));mn.setAttribute('aria-hidden',String(!o));document.body.style.overflow=o?'hidden':''});
+    const ro=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target)}}),{threshold:.1,rootMargin:'0px 0px -48px 0px'});
+    document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+    const btt=document.getElementById('back-to-top');
+    window.addEventListener('scroll',()=>btt.classList.toggle('visible',scrollY>500),{passive:true});
+    btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}})});
+  </script>
+  <script src="devnoxxkit-theme.js"></script>
+</body>
+</html>

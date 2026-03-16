@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <script>
+    (function(){
+      var s = localStorage.getItem('dnk-theme');
+      var d = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', s || d);
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Why 95% of Agency Websites Look Identical — DevnoxxKit Journal</title>
+  <meta name="description" content="The Figma template economy has created a devastating homogeneity. Here's the design thinking that gets you out."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --bg:#0A0A0C;--bg-2:#111114;--bg-3:#18181D;--surface:#1E1E24;
+      --border:rgba(242,237,228,0.08);--border-gold:rgba(201,169,110,0.3);
+      --ink:#F2EDE4;--ink-2:#B8B0A4;--ink-3:#6E6860;
+      --gold:#C9A96E;--gold-light:#DFC28E;--gold-dim:rgba(201,169,110,0.12);
+      --font-display:'Fraunces',Georgia,serif;
+      --font-body:'DM Sans',system-ui,sans-serif;
+      --font-mono:'JetBrains Mono',monospace;
+      --radius-sm:4px;
+      --ease-out:cubic-bezier(0.16,1,0.3,1);
+    }
+    #nav.scrolled {
+      background: var(--nav-scrolled-bg) !important;
+      }
+      
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-size:16px;-webkit-font-smoothing:antialiased}
+    body{background:var(--bg);color:var(--ink);font-family:var(--font-body);overflow-x:hidden;cursor:none;line-height:1.65}
+    body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:0.032;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");background-size:256px 256px}
+    ::selection{background:var(--gold);color:var(--bg)}
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+    button{border:none;background:none;cursor:none;font:inherit}
+
+    #cursor-dot{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--gold);pointer-events:none;z-index:10000;transform:translate(-50%,-50%);will-change:transform}
+    #cursor-ring{position:fixed;width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,169,110,0.5);pointer-events:none;z-index:10000;transform:translate(-50%,-50%);transition:width .3s var(--ease-out),height .3s var(--ease-out),border-color .3s;will-change:transform}
+    body:has(a:hover) #cursor-ring,body:has(button:hover) #cursor-ring{width:56px;height:56px;border-color:var(--gold)}
+
+    .container{width:100%;max-width:1320px;margin:0 auto;padding:0 clamp(20px,4vw,80px)}
+    .label{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+
+    /* Nav */
+    #nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 0;transition:padding .4s var(--ease-out),background .4s,border-color .4s;border-bottom:1px solid transparent}
+    #nav.scrolled{padding:16px 0;background:rgba(10,10,12,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom-color:var(--border)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+    .nav-logo-mark{width:28px;height:28px;background:var(--gold);border-radius:6px;display:flex;align-items:center;justify-content:center}
+    .nav-links{display:flex;align-items:center;gap:40px;list-style:none}
+    .nav-links a{font-size:.875rem;color:var(--ink-2);transition:color .2s;position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s var(--ease-out)}
+    .nav-links a:hover{color:var(--ink)}
+    .nav-links a:hover::after,.nav-links a.active::after{width:100%}
+    .nav-links a.active{color:var(--gold)}
+    .nav-cta{padding:10px 22px;background:var(--gold);color:var(--bg)!important;font-size:.8125rem!important;font-weight:600;border-radius:var(--radius-sm);transition:background .2s!important}
+    .nav-cta::after{display:none!important}
+    .nav-cta:hover{background:var(--gold-light)!important}
+    .nav-hamburger{display:none;flex-direction:column;gap:5px;width:26px}
+    .nav-hamburger span{display:block;height:1.5px;background:var(--ink);transition:transform .3s,opacity .3s;transform-origin:center}
+    .nav-hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+    .nav-hamburger.open span:nth-child(2){opacity:0}
+    .nav-hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+    @media(max-width:768px){.nav-links{display:none}.nav-hamburger{display:flex}}
+    #mobile-nav{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;transform:translateX(100%);transition:transform .5s var(--ease-out)}
+    #mobile-nav.open{transform:translateX(0)}
+    #mobile-nav a{font-family:var(--font-display);font-size:clamp(32px,8vw,52px);font-weight:700;color:var(--ink-2);transition:color .2s}
+    #mobile-nav a:hover{color:var(--gold)}
+
+    /* Reveal */
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .reveal-delay-1{transition-delay:.1s}
+    .reveal-delay-2{transition-delay:.2s}
+    .reveal-delay-3{transition-delay:.3s}
+
+    /* Buttons */
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;font-size:.875rem;font-weight:600;border-radius:var(--radius-sm);transition:transform .3s var(--ease-out),box-shadow .3s}
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{background:var(--gold);color:var(--bg);box-shadow:0 4px 24px rgba(201,169,110,.2)}
+    .btn-ghost{border:1px solid var(--border);color:var(--ink-2)}
+    .btn-ghost:hover{border-color:rgba(242,237,228,.2);color:var(--ink)}
+    .btn-arrow{width:20px;height:20px;transition:transform .3s var(--ease-out)}
+    .btn:hover .btn-arrow{transform:translate(3px,-3px)}
+
+    /* ── PROGRESS BAR ─────────────────── */
+    #progress{
+      position:fixed;top:0;left:0;height:2px;
+      background:var(--gold);z-index:2000;
+      width:0%;transition:width .1s linear;
+    }
+
+    /* ── ARTICLE HERO ─────────────────── */
+    .article-hero{
+      padding-top:130px;
+      padding-bottom:clamp(48px,6vw,80px);
+      position:relative;overflow:hidden;
+    }
+    .article-hero::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(242,237,228,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(242,237,228,.025) 1px,transparent 1px);background-size:80px 80px;pointer-events:none}
+    .article-hero-glow{position:absolute;width:700px;height:700px;background:rgba(201,169,110,.06);border-radius:50%;filter:blur(120px);top:-200px;right:-100px;pointer-events:none}
+    .article-hero-inner{position:relative;z-index:1;max-width:900px}
+    .article-breadcrumb{display:flex;align-items:center;gap:10px;margin-bottom:28px;opacity:0;animation:fadeUp .8s .1s forwards}
+    @keyframes fadeUp{to{opacity:1;transform:none}}
+    .article-breadcrumb a{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);transition:color .2s}
+    .article-breadcrumb a:hover{color:var(--gold)}
+    .article-breadcrumb-sep{color:var(--ink-3);font-size:.75rem}
+    .article-title{
+      font-family:var(--font-display);
+      font-size:clamp(36px,5.5vw,84px);
+      font-weight:800;line-height:.95;
+      letter-spacing:-.03em;color:var(--ink);
+      overflow:hidden;
+    }
+    .article-title-line{
+      display:block;
+      transform:translateY(110%);opacity:0;
+      animation:lineReveal 1s var(--ease-out) forwards;
+    }
+    .article-title-line:nth-child(1){animation-delay:.25s}
+    .article-title-line:nth-child(2){animation-delay:.4s}
+    .article-title-line:nth-child(3){animation-delay:.55s}
+    @keyframes lineReveal{to{transform:translateY(0);opacity:1}}
+
+    .article-meta{
+      display:flex;align-items:center;gap:24px;
+      margin-top:32px;padding-top:32px;
+      border-top:1px solid var(--border);
+      flex-wrap:wrap;
+      opacity:0;animation:fadeUp .8s .7s forwards;
+    }
+    .article-meta-author{display:flex;align-items:center;gap:12px}
+    .article-meta-avatar{width:40px;height:40px;border-radius:50%;object-fit:cover;filter:grayscale(.3)}
+    .article-meta-name{font-size:.875rem;font-weight:600;color:var(--ink)}
+    .article-meta-role{font-size:.75rem;color:var(--ink-3)}
+    .article-meta-divider{width:1px;height:32px;background:var(--border);flex-shrink:0}
+    .article-meta-stat{display:flex;flex-direction:column;gap:2px}
+    .article-meta-stat-label{font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+    .article-meta-stat-value{font-size:.875rem;color:var(--ink-2)}
+
+    /* ── HERO IMAGE ───────────────────── */
+    .article-cover{
+      width:100%;
+      aspect-ratio:21/8;
+      object-fit:cover;
+      filter:brightness(.65) saturate(.6);
+      display:block;
+    }
+    @media(max-width:768px){.article-cover{aspect-ratio:16/9}}
+
+    /* ── ARTICLE LAYOUT ───────────────── */
+    .article-layout{
+      display:grid;
+      grid-template-columns:220px 1fr;
+      gap:clamp(40px,7vw,100px);
+      align-items:start;
+      padding:clamp(48px,7vw,100px) 0;
+    }
+    @media(max-width:900px){.article-layout{grid-template-columns:1fr}}
+
+    /* Sticky sidebar */
+    .article-sidebar{
+      position:sticky;
+      top:100px;
+    }
+    @media(max-width:900px){.article-sidebar{position:static;padding-bottom:32px;border-bottom:1px solid var(--border);margin-bottom:32px}}
+
+    .toc-title{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:20px}
+    .toc-list{list-style:none;display:flex;flex-direction:column;gap:2px}
+    .toc-item a{
+      display:block;padding:8px 12px;
+      font-size:.8125rem;color:var(--ink-3);
+      border-left:2px solid transparent;
+      transition:color .2s,border-color .2s,background .2s;
+      line-height:1.4;
+    }
+    .toc-item a:hover{color:var(--ink);border-left-color:var(--border)}
+    .toc-item a.active{color:var(--gold);border-left-color:var(--gold);background:var(--gold-dim)}
+
+    .article-share{margin-top:40px}
+    .article-share-title{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:14px}
+    .share-btns{display:flex;flex-direction:column;gap:8px}
+    .share-btn{
+      display:flex;align-items:center;gap:10px;
+      padding:10px 14px;font-size:.8125rem;color:var(--ink-3);
+      border:1px solid var(--border);border-radius:var(--radius-sm);
+      transition:color .2s,border-color .2s;
+    }
+    .share-btn:hover{color:var(--gold);border-color:var(--border-gold)}
+
+    /* Article body */
+    .article-body{}
+
+    .article-body h2{
+      font-family:var(--font-display);
+      font-size:clamp(24px,3vw,40px);
+      font-weight:700;letter-spacing:-.02em;
+      color:var(--ink);line-height:1.1;
+      margin:clamp(48px,6vw,80px) 0 20px;
+    }
+    .article-body h3{
+      font-family:var(--font-display);
+      font-size:clamp(18px,2vw,26px);
+      font-weight:600;letter-spacing:-.01em;
+      color:var(--ink);margin:36px 0 14px;
+    }
+    .article-body p{
+      font-size:clamp(16px,1.2vw,19px);
+      color:var(--ink-2);line-height:1.85;
+      margin-bottom:24px;
+    }
+    .article-body strong{color:var(--ink);font-weight:600}
+    .article-body em{font-style:italic;color:var(--gold-light)}
+    .article-body a{color:var(--gold);border-bottom:1px solid var(--border-gold);transition:border-color .2s}
+    .article-body a:hover{border-bottom-color:var(--gold)}
+
+    /* Pull quote */
+    .article-pullquote{
+      border-left:3px solid var(--gold);
+      margin:clamp(32px,5vw,60px) 0;
+      padding:clamp(20px,3vw,36px) clamp(24px,4vw,48px);
+      background:var(--bg-3);
+      position:relative;
+    }
+    .article-pullquote::before{
+      content:'"';
+      font-family:var(--font-display);
+      font-size:120px;font-weight:800;
+      color:var(--gold);opacity:.15;
+      position:absolute;top:-16px;left:16px;
+      line-height:1;pointer-events:none;
+      font-style:italic;
+    }
+    .article-pullquote p{
+      font-family:var(--font-display);
+      font-size:clamp(20px,2.5vw,32px);
+      font-weight:500;font-style:italic;
+      color:var(--ink);line-height:1.4;
+      margin:0;position:relative;
+    }
+
+    /* Inline image */
+    .article-img{
+      width:100%;
+      aspect-ratio:16/9;
+      object-fit:cover;
+      filter:brightness(.7) saturate(.65);
+      margin:clamp(32px,5vw,56px) 0;
+    }
+    .article-img-caption{
+      font-family:var(--font-mono);
+      font-size:11px;letter-spacing:.06em;
+      color:var(--ink-3);
+      margin-top:-clamp(24px,4vw,44px);
+      margin-bottom:clamp(32px,5vw,56px);
+    }
+
+    /* Code block */
+    .article-code{
+      background:var(--bg-3);
+      border:1px solid var(--border);
+      border-radius:var(--radius-sm);
+      padding:24px 28px;
+      font-family:var(--font-mono);
+      font-size:.875rem;
+      color:var(--gold-light);
+      line-height:1.7;
+      overflow-x:auto;
+      margin:clamp(24px,3vw,40px) 0;
+    }
+    .article-code .comment{color:var(--ink-3)}
+    .article-code .keyword{color:#7DA4C0}
+    .article-code .string{color:#A8C99A}
+
+    /* Numbered list */
+    .article-body ol{
+      list-style:none;
+      counter-reset:items;
+      margin:24px 0;
+      display:flex;flex-direction:column;gap:16px;
+    }
+    .article-body ol li{
+      counter-increment:items;
+      display:grid;grid-template-columns:32px 1fr;
+      gap:16px;align-items:start;
+    }
+    .article-body ol li::before{
+      content:counter(items,decimal-leading-zero);
+      font-family:var(--font-mono);font-size:11px;
+      letter-spacing:.1em;color:var(--gold);
+      padding-top:5px;
+    }
+    .article-body ol li p{margin:0;font-size:1rem}
+
+    /* Bullet list */
+    .article-body ul{list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:12px}
+    .article-body ul li{
+      display:flex;align-items:start;gap:14px;
+      font-size:clamp(16px,1.2vw,19px);color:var(--ink-2);line-height:1.7;
+    }
+    .article-body ul li::before{
+      content:'✦';font-size:8px;color:var(--gold);
+      flex-shrink:0;margin-top:8px;
+    }
+
+    /* Divider */
+    .article-divider{width:100%;height:1px;background:var(--border);margin:clamp(40px,5vw,64px) 0}
+
+    /* Tags */
+    .article-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
+    .article-tag{
+      padding:5px 12px;border:1px solid var(--border);
+      font-family:var(--font-mono);font-size:10px;
+      letter-spacing:.08em;color:var(--ink-3);
+      border-radius:var(--radius-sm);transition:border-color .2s,color .2s;
+    }
+    .article-tag:hover{border-color:var(--border-gold);color:var(--gold)}
+
+    /* ── AUTHOR BIO ───────────────────── */
+    .author-bio{
+      background:var(--bg-3);border:1px solid var(--border);
+      padding:clamp(28px,4vw,48px);
+      display:grid;grid-template-columns:80px 1fr;
+      gap:28px;align-items:start;
+      margin-top:clamp(48px,7vw,80px);
+    }
+    @media(max-width:540px){.author-bio{grid-template-columns:1fr}}
+    .author-bio-avatar{width:80px;height:80px;border-radius:50%;object-fit:cover;filter:grayscale(.3)}
+    .author-bio-name{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-.01em;margin-bottom:4px}
+    .author-bio-role{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+    .author-bio-text{font-size:.9375rem;color:var(--ink-3);line-height:1.7}
+
+    /* ── RELATED POSTS ────────────────── */
+    .related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:clamp(32px,4vw,56px)}
+    @media(max-width:900px){.related-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:540px){.related-grid{grid-template-columns:1fr}}
+
+    .related-card{background:var(--bg-3);overflow:hidden;border:1px solid var(--border);transition:border-color .3s}
+    .related-card:hover{border-color:var(--border-gold)}
+    .related-card-img{width:100%;aspect-ratio:16/9;object-fit:cover;filter:brightness(.65) saturate(.6);transition:transform .6s var(--ease-out),filter .4s}
+    .related-card:hover .related-card-img{transform:scale(1.04);filter:brightness(.8) saturate(.8)}
+    .related-card-body{padding:clamp(16px,2vw,24px)}
+    .related-card-tag{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+    .related-card-title{font-family:var(--font-display);font-size:clamp(16px,1.5vw,20px);font-weight:600;color:var(--ink);letter-spacing:-.01em;line-height:1.3;transition:color .2s}
+    .related-card:hover .related-card-title{color:var(--gold-light)}
+    .related-card-date{font-size:.75rem;color:var(--ink-3);margin-top:8px}
+
+    /* Footer minimal */
+    .mini-footer{border-top:1px solid var(--border);padding:24px 0}
+    .mini-footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+    .mini-footer-copy{font-size:.8125rem;color:var(--ink-3)}
+    .mini-footer-copy a{color:var(--gold)}
+
+    #back-to-top{position:fixed;bottom:32px;right:32px;width:44px;height:44px;background:var(--bg-3);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(16px);transition:opacity .3s,transform .3s,background .2s,border-color .2s;z-index:100}
+    #back-to-top.visible{opacity:1;transform:translateY(0)}
+    #back-to-top:hover{background:var(--gold);border-color:var(--gold)}
+
+    .section-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+    .section-eyebrow-line{width:32px;height:1px;background:var(--gold)}
+  </style>
+</head>
+
+<body>
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <div id="progress" role="progressbar" aria-label="Reading progress"></div>
+
+  <button id="back-to-top" aria-label="Back to top">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M8 12V4M4 7l4-4 4 4" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  </button>
+
+  <nav id="mobile-nav" aria-hidden="true">
+    <a href="index.html">Home</a>
+    <a href="devnoxxkit-portfolio.html">Portfolio</a>
+    <a href="devnoxxkit-blog-single.html">Journal</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+
+  <!-- NAV -->
+  <header id="nav" role="banner">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-logo" aria-label="DevnoxxKit home">
+          <div class="nav-logo-mark">
+            <svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="#0A0A0C" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          Devnoxx<span style="color:var(--gold)">Kit</span>
+        </a>
+        <ul class="nav-links" role="list">
+          <li><a href="index.html#services">Services</a></li>
+          <li><a href="devnoxxkit-portfolio.html">Work</a></li>
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="devnoxxkit-blog-single.html" class="active">Journal</a></li>
+          <li><a href="index.html#contact" class="nav-cta">Let's Talk</a></li>
+        </ul>
+        <button class="nav-hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ARTICLE HERO -->
+    <div class="article-hero">
+      <div class="article-hero-glow" aria-hidden="true"></div>
+      <div class="container">
+        <div class="article-hero-inner">
+
+          <nav class="article-breadcrumb" aria-label="Breadcrumb">
+            <a href="index.html">Home</a>
+            <span class="article-breadcrumb-sep" aria-hidden="true">/</span>
+            <a href="index.html#blog">Journal</a>
+            <span class="article-breadcrumb-sep" aria-hidden="true">/</span>
+            <span class="label" style="color:var(--ink-3)">Design Theory</span>
+          </nav>
+
+          <h1 class="article-title">
+            <span class="article-title-line">Why 95% of agency</span>
+            <span class="article-title-line">websites look</span>
+            <span class="article-title-line"><em style="color:var(--gold);font-style:italic">identical.</em></span>
+          </h1>
+
+          <div class="article-meta" role="group" aria-label="Article metadata">
+            <div class="article-meta-author">
+              <img class="article-meta-avatar" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&q=70&auto=format&fit=crop&crop=faces" alt="Portrait of Marcus Webb"/>
+              <div>
+                <div class="article-meta-name">Marcus Webb</div>
+                <div class="article-meta-role">Creative Director</div>
+              </div>
+            </div>
+            <div class="article-meta-divider" aria-hidden="true"></div>
+            <div class="article-meta-stat">
+              <span class="article-meta-stat-label">Published</span>
+              <span class="article-meta-stat-value">12 March 2026</span>
+            </div>
+            <div class="article-meta-divider" aria-hidden="true"></div>
+            <div class="article-meta-stat">
+              <span class="article-meta-stat-label">Read time</span>
+              <span class="article-meta-stat-value">9 minutes</span>
+            </div>
+            <div class="article-meta-divider" aria-hidden="true"></div>
+            <div class="article-meta-stat">
+              <span class="article-meta-stat-label">Category</span>
+              <span class="article-meta-stat-value" style="color:var(--gold)">Design Theory</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- COVER IMAGE -->
+    <img
+      class="article-cover"
+      src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1800&q=75&auto=format&fit=crop"
+      alt="Abstract design elements representing visual homogeneity"
+      loading="eager"
+    />
+
+    <!-- ARTICLE BODY -->
+    <div class="container">
+      <div class="article-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="article-sidebar" aria-label="Table of contents and share">
+          <div>
+            <div class="toc-title">In this article</div>
+            <ul class="toc-list" id="toc" role="list">
+              <li class="toc-item"><a href="#the-figma-economy">The Figma Economy</a></li>
+              <li class="toc-item"><a href="#why-it-matters">Why It Matters</a></li>
+              <li class="toc-item"><a href="#the-three-culprits">The Three Culprits</a></li>
+              <li class="toc-item"><a href="#the-escape">The Escape</a></li>
+              <li class="toc-item"><a href="#in-practice">In Practice</a></li>
+              <li class="toc-item"><a href="#conclusion">Final Thought</a></li>
+            </ul>
+          </div>
+          <div class="article-share">
+            <div class="article-share-title">Share</div>
+            <div class="share-btns">
+              <a class="share-btn" href="#" aria-label="Share on X (Twitter)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 4l16 16M4 20L20 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                Post on X
+              </a>
+              <a class="share-btn" href="#" aria-label="Share on LinkedIn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M7 10v7M7 7v.5M11 17v-4c0-1.1.9-2 2-2s2 .9 2 2v4M11 10v7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                Share on LinkedIn
+              </a>
+              <button class="share-btn" id="copy-link" aria-label="Copy article link">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <span id="copy-text">Copy link</span>
+              </button>
+            </div>
+          </div>
+        </aside>
+
+        <!-- BODY -->
+        <article class="article-body" id="article-body">
+
+          <div class="article-tags">
+            <a class="article-tag" href="#">Design Theory</a>
+            <a class="article-tag" href="#">Web Design</a>
+            <a class="article-tag" href="#">Agency</a>
+            <a class="article-tag" href="#">Brand Identity</a>
+          </div>
+
+          <p>
+            Open thirty agency websites in thirty tabs. I'll wait. What you'll find — predictably, depressingly — is an almost perfect convergence: the same Inter or Space Grotesk typeface, the same purple-to-blue gradient on the hero, the same three-column service cards with rounded corners, the same client logos scrolling in a marquee strip. Different agencies. Different cities. Different price points. <strong>Same website.</strong>
+          </p>
+
+          <p>
+            This isn't a coincidence. It's the logical output of a system that rewards speed of execution over depth of thinking. And if you're an agency owner reading this on your own homepage right now, there's a non-trivial chance your site is one of them.
+          </p>
+
+          <section id="the-figma-economy">
+            <h2>The Figma Template Economy</h2>
+
+            <p>
+              The rise of UI kit marketplaces — Figma Community, UI8, Gumroad — has done something genuinely useful for the industry: it democratized the ability to build professional-looking interfaces quickly. But it's also created a parallel problem. When everyone draws from the same well, they produce water that tastes the same.
+            </p>
+
+            <p>
+              The modern agency website workflow often looks like this: buy a $49 Figma template, swap the colors to match the brand, swap the copy, swap the images, publish. The resulting site feels professional enough to not embarrass, premium enough to not concern. But it's fundamentally <em>anonymous.</em> It could belong to anyone. That's not a feature. That's a crisis.
+            </p>
+
+            <div class="article-pullquote">
+              <p>"When your website could belong to any agency, it's doing active work against you. The most memorable brand statement is one that could only come from you."</p>
+            </div>
+          </section>
+
+          <section id="why-it-matters">
+            <h2>Why Visual Homogeneity Is a Business Problem</h2>
+
+            <p>
+              You might argue: clients care about results, not aesthetics. They care about case studies, testimonials, process. If the work is good, the website is secondary.
+            </p>
+
+            <p>
+              This is true and false simultaneously. <strong>The work gets you shortlisted. The website determines whether they believe you before they've seen the work.</strong> Within the first twelve seconds of a visit, a potential client has formed an impression of your competence, your taste, and your character. They haven't read a word. They've only <em>felt</em> something. If what they've felt is familiar — if your site reads as "another agency" — you've forfeited the opportunity to stand out before the conversation begins.
+            </p>
+          </section>
+
+          <img
+            class="article-img"
+            src="https://images.unsplash.com/photo-1555421689-491a97ff2040?w=1200&q=75&auto=format&fit=crop"
+            alt="Design system components showing visual patterns"
+            loading="lazy"
+          />
+          <p class="article-img-caption">Fig. 01 — The same component appears in 47% of agency sites analyzed. Source: Internal audit, 2026.</p>
+
+          <section id="the-three-culprits">
+            <h2>The Three Culprits</h2>
+
+            <p>There are three forces driving this homogeneity, and they're worth naming explicitly before we can escape them.</p>
+
+            <ol>
+              <li><p><strong>The Comfort of Convention.</strong> Familiar layouts reduce friction. The hero → services → work → testimonials → CTA structure is ubiquitous because it works well enough. The problem is that "works" and "differentiates" are not the same thing. A structure that everyone uses communicates nothing about you specifically.</p></li>
+              <li><p><strong>The Speed Imperative.</strong> Agency websites are often the project that gets the least strategic attention. You're busy building other people's work. Your own site gets rebuilt in a weekend, using the fastest available tools. Speed and originality are not enemies — but they require discipline to coexist.</p></li>
+              <li><p><strong>The Fear of Misreading.</strong> Agencies are terrified of alienating clients who might not understand a bold visual choice. So they retreat to the safe middle — the design language that offends no one, surprises no one, and stays with no one.</p></li>
+            </ol>
+
+            <pre class="article-code"><span class="comment">/* The most common hero in 2026 */</span>
+.hero {
+  <span class="keyword">background</span>: <span class="string">linear-gradient(135deg, #6B46F6, #2D9CDB)</span>;
+  <span class="keyword">font-family</span>: <span class="string">'Inter', sans-serif</span>; <span class="comment">/* always Inter */</span>
+  <span class="keyword">border-radius</span>: <span class="string">24px</span>; <span class="comment">/* always rounded */</span>
+}
+
+<span class="comment">/* What it communicates: nothing about you */</span></pre>
+          </section>
+
+          <section id="the-escape">
+            <h2>The Escape</h2>
+
+            <p>
+              Differentiation doesn't require maximalism. It doesn't require a site that looks like a Dadaist art piece. It requires <strong>one committed, specific design decision</strong> that could only belong to you — and then executing that decision with complete confidence.
+            </p>
+
+            <p>Consider what makes these approaches memorable:</p>
+
+            <ul>
+              <li>A studio that uses a single serif typeface at 200px and nothing else for the hero — the restraint is the statement.</li>
+              <li>An agency that uses only their own photography, color-graded to a specific film stock — visual consistency as brand language.</li>
+              <li>A consultancy whose entire site is typeset in a custom monospace font with zero images — the medium communicates precision.</li>
+            </ul>
+
+            <p>
+              None of these are complicated. Each one is a <em>choice</em> — a clear answer to the question: <strong>what does this look like if it could only be ours?</strong>
+            </p>
+
+            <div class="article-pullquote">
+              <p>"The most dangerous question in design isn't 'will they understand it?' It's 'could this belong to anyone else?'"</p>
+            </div>
+          </section>
+
+          <section id="in-practice">
+            <h2>In Practice: Five Starting Points</h2>
+
+            <p>If you're sitting with a site that looks like everyone else's, here's where to begin. Not a redesign — a rethinking:</p>
+
+            <ol>
+              <li><p><strong>Audit your font stack.</strong> If you're using Inter, Space Grotesk, or Nunito — ask yourself why. Not to abandon them, but to confirm the choice is intentional. If the answer is "it was the default," that's where to start.</p></li>
+              <li><p><strong>Identify one section to break.</strong> Not every section needs to be unusual. But one should do something that stops scrolling. An unexpected layout, a surprising proportion, a typographic choice that earns a second look.</p></li>
+              <li><p><strong>Write a visual brief for yourself.</strong> Three adjectives. Not "modern, minimal, clean" — those describe half the internet. Try "austere, warm, direct" or "cinematic, tactile, obsessive." The specificity forces real design decisions.</p></li>
+              <li><p><strong>Constrain your color palette to two.</strong> A background and a single accent. No gradients. No palette of six. Constraint is clarity. Clarity is character.</p></li>
+              <li><p><strong>Treat motion as editorial punctuation.</strong> One entrance animation, used consistently. Not a carousel. Not parallax on everything. One thing that reveals your content with intention.</p></li>
+            </ol>
+          </section>
+
+          <section id="conclusion">
+            <h2>Final Thought</h2>
+
+            <p>
+              The agencies doing the most interesting work in the world right now are not the ones with the most features on their site. They're the ones whose site feels like a position — a declaration of what they stand for and, just as importantly, what they refuse to do.
+            </p>
+
+            <p>
+              <strong>Anonymous is not safe. Anonymous is invisible.</strong> In a market where every agency claims to be different, the ones who prove it visually — before a single word is read — are the ones who get the call.
+            </p>
+
+            <p>
+              The template economy will keep producing the same output. The question is whether you're willing to step outside it.
+            </p>
+          </section>
+
+          <div class="article-divider"></div>
+
+          <!-- AUTHOR BIO -->
+          <div class="author-bio" role="complementary" aria-label="About the author">
+            <img class="author-bio-avatar" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&q=70&auto=format&fit=crop&crop=faces" alt="Portrait of Marcus Webb"/>
+            <div>
+              <div class="author-bio-name">Marcus Webb</div>
+              <div class="author-bio-role">Creative Director, DevnoxxKit</div>
+              <p class="author-bio-text">
+                Marcus has been building and destroying design systems for thirteen years. He believes that a typeface choice is a moral act, and that the best websites are the ones that know exactly who they're not for.
+              </p>
+            </div>
+          </div>
+
+        </article>
+
+      </div>
+    </div>
+
+    <!-- RELATED POSTS -->
+    <section style="padding:clamp(48px,7vw,100px) 0;border-top:1px solid var(--border)" aria-labelledby="related-heading">
+      <div class="container">
+        <div class="section-eyebrow reveal">
+          <div class="section-eyebrow-line"></div>
+          <span class="label">Continue Reading</span>
+        </div>
+        <h2 class="reveal reveal-delay-1" id="related-heading" style="font-family:var(--font-display);font-size:clamp(24px,3vw,40px);font-weight:700;letter-spacing:-.02em;margin-top:12px;margin-bottom:0">
+          More from the journal.
+        </h2>
+        <div class="related-grid">
+
+          <article class="related-card reveal reveal-delay-1">
+            <div style="overflow:hidden">
+              <img class="related-card-img" src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?w=700&q=70&auto=format&fit=crop" alt="" loading="lazy" aria-hidden="true"/>
+            </div>
+            <div class="related-card-body">
+              <div class="related-card-tag">Typography</div>
+              <h3 class="related-card-title">The one typographic decision that separates amateurs from professionals</h3>
+              <div class="related-card-date">28 Feb 2026 · 7 min read</div>
+            </div>
+          </article>
+
+          <article class="related-card reveal reveal-delay-2">
+            <div style="overflow:hidden">
+              <img class="related-card-img" src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=700&q=70&auto=format&fit=crop" alt="" loading="lazy" aria-hidden="true"/>
+            </div>
+            <div class="related-card-body">
+              <div class="related-card-tag">Business</div>
+              <h3 class="related-card-title">How we price creative work: the framework that ended undervaluing ourselves</h3>
+              <div class="related-card-date">14 Feb 2026 · 11 min read</div>
+            </div>
+          </article>
+
+          <article class="related-card reveal reveal-delay-3">
+            <div style="overflow:hidden">
+              <img class="related-card-img" src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=700&q=70&auto=format&fit=crop" alt="" loading="lazy" aria-hidden="true"/>
+            </div>
+            <div class="related-card-body">
+              <div class="related-card-tag">Process</div>
+              <h3 class="related-card-title">The case for presenting one concept: why we stopped giving clients options</h3>
+              <div class="related-card-date">3 Jan 2026 · 8 min read</div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="mini-footer" role="contentinfo">
+    <div class="container">
+      <div class="mini-footer-inner">
+        <a href="index.html" style="font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:8px">
+          <div class="nav-logo-mark"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="#0A0A0C" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          Devnoxx<span style="color:var(--gold)">Kit</span>
+        </a>
+        <p class="mini-footer-copy">© 2026 <a href="index.html">DevnoxxKit</a>. Crafted with obsession.</p>
+        <p class="mini-footer-copy" style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em">JOURNAL</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Cursor
+    const dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring');
+    let rX=0,rY=0,dX=0,dY=0,mX=0,mY=0;
+    document.addEventListener('mousemove',e=>{mX=e.clientX;mY=e.clientY});
+    (function anim(){dX+=(mX-dX)*.85;dY+=(mY-dY)*.85;rX+=(mX-rX)*.12;rY+=(mY-rY)*.12;dot.style.left=dX+'px';dot.style.top=dY+'px';ring.style.left=rX+'px';ring.style.top=rY+'px';requestAnimationFrame(anim)})();
+
+    // Nav
+    const nav=document.getElementById('nav');
+    window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
+
+    // Mobile nav
+    const hb=document.getElementById('hamburger'),mn=document.getElementById('mobile-nav');
+    hb.addEventListener('click',()=>{const o=hb.classList.toggle('open');mn.classList.toggle('open',o);hb.setAttribute('aria-expanded',String(o));mn.setAttribute('aria-hidden',String(!o));document.body.style.overflow=o?'hidden':''});
+
+    // Reveal
+    const ro=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target)}}),{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+    // Back to top
+    const btt=document.getElementById('back-to-top');
+    window.addEventListener('scroll',()=>btt.classList.toggle('visible',scrollY>500),{passive:true});
+    btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+    // Reading progress bar
+    const progressBar=document.getElementById('progress');
+    window.addEventListener('scroll',()=>{
+      const body=document.getElementById('article-body');
+      if(!body)return;
+      const rect=body.getBoundingClientRect();
+      const total=body.offsetHeight;
+      const scrolled=Math.max(0,-rect.top);
+      const pct=Math.min(100,(scrolled/total)*100);
+      progressBar.style.width=pct+'%';
+    },{passive:true});
+
+    // TOC active state
+    const sections=document.querySelectorAll('article section[id]');
+    const tocLinks=document.querySelectorAll('.toc-item a');
+    const tocObserver=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          tocLinks.forEach(l=>l.classList.remove('active'));
+          const active=document.querySelector(`.toc-item a[href="#${e.target.id}"]`);
+          if(active)active.classList.add('active');
+        }
+      });
+    },{rootMargin:'-20% 0px -60% 0px'});
+    sections.forEach(s=>tocObserver.observe(s));
+
+    // Copy link
+    document.getElementById('copy-link').addEventListener('click',()=>{
+      navigator.clipboard.writeText(window.location.href).then(()=>{
+        const t=document.getElementById('copy-text');
+        t.textContent='Copied!';
+        setTimeout(()=>t.textContent='Copy link',2000);
+      });
+    });
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click',e=>{
+        const t=document.querySelector(a.getAttribute('href'));
+        if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}
+      });
+    });
+  </script>
+  <script src="devnoxxkit-theme.js"></script>
+</body>
+</html>

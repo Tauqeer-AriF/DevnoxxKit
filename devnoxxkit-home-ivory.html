@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DevnoxxKit — Warm Ivory Editorial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --cream:   #F7F3EC;
+      --cream-2: #EDE8DF;
+      --cream-3: #E0DAD0;
+      --ink:     #1A1814;
+      --ink-2:   #4A4540;
+      --ink-3:   #8A8078;
+      --rust:    #B85C38;
+      --rust-2:  #D4755A;
+      --sage:    #4A5C48;
+      --border:  rgba(26,24,20,0.12);
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Instrument Sans', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --ease: cubic-bezier(0.16,1,0.3,1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-size:16px;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+    body{background:var(--cream);color:var(--ink);font-family:var(--font-body);overflow-x:hidden;cursor:none;line-height:1.65}
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+    button{border:none;background:none;cursor:none;font:inherit}
+    ::selection{background:var(--rust);color:var(--cream)}
+
+    /* Cursor */
+    #cd{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--rust);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);will-change:transform}
+    #cr{position:fixed;width:32px;height:32px;border-radius:50%;border:1px solid var(--rust);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .3s var(--ease),height .3s var(--ease),opacity .3s;will-change:transform;opacity:.6}
+    body:has(a:hover) #cr,body:has(button:hover) #cr{width:52px;height:52px;opacity:1}
+
+    /* Layout */
+    .container{width:100%;max-width:1280px;margin:0 auto;padding:0 clamp(20px,4vw,72px)}
+    .section-pad{padding:clamp(72px,10vw,140px) 0}
+
+    /* Reveal */
+    .reveal{opacity:0;transform:translateY(20px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+    .reveal.in{opacity:1;transform:none}
+    .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+    /* ── NAV ─────────────────────────── */
+    #nav{
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      padding:0;
+      transition:background .4s,border-color .4s;
+      border-bottom:1px solid transparent;
+    }
+    #nav.scrolled{background:rgba(247,243,236,.92);backdrop-filter:blur(16px);border-bottom-color:var(--border)}
+    .nav-wrap{
+      display:flex;align-items:center;height:68px;gap:0;
+    }
+    .nav-logo{
+      font-family:var(--font-display);
+      font-size:clamp(20px,2vw,26px);font-weight:600;
+      letter-spacing:-.02em;font-style:italic;
+      margin-right:auto;
+    }
+    .nav-logo em{color:var(--rust);font-style:italic}
+    .nav-links{display:flex;align-items:center;gap:32px;list-style:none}
+    .nav-links a{font-size:.8125rem;color:var(--ink-2);letter-spacing:.02em;transition:color .2s;position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--rust);transition:width .3s var(--ease)}
+    .nav-links a:hover{color:var(--ink)}.nav-links a:hover::after{width:100%}
+    .nav-cta-btn{
+      margin-left:32px;padding:10px 22px;
+      border:1px solid var(--ink);font-size:.8rem;
+      letter-spacing:.06em;color:var(--ink);
+      transition:background .2s,color .2s,border-color .2s;
+      border-radius:0;
+    }
+    .nav-cta-btn:hover{background:var(--rust);border-color:var(--rust);color:var(--cream)}
+    @media(max-width:768px){.nav-links{display:none}}
+
+    /* ── HERO ────────────────────────── */
+    .hero{
+      min-height:100svh;
+      display:grid;
+      grid-template-rows:1fr auto;
+      padding-top:68px;
+      position:relative;overflow:hidden;
+    }
+    .hero-bg-text{
+      position:absolute;
+      font-family:var(--font-display);
+      font-size:clamp(200px,28vw,420px);
+      font-weight:300;font-style:italic;
+      color:transparent;
+      -webkit-text-stroke:1px rgba(26,24,20,.06);
+      top:50%;left:50%;transform:translate(-50%,-50%);
+      pointer-events:none;white-space:nowrap;letter-spacing:-.02em;
+      user-select:none;
+    }
+    .hero-main{
+      display:grid;grid-template-columns:1fr 1fr;
+      align-items:end;padding-bottom:clamp(48px,6vw,80px);
+      position:relative;z-index:1;
+    }
+    @media(max-width:768px){.hero-main{grid-template-columns:1fr;align-items:start;padding-top:40px}}
+    .hero-eyebrow{
+      display:flex;align-items:center;gap:14px;
+      font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;
+      text-transform:uppercase;color:var(--rust);
+      margin-bottom:28px;
+      opacity:0;animation:fadeUp .8s .2s var(--ease) forwards;
+    }
+    .hero-eyebrow-dash{width:28px;height:1px;background:var(--rust)}
+    .hero-h1{
+      font-family:var(--font-display);
+      font-size:clamp(52px,8vw,130px);
+      font-weight:300;font-style:italic;
+      line-height:.92;letter-spacing:-.02em;color:var(--ink);
+    }
+    .hero-h1 strong{font-weight:700;font-style:normal}
+    .hero-h1 .rust{color:var(--rust)}
+    .hero-line{overflow:hidden}
+    .hero-line-inner{
+      display:block;transform:translateY(110%);opacity:0;
+      animation:slideUp .9s var(--ease) forwards;
+    }
+    .hero-line:nth-child(1) .hero-line-inner{animation-delay:.25s}
+    .hero-line:nth-child(2) .hero-line-inner{animation-delay:.4s}
+    .hero-line:nth-child(3) .hero-line-inner{animation-delay:.55s}
+    @keyframes slideUp{to{transform:none;opacity:1}}
+    @keyframes fadeUp{to{opacity:1;transform:none}}
+
+    .hero-right{
+      display:flex;flex-direction:column;align-items:flex-end;gap:32px;
+    }
+    .hero-desc{
+      max-width:340px;font-size:1rem;line-height:1.8;
+      color:var(--ink-2);text-align:right;
+      opacity:0;animation:fadeUp .9s .7s var(--ease) forwards;
+    }
+    .hero-actions{
+      display:flex;align-items:center;gap:16px;
+      opacity:0;animation:fadeUp .9s .85s var(--ease) forwards;
+    }
+    .btn-ivory-fill{
+      padding:13px 28px;background:var(--rust);color:var(--cream);
+      font-size:.8125rem;letter-spacing:.06em;
+      transition:background .2s,transform .3s var(--ease);border-radius:0;
+      display:inline-flex;align-items:center;gap:10px;
+    }
+    .btn-ivory-fill:hover{background:var(--ink);transform:translateY(-2px)}
+    .btn-ivory-outline{
+      padding:12px 24px;border:1px solid var(--ink-3);color:var(--ink-2);
+      font-size:.8rem;letter-spacing:.06em;
+      transition:border-color .2s,color .2s;border-radius:0;
+      display:inline-flex;align-items:center;gap:10px;
+    }
+    .btn-ivory-outline:hover{border-color:var(--rust);color:var(--rust)}
+
+    /* Bottom strip */
+    .hero-bottom{
+      border-top:1px solid var(--border);
+      display:flex;align-items:center;justify-content:space-between;
+      padding:clamp(16px,2vw,24px) 0;gap:24px;flex-wrap:wrap;
+      position:relative;z-index:1;
+      opacity:0;animation:fadeUp 1s 1s var(--ease) forwards;
+    }
+    .hero-stats{display:flex;gap:clamp(24px,4vw,56px)}
+    .hero-stat-num{font-family:var(--font-display);font-size:clamp(28px,3vw,40px);font-weight:700;line-height:1;color:var(--ink)}
+    .hero-stat-num sup{font-size:.55em;color:var(--rust);vertical-align:super}
+    .hero-stat-lbl{font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
+
+    /* ── FEATURED IMAGE ──────────────── */
+    .feature-img-section{
+      background:var(--cream-2);
+      border-top:1px solid var(--border);
+      border-bottom:1px solid var(--border);
+    }
+    .feature-img-inner{
+      display:grid;grid-template-columns:2fr 1fr;
+      gap:0;
+    }
+    @media(max-width:768px){.feature-img-inner{grid-template-columns:1fr}}
+    .feature-img-main{
+      overflow:hidden;border-right:1px solid var(--border);
+    }
+    .feature-img-main img{
+      width:100%;aspect-ratio:16/8;object-fit:cover;
+      filter:sepia(.15) contrast(1.05);
+      transition:transform .9s var(--ease);
+    }
+    .feature-img-main:hover img{transform:scale(1.03)}
+    .feature-img-sidebar{
+      display:flex;flex-direction:column;justify-content:space-between;
+      padding:clamp(28px,4vw,52px);
+    }
+    .feature-label{
+      font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;
+      text-transform:uppercase;color:var(--rust);margin-bottom:12px;
+    }
+    .feature-caption{
+      font-family:var(--font-display);font-size:clamp(22px,2.5vw,34px);
+      font-weight:500;font-style:italic;color:var(--ink);line-height:1.25;letter-spacing:-.01em;
+    }
+    .feature-link{
+      display:inline-flex;align-items:center;gap:10px;
+      font-size:.8125rem;color:var(--rust);letter-spacing:.02em;
+      border-bottom:1px solid var(--rust);padding-bottom:3px;
+      transition:gap .3s var(--ease),opacity .2s;width:fit-content;
+    }
+    .feature-link:hover{gap:16px;opacity:.7}
+
+    /* ── SERVICES ─────────────────────── */
+    .svc-section{border-bottom:1px solid var(--border)}
+    .svc-intro{
+      display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,100px);
+      align-items:end;margin-bottom:clamp(48px,6vw,80px);
+    }
+    @media(max-width:768px){.svc-intro{grid-template-columns:1fr;gap:20px}}
+    .eyebrow{
+      display:flex;align-items:center;gap:12px;margin-bottom:16px;
+      font-family:var(--font-mono);font-size:10px;letter-spacing:.16em;
+      text-transform:uppercase;color:var(--rust);
+    }
+    .eyebrow-line{width:24px;height:1px;background:var(--rust)}
+    .section-h{
+      font-family:var(--font-display);
+      font-size:clamp(36px,5vw,72px);
+      font-weight:400;font-style:italic;letter-spacing:-.02em;line-height:1.05;
+    }
+    .section-h strong{font-style:normal;font-weight:700}
+    .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+    @media(max-width:768px){.svc-grid{grid-template-columns:1fr}}
+    .svc-card{
+      border:1px solid var(--border);padding:clamp(28px,4vw,48px);
+      transition:background .3s;position:relative;
+      border-right:none;border-bottom:none;
+    }
+    .svc-grid > .svc-card:nth-child(-n+3){border-top:1px solid var(--border)}
+    .svc-grid > .svc-card:nth-child(3n){border-right:1px solid var(--border)}
+    .svc-grid > .svc-card:nth-last-child(-n+3){border-bottom:1px solid var(--border)}
+    .svc-card:hover{background:var(--cream-2)}
+    .svc-card-num{
+      font-family:var(--font-display);font-size:clamp(40px,5vw,64px);
+      font-weight:300;font-style:italic;color:var(--cream-3);
+      line-height:1;margin-bottom:16px;
+    }
+    .svc-card-name{
+      font-family:var(--font-display);font-size:clamp(20px,2vw,28px);
+      font-weight:600;letter-spacing:-.01em;margin-bottom:12px;
+    }
+    .svc-card-text{font-size:.875rem;color:var(--ink-2);line-height:1.7;margin-bottom:20px}
+    .svc-card-link{
+      display:inline-flex;align-items:center;gap:8px;
+      font-family:var(--font-mono);font-size:.7rem;letter-spacing:.1em;
+      text-transform:uppercase;color:var(--rust);
+      transition:gap .3s var(--ease);
+    }
+    .svc-card:hover .svc-card-link{gap:14px}
+
+    /* ── WORK ────────────────────────── */
+    .work-section{border-bottom:1px solid var(--border)}
+    .work-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:clamp(36px,5vw,64px);gap:24px;flex-wrap:wrap}
+    .work-grid-ivory{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
+    @media(max-width:768px){.work-grid-ivory{grid-template-columns:1fr}}
+    .work-card-ivory{
+      background:var(--cream);overflow:hidden;
+      position:relative;
+    }
+    .work-card-ivory img{
+      width:100%;aspect-ratio:4/3;object-fit:cover;
+      filter:sepia(.1);
+      transition:transform .8s var(--ease),filter .4s;
+    }
+    .work-card-ivory:hover img{transform:scale(1.04);filter:sepia(0)}
+    .work-card-ivory-body{padding:clamp(20px,3vw,32px)}
+    .work-card-cat{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--rust);margin-bottom:8px}
+    .work-card-name{
+      font-family:var(--font-display);font-size:clamp(20px,2.2vw,30px);
+      font-weight:600;font-style:italic;letter-spacing:-.01em;color:var(--ink);margin-bottom:6px;
+    }
+    .work-card-year{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3)}
+
+    /* ── MANIFESTO ────────────────────── */
+    .manifesto{
+      background:var(--ink);color:var(--cream);
+      padding:clamp(72px,12vw,160px) 0;
+      position:relative;overflow:hidden;
+    }
+    .manifesto::before{
+      content:'"';
+      font-family:var(--font-display);
+      font-size:clamp(200px,28vw,400px);
+      font-weight:300;font-style:italic;
+      position:absolute;top:-60px;left:clamp(16px,4vw,72px);
+      color:rgba(247,243,236,.04);line-height:1;pointer-events:none;
+    }
+    .manifesto-inner{max-width:840px;position:relative}
+    .manifesto-quote{
+      font-family:var(--font-display);
+      font-size:clamp(28px,4vw,56px);
+      font-weight:300;font-style:italic;line-height:1.3;letter-spacing:-.02em;
+      color:rgba(247,243,236,.85);margin-bottom:40px;
+    }
+    .manifesto-quote strong{font-weight:600;color:var(--cream);font-style:normal}
+    .manifesto-author{
+      display:flex;align-items:center;gap:16px;
+      border-top:1px solid rgba(247,243,236,.15);padding-top:28px;
+    }
+    .manifesto-avatar{width:52px;height:52px;border-radius:50%;object-fit:cover;filter:grayscale(.3) sepia(.2);border:1px solid rgba(247,243,236,.2)}
+    .manifesto-name{font-size:.9375rem;font-weight:600;color:var(--cream)}
+    .manifesto-role{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.1em;color:rgba(247,243,236,.5);margin-top:2px}
+    .manifesto-rust{color:var(--rust-2)}
+
+    /* ── TESTIMONIALS ─────────────────── */
+    .testi-ivory{border-bottom:1px solid var(--border)}
+    .testi-grid-ivory{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:clamp(36px,5vw,64px)}
+    @media(max-width:768px){.testi-grid-ivory{grid-template-columns:1fr}}
+    .testi-cell{
+      background:var(--cream);padding:clamp(28px,4vw,48px);
+      transition:background .3s;
+    }
+    .testi-cell:hover{background:var(--cream-2)}
+    .testi-stars{color:var(--rust);font-size:14px;letter-spacing:3px;margin-bottom:20px}
+    .testi-text{
+      font-family:var(--font-display);font-size:clamp(16px,1.6vw,21px);
+      font-weight:400;font-style:italic;color:var(--ink-2);line-height:1.55;margin-bottom:24px;
+    }
+    .testi-person{display:flex;align-items:center;gap:12px;border-top:1px solid var(--border);padding-top:20px}
+    .testi-avatar-ivory{width:40px;height:40px;border-radius:50%;object-fit:cover;filter:sepia(.2)}
+    .testi-pname{font-size:.875rem;font-weight:600;color:var(--ink)}
+    .testi-prole{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.06em;color:var(--ink-3);margin-top:2px}
+
+    /* ── CTA BAND ────────────────────── */
+    .cta-ivory{
+      background:var(--rust);color:var(--cream);
+      padding:clamp(72px,10vw,140px) 0;
+      position:relative;overflow:hidden;
+    }
+    .cta-ivory::after{
+      content:'';position:absolute;inset:0;
+      background:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E") center/256px;
+      opacity:.04;pointer-events:none;
+    }
+    .cta-ivory-inner{text-align:center;position:relative}
+    .cta-eyebrow{
+      font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+      color:rgba(247,243,236,.7);margin-bottom:20px;display:block;
+    }
+    .cta-title{
+      font-family:var(--font-display);
+      font-size:clamp(44px,7vw,110px);
+      font-weight:300;font-style:italic;letter-spacing:-.02em;
+      color:var(--cream);line-height:.95;margin-bottom:40px;
+    }
+    .cta-title strong{font-style:normal;font-weight:700}
+    .cta-btns{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+    .btn-cta-light{padding:15px 32px;background:var(--cream);color:var(--rust);font-size:.875rem;font-weight:700;letter-spacing:.04em;transition:background .2s,transform .3s var(--ease);display:inline-flex;align-items:center;gap:10px}
+    .btn-cta-light:hover{background:var(--ink);color:var(--cream);transform:translateY(-3px)}
+    .btn-cta-ghost{padding:14px 28px;border:1px solid rgba(247,243,236,.4);color:var(--cream);font-size:.875rem;letter-spacing:.04em;transition:border-color .2s,background .2s;display:inline-flex;align-items:center;gap:10px}
+    .btn-cta-ghost:hover{border-color:var(--cream);background:rgba(247,243,236,.1)}
+
+    /* ── BLOG ────────────────────────── */
+    .blog-ivory{border-bottom:1px solid var(--border)}
+    .blog-grid-ivory{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:1px;background:var(--border);margin-top:clamp(36px,5vw,64px)}
+    @media(max-width:900px){.blog-grid-ivory{grid-template-columns:1fr 1fr}}
+    @media(max-width:540px){.blog-grid-ivory{grid-template-columns:1fr}}
+    .blog-card-ivory{background:var(--cream);transition:background .3s}
+    .blog-card-ivory:hover{background:var(--cream-2)}
+    .blog-card-ivory img{width:100%;aspect-ratio:3/2;object-fit:cover;filter:sepia(.15);transition:transform .7s var(--ease),filter .4s}
+    .blog-card-ivory:hover img{transform:scale(1.03);filter:sepia(0)}
+    .blog-card-body-ivory{padding:clamp(18px,2.5vw,28px)}
+    .blog-tag-ivory{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--rust);margin-bottom:8px}
+    .blog-title-ivory{font-family:var(--font-display);font-size:clamp(17px,1.8vw,24px);font-weight:600;font-style:italic;color:var(--ink);letter-spacing:-.01em;line-height:1.3;margin-bottom:8px;transition:color .2s}
+    .blog-card-ivory:hover .blog-title-ivory{color:var(--rust)}
+    .blog-date{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.08em;color:var(--ink-3)}
+
+    /* ── FOOTER ──────────────────────── */
+    .footer-ivory{border-top:1px solid var(--border)}
+    .footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:clamp(28px,5vw,64px);padding:clamp(40px,6vw,80px) 0}
+    @media(max-width:900px){.footer-top{grid-template-columns:1fr 1fr}}
+    @media(max-width:480px){.footer-top{grid-template-columns:1fr}}
+    .footer-logo{font-family:var(--font-display);font-size:clamp(28px,3vw,40px);font-weight:600;font-style:italic;letter-spacing:-.02em;margin-bottom:14px}
+    .footer-logo em{color:var(--rust)}
+    .footer-desc{font-size:.875rem;color:var(--ink-2);line-height:1.7;max-width:260px}
+    .footer-col-h{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:16px}
+    .footer-links-ivory{list-style:none;display:flex;flex-direction:column;gap:10px}
+    .footer-links-ivory a{font-size:.875rem;color:var(--ink-2);transition:color .2s}
+    .footer-links-ivory a:hover{color:var(--rust)}
+    .footer-bottom-ivory{border-top:1px solid var(--border);padding:20px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+    .foot-copy{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.08em;color:var(--ink-3)}
+  </style>
+</head>
+<body>
+
+  <div id="cd"></div>
+  <div id="cr"></div>
+
+  <!-- NAV -->
+  <header id="nav" role="banner">
+    <div class="container">
+      <nav class="nav-wrap">
+        <a href="#" class="nav-logo"><em>Devnoxx</em>Kit</a>
+        <ul class="nav-links" role="list">
+          <li><a href="#">Work</a></li>
+          <li><a href="#">Services</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Journal</a></li>
+        </ul>
+        <a href="#" class="nav-cta-btn">Begin a project</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero" aria-labelledby="hero-h">
+      <div class="container" style="display:flex;flex-direction:column;justify-content:flex-end;position:relative">
+        <div class="hero-bg-text" aria-hidden="true">Craft</div>
+        <div class="hero-main">
+          <div class="hero-left">
+            <div class="hero-eyebrow">
+              <div class="hero-eyebrow-dash"></div>
+              Premium Design System — Est. 2013
+            </div>
+            <h1 class="hero-h1" id="hero-h">
+              <div class="hero-line"><span class="hero-line-inner">Where craft</span></div>
+              <div class="hero-line"><span class="hero-line-inner">meets <span class="rust">purpose.</span></span></div>
+              <div class="hero-line"><span class="hero-line-inner"><strong>Every time.</strong></span></div>
+            </h1>
+          </div>
+          <div class="hero-right">
+            <p class="hero-desc">An editorial-grade HTML design system for agencies, studios, and creators who believe beautiful work and purposeful work are the same thing.</p>
+            <div class="hero-actions">
+              <a href="#" class="btn-ivory-fill">Explore Work →</a>
+              <a href="#" class="btn-ivory-outline">Our Process</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="hero-bottom">
+          <div class="hero-stats">
+            <div><div class="hero-stat-num">230<sup>+</sup></div><div class="hero-stat-lbl">Projects</div></div>
+            <div><div class="hero-stat-num">13<sup>yr</sup></div><div class="hero-stat-lbl">In practice</div></div>
+            <div><div class="hero-stat-num">98<sup>%</sup></div><div class="hero-stat-lbl">Retention</div></div>
+          </div>
+          <p style="font-family:var(--font-mono);font-size:.7rem;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase">Currently open for Q3 2026 projects</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURED IMAGE -->
+    <div class="feature-img-section reveal">
+      <div class="container" style="padding-left:0;padding-right:0;max-width:100%">
+        <div class="feature-img-inner">
+          <div class="feature-img-main">
+            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1400&q=75&auto=format&fit=crop" alt="Meridian — Featured Work"/>
+          </div>
+          <div class="feature-img-sidebar">
+            <div>
+              <div class="feature-label">Featured Work — 2026</div>
+              <p class="feature-caption">Meridian Capital — Luxury finance brand identity and digital presence</p>
+            </div>
+            <a href="#" class="feature-link">View Case Study <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H5M9.5 2.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVICES -->
+    <section class="svc-section section-pad" id="services" aria-labelledby="svc-h">
+      <div class="container">
+        <div class="svc-intro reveal">
+          <div>
+            <div class="eyebrow"><div class="eyebrow-line"></div>Our Disciplines</div>
+            <h2 class="section-h" id="svc-h">Five ways we<br><strong>earn</strong> your trust.</h2>
+          </div>
+          <p style="color:var(--ink-2);font-size:1.0625rem;line-height:1.8;align-self:flex-end">We don't offer a service menu. We offer a bespoke partnership calibrated entirely to your ambition and timeline.</p>
+        </div>
+        <div class="svc-grid reveal">
+          <div class="svc-card">
+            <div class="svc-card-num">01</div>
+            <div class="svc-card-name">Brand Identity & Strategy</div>
+            <p class="svc-card-text">Logos, systems, guidelines, and brand voice that make an unmistakable first impression and last decades.</p>
+            <span class="svc-card-link">Explore →</span>
+          </div>
+          <div class="svc-card">
+            <div class="svc-card-num">02</div>
+            <div class="svc-card-name">Editorial Web Design</div>
+            <p class="svc-card-text">Sites that read like magazines and perform like dashboards — typographically rich, structurally flawless.</p>
+            <span class="svc-card-link">Explore →</span>
+          </div>
+          <div class="svc-card">
+            <div class="svc-card-num">03</div>
+            <div class="svc-card-name">Creative Direction</div>
+            <p class="svc-card-text">The invisible hand that holds campaigns, identities, and products together with a singular, compelling vision.</p>
+            <span class="svc-card-link">Explore →</span>
+          </div>
+          <div class="svc-card">
+            <div class="svc-card-num">04</div>
+            <div class="svc-card-name">Design Systems Eng.</div>
+            <p class="svc-card-text">Tokens to Figma to code — systems that your entire team can use without creating entropy.</p>
+            <span class="svc-card-link">Explore →</span>
+          </div>
+          <div class="svc-card">
+            <div class="svc-card-num">05</div>
+            <div class="svc-card-name">Motion & Interaction</div>
+            <p class="svc-card-text">Animation that communicates hierarchy and reveals narrative — never motion for its own sake.</p>
+            <span class="svc-card-link">Explore →</span>
+          </div>
+          <div class="svc-card" style="background:var(--rust);border-color:var(--rust)">
+            <div style="font-family:var(--font-display);font-size:clamp(20px,2.5vw,30px);font-weight:600;font-style:italic;color:var(--cream);margin-bottom:16px">Ready to begin?</div>
+            <p style="font-size:.9rem;color:rgba(247,243,236,.8);line-height:1.7;margin-bottom:24px">Three spots remain for Q3 2026. Let's make something remarkable.</p>
+            <a href="#" class="btn-cta-light" style="font-size:.8rem">Start a project →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORK -->
+    <section class="work-section section-pad" id="work" aria-labelledby="work-h">
+      <div class="container">
+        <div class="work-header reveal">
+          <div>
+            <div class="eyebrow"><div class="eyebrow-line"></div>Selected Work</div>
+            <h2 class="section-h" id="work-h">Work we're<br>proud of.</h2>
+          </div>
+          <a href="#" class="btn-ivory-outline">Full Portfolio →</a>
+        </div>
+        <div class="work-grid-ivory reveal">
+          <div class="work-card-ivory">
+            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=900&q=75&auto=format&fit=crop" alt="Meridian"/>
+            <div class="work-card-body">
+              <div class="work-card-cat" style="font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--rust);margin-bottom:6px">Brand Identity</div>
+              <div class="work-card-name" style="font-family:var(--font-display);font-size:clamp(20px,2.5vw,32px);font-weight:600;font-style:italic;letter-spacing:-.01em">Meridian Capital</div>
+              <div style="font-family:var(--font-mono);font-size:.7rem;letter-spacing:.08em;color:var(--ink-3)">2026</div>
+            </div>
+          </div>
+          <div class="work-card-ivory">
+            <img src="https://images.unsplash.com/photo-1545235617-9465d2a55698?w=700&q=75&auto=format&fit=crop" alt="Volta"/>
+            <div class="work-card-body" style="padding:clamp(16px,2.5vw,24px)">
+              <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--rust);margin-bottom:6px">Web Design</div>
+              <div style="font-family:var(--font-display);font-size:clamp(18px,2vw,26px);font-weight:600;font-style:italic;letter-spacing:-.01em">Volta Motors</div>
+              <div style="font-family:var(--font-mono);font-size:.7rem;letter-spacing:.08em;color:var(--ink-3)">2025</div>
+            </div>
+          </div>
+          <div class="work-card-ivory">
+            <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=700&q=75&auto=format&fit=crop" alt="Nora"/>
+            <div class="work-card-body" style="padding:clamp(16px,2.5vw,24px)">
+              <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--rust);margin-bottom:6px">Editorial</div>
+              <div style="font-family:var(--font-display);font-size:clamp(18px,2vw,26px);font-weight:600;font-style:italic;letter-spacing:-.01em">Nora Journal</div>
+              <div style="font-family:var(--font-mono);font-size:.7rem;letter-spacing:.08em;color:var(--ink-3)">2025</div>
+            </div>
+          </div>
+          <div class="work-card-ivory">
+            <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=700&q=75&auto=format&fit=crop" alt="Crest"/>
+            <div class="work-card-body" style="padding:clamp(16px,2.5vw,24px)">
+              <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--rust);margin-bottom:6px">Brand Identity</div>
+              <div style="font-family:var(--font-display);font-size:clamp(18px,2vw,26px);font-weight:600;font-style:italic;letter-spacing:-.01em">Crest Studio</div>
+              <div style="font-family:var(--font-mono);font-size:.7rem;letter-spacing:.08em;color:var(--ink-3)">2024</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MANIFESTO -->
+    <div class="manifesto reveal">
+      <div class="container">
+        <div class="manifesto-inner">
+          <p class="manifesto-quote">"We believe that <strong>beautiful work</strong> and <strong>purposeful work</strong> are the same thing — and that any studio willing to settle for one <span class="manifesto-rust">without the other</span> has already compromised everything that matters."</p>
+          <div class="manifesto-author">
+            <img class="manifesto-avatar" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=120&q=70&auto=format&fit=crop&crop=faces" alt="Marcus Webb"/>
+            <div>
+              <div class="manifesto-name">Marcus Webb</div>
+              <div class="manifesto-role">Founder & Creative Director</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TESTIMONIALS -->
+    <section class="testi-ivory section-pad" aria-label="Client voices">
+      <div class="container">
+        <div class="reveal">
+          <div class="eyebrow"><div class="eyebrow-line"></div>Client Voices</div>
+          <h2 class="section-h" style="max-width:560px">Words from<br>the people we serve.</h2>
+        </div>
+        <div class="testi-grid-ivory reveal">
+          <div class="testi-cell">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"The team completely transformed how we present ourselves online. Our conversions went up 340% in 90 days. Not a coincidence."</p>
+            <div class="testi-person"><img class="testi-avatar-ivory" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&q=70&auto=format&fit=crop&crop=faces" alt=""/><div><div class="testi-pname">Marcus Webb</div><div class="testi-prole">CEO, Apexio Capital</div></div></div>
+          </div>
+          <div class="testi-cell">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"I've worked with a lot of design agencies. This is the only one that delivered something I genuinely didn't think was possible."</p>
+            <div class="testi-person"><img class="testi-avatar-ivory" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&q=70&auto=format&fit=crop&crop=faces" alt=""/><div><div class="testi-pname">Nadia Osei</div><div class="testi-prole">Creative Director, Thread</div></div></div>
+          </div>
+          <div class="testi-cell">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"Clean, fast, and impossible to fault. Our dev team integrated the system in two days. The documentation alone is worth the price."</p>
+            <div class="testi-person"><img class="testi-avatar-ivory" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=70&auto=format&fit=crop&crop=faces" alt=""/><div><div class="testi-pname">Liam Foster</div><div class="testi-prole">CTO, Luminary Labs</div></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOG -->
+    <section class="blog-ivory section-pad" aria-labelledby="blog-h">
+      <div class="container">
+        <div class="work-header reveal">
+          <div>
+            <div class="eyebrow"><div class="eyebrow-line"></div>The Journal</div>
+            <h2 class="section-h" id="blog-h">Thinking out loud.</h2>
+          </div>
+          <a href="#" class="btn-ivory-outline">All Articles →</a>
+        </div>
+        <div class="blog-grid-ivory reveal">
+          <div class="blog-card-ivory">
+            <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=900&q=75&auto=format&fit=crop" alt=""/>
+            <div class="blog-card-body-ivory">
+              <div class="blog-tag-ivory">Design Theory</div>
+              <div class="blog-title-ivory">Why 95% of agency websites look identical — and how to escape it</div>
+              <div class="blog-date">12 March 2026 · 9 min read</div>
+            </div>
+          </div>
+          <div class="blog-card-ivory">
+            <img src="https://images.unsplash.com/photo-1555421689-491a97ff2040?w=700&q=75&auto=format&fit=crop" alt=""/>
+            <div class="blog-card-body-ivory">
+              <div class="blog-tag-ivory">Typography</div>
+              <div class="blog-title-ivory">The one typographic decision that separates amateurs from professionals</div>
+              <div class="blog-date">28 Feb 2026 · 7 min</div>
+            </div>
+          </div>
+          <div class="blog-card-ivory">
+            <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=700&q=75&auto=format&fit=crop" alt=""/>
+            <div class="blog-card-body-ivory">
+              <div class="blog-tag-ivory">Business</div>
+              <div class="blog-title-ivory">How we price creative work: the framework that ended undervaluing ourselves</div>
+              <div class="blog-date">14 Feb 2026 · 11 min</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-ivory reveal">
+      <div class="container">
+        <div class="cta-ivory-inner">
+          <span class="cta-eyebrow">Let's Begin</span>
+          <h2 class="cta-title">Your next project<br>deserves to be <strong>extraordinary.</strong></h2>
+          <div class="cta-btns">
+            <a href="#" class="btn-cta-light">Start a Project →</a>
+            <a href="#" class="btn-cta-ghost">View Portfolio</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer-ivory">
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <div class="footer-logo"><em>Devnoxx</em>Kit</div>
+          <p class="footer-desc">A warm, editorial-grade design system for agencies, studios, and creators who value craft above all else.</p>
+        </div>
+        <div><div class="footer-col-h">Navigate</div><ul class="footer-links-ivory"><li><a href="#">Work</a></li><li><a href="#">Services</a></li><li><a href="#">About</a></li><li><a href="#">Journal</a></li></ul></div>
+        <div><div class="footer-col-h">Template</div><ul class="footer-links-ivory"><li><a href="#">Portfolio</a></li><li><a href="#">Blog</a></li><li><a href="#">Documentation</a></li><li><a href="#">Shop</a></li></ul></div>
+        <div><div class="footer-col-h">Legal</div><ul class="footer-links-ivory"><li><a href="#">License</a></li><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li></ul></div>
+      </div>
+      <div class="footer-bottom-ivory">
+        <span class="foot-copy">© 2026 DevnoxxKit. Crafted with intention.</span>
+        <span class="foot-copy">v2.1.0 — WARM IVORY</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const cd=document.getElementById('cd'),cr=document.getElementById('cr');
+    let rx=0,ry=0,dx=0,dy=0,mx=0,my=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+    (function loop(){dx+=(mx-dx)*.85;dy+=(my-dy)*.85;rx+=(mx-rx)*.1;ry+=(my-ry)*.1;cd.style.left=dx+'px';cd.style.top=dy+'px';cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(loop)})();
+    const nav=document.getElementById('nav');
+    window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
+    const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target)}}),{threshold:.1,rootMargin:'0px 0px -48px 0px'});
+    document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+  </script>
+</body>
+</html>

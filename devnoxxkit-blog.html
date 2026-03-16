@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8"/>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" sizes="any">
+  <link rel="shortcut icon" href="favicon.svg">
+  <script>
+    (function(){
+      var s = localStorage.getItem('dnk-theme');
+      var d = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', s || d);
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Journal — DevnoxxKit</title>
+  <meta name="description" content="Design thinking, typography, creative process, and business perspectives from the DevnoxxKit studio."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --bg:#0A0A0C;--bg-2:#111114;--bg-3:#18181D;
+      --border:rgba(242,237,228,0.08);--border-gold:rgba(201,169,110,0.3);
+      --ink:#F2EDE4;--ink-2:#B8B0A4;--ink-3:#6E6860;
+      --gold:#C9A96E;--gold-light:#DFC28E;--gold-dim:rgba(201,169,110,0.12);
+      --font-display:'Fraunces',Georgia,serif;
+      --font-body:'DM Sans',system-ui,sans-serif;
+      --font-mono:'JetBrains Mono',monospace;
+      --radius-sm:4px;
+      --ease:cubic-bezier(0.16,1,0.3,1);
+    }
+    #nav.scrolled {
+      background: var(--nav-scrolled-bg) !important;
+      }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-size:16px;-webkit-font-smoothing:antialiased}
+    body{background:var(--bg);color:var(--ink);font-family:var(--font-body);overflow-x:hidden;cursor:none;line-height:1.65}
+    body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.032;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px 256px}
+    ::selection{background:var(--gold);color:var(--bg)}
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+    button{border:none;background:none;cursor:none;font:inherit}
+
+    #cd{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--gold);pointer-events:none;z-index:10000;transform:translate(-50%,-50%);will-change:transform}
+    #cr{position:fixed;width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,169,110,.5);pointer-events:none;z-index:10000;transform:translate(-50%,-50%);transition:width .3s var(--ease),height .3s var(--ease),border-color .3s;will-change:transform}
+    body:has(a:hover) #cr,body:has(button:hover) #cr{width:56px;height:56px;border-color:var(--gold)}
+
+    .container{width:100%;max-width:1320px;margin:0 auto;padding:0 clamp(20px,4vw,80px)}
+    .label{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+    .section-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+    .section-eyebrow-line{width:32px;height:1px;background:var(--gold)}
+
+    /* Nav */
+    #nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 0;transition:padding .4s var(--ease),background .4s,border-color .4s;border-bottom:1px solid transparent}
+    #nav.scrolled{padding:16px 0;background:rgba(10,10,12,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom-color:var(--border)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+    .nav-logo-mark{width:28px;height:28px;background:var(--gold);border-radius:6px;display:flex;align-items:center;justify-content:center}
+    .nav-links{display:flex;align-items:center;gap:40px;list-style:none}
+    .nav-links a{font-size:.875rem;color:var(--ink-2);transition:color .2s;position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s var(--ease)}
+    .nav-links a:hover{color:var(--ink)}.nav-links a:hover::after,.nav-links a.active::after{width:100%}.nav-links a.active{color:var(--gold)}
+    .nav-cta{padding:10px 22px;background:var(--gold);color:var(--bg)!important;font-size:.8125rem!important;font-weight:600;border-radius:var(--radius-sm)}.nav-cta::after{display:none!important}.nav-cta:hover{background:var(--gold-light)!important}
+    .nav-hamburger{display:none;flex-direction:column;gap:5px;width:26px}.nav-hamburger span{display:block;height:1.5px;background:var(--ink);transition:transform .3s,opacity .3s;transform-origin:center}.nav-hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}.nav-hamburger.open span:nth-child(2){opacity:0}.nav-hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+    @media(max-width:768px){.nav-links{display:none}.nav-hamburger{display:flex}}
+    #mobile-nav{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;transform:translateX(100%);transition:transform .5s var(--ease)}
+    #mobile-nav.open{transform:translateX(0)}
+    #mobile-nav a{font-family:var(--font-display);font-size:clamp(32px,8vw,52px);font-weight:700;color:var(--ink-2);transition:color .2s}
+    #mobile-nav a:hover{color:var(--gold)}
+
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}.reveal.visible{opacity:1;transform:none}
+    .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;font-size:.875rem;font-weight:600;border-radius:var(--radius-sm);transition:transform .3s var(--ease),box-shadow .3s}.btn:hover{transform:translateY(-2px)}
+    .btn-primary{background:var(--gold);color:var(--bg);box-shadow:0 4px 24px rgba(201,169,110,.2)}.btn-primary:hover{box-shadow:0 8px 40px rgba(201,169,110,.35)}
+    .btn-ghost{border:1px solid var(--border);color:var(--ink-2)}.btn-ghost:hover{border-color:rgba(242,237,228,.2);color:var(--ink)}
+    .btn-arrow{width:20px;height:20px;transition:transform .3s var(--ease)}.btn:hover .btn-arrow{transform:translate(3px,-3px)}
+
+    #back-to-top{position:fixed;bottom:32px;right:32px;width:44px;height:44px;background:var(--bg-3);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(16px);transition:opacity .3s,transform .3s,background .2s;z-index:100}
+    #back-to-top.visible{opacity:1;transform:none}#back-to-top:hover{background:var(--gold);border-color:var(--gold)}
+
+    /* ── PAGE HERO ─────────────────────── */
+    .page-hero{
+      min-height:60svh;display:flex;flex-direction:column;
+      justify-content:flex-end;padding-bottom:clamp(48px,6vw,80px);
+      padding-top:130px;position:relative;overflow:hidden;
+    }
+    .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(242,237,228,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(242,237,228,.022) 1px,transparent 1px);background-size:80px 80px;pointer-events:none}
+    .hero-glow-1{position:absolute;width:700px;height:700px;background:rgba(201,169,110,.065);border-radius:50%;filter:blur(120px);top:-150px;right:-100px;pointer-events:none}
+    .hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:32px;opacity:0;animation:fadeUp .8s .1s var(--ease) forwards}
+    .hero-eyebrow-line{width:40px;height:1px;background:var(--gold)}
+    @keyframes fadeUp{to{opacity:1;transform:none}}
+    .hero-line-wrap{overflow:hidden}
+    .hero-line{display:block;transform:translateY(110%);opacity:0;animation:lineReveal .95s var(--ease) forwards}
+    .hero-line:nth-child(1){animation-delay:.22s}.hero-line:nth-child(2){animation-delay:.38s}
+    @keyframes lineReveal{to{transform:none;opacity:1}}
+    .hero-bottom{display:flex;align-items:flex-end;justify-content:space-between;margin-top:clamp(28px,4vw,48px);gap:24px;flex-wrap:wrap;opacity:0;animation:fadeUp 1s .8s var(--ease) forwards}
+
+    /* ── FILTER BAR ────────────────────── */
+    .filter-bar{
+      display:flex;align-items:center;justify-content:space-between;
+      gap:16px;padding:clamp(18px,2.5vw,28px) 0;
+      border-bottom:1px solid var(--border);flex-wrap:wrap;
+    }
+    .filter-pills{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+    .pill{
+      padding:7px 16px;font-family:var(--font-mono);font-size:11px;
+      letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);
+      border:1px solid transparent;border-radius:100px;
+      transition:color .2s,border-color .2s,background .2s;
+    }
+    .pill:hover{color:var(--ink);border-color:var(--border)}
+    .pill.active{color:var(--gold);border-color:var(--border-gold);background:var(--gold-dim)}
+    .search-wrap{
+      display:flex;align-items:center;gap:10px;
+      background:var(--bg-3);border:1px solid var(--border);
+      padding:10px 16px;border-radius:var(--radius-sm);min-width:220px;
+      transition:border-color .2s;
+    }
+    .search-wrap:focus-within{border-color:var(--border-gold)}
+    .search-input{background:none;border:none;outline:none;font-family:var(--font-body);font-size:.875rem;color:var(--ink);width:100%}
+    .search-input::placeholder{color:var(--ink-3)}
+
+    /* ── FEATURED POST ─────────────────── */
+    .featured-post{
+      display:grid;grid-template-columns:1.2fr 1fr;
+      gap:2px;background:var(--bg-3);border:1px solid var(--border);
+      margin-top:2px;transition:border-color .3s;
+    }
+    .featured-post:hover{border-color:var(--border-gold)}
+    @media(max-width:900px){.featured-post{grid-template-columns:1fr}}
+    .feat-img-wrap{overflow:hidden;position:relative}
+    .feat-img{width:100%;height:100%;min-height:400px;object-fit:cover;filter:brightness(.6) saturate(.65);transition:transform .9s var(--ease),filter .5s}
+    .featured-post:hover .feat-img{transform:scale(1.04);filter:brightness(.75) saturate(.8)}
+    .feat-badge{position:absolute;top:20px;left:20px;background:var(--gold);color:var(--bg);font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px}
+    .feat-body{
+      padding:clamp(32px,5vw,60px);
+      display:flex;flex-direction:column;justify-content:space-between;
+    }
+    .feat-meta{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+    .feat-cat{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+    .feat-date{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--ink-3)}
+    .feat-title{
+      font-family:var(--font-display);
+      font-size:clamp(24px,3vw,44px);font-weight:700;
+      letter-spacing:-.02em;color:var(--ink);line-height:1.1;
+      margin-bottom:20px;transition:color .3s;
+    }
+    .featured-post:hover .feat-title{color:var(--gold-light)}
+    .feat-excerpt{font-size:1rem;color:var(--ink-2);line-height:1.75;margin-bottom:28px}
+    .feat-author{display:flex;align-items:center;gap:12px;padding-top:24px;border-top:1px solid var(--border)}
+    .feat-author-img{width:40px;height:40px;border-radius:50%;object-fit:cover;filter:grayscale(.3)}
+    .feat-author-name{font-size:.875rem;font-weight:600;color:var(--ink)}
+    .feat-author-role{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--ink-3);margin-top:2px}
+    .feat-read-time{display:flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);margin-left:auto}
+
+    /* ── POSTS GRID ────────────────────── */
+    .posts-grid{
+      display:grid;grid-template-columns:repeat(3,1fr);
+      gap:2px;margin-top:2px;
+    }
+    @media(max-width:900px){.posts-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:540px){.posts-grid{grid-template-columns:1fr}}
+
+    .post-card{
+      background:var(--bg-3);border:1px solid var(--border);
+      overflow:hidden;transition:border-color .3s,transform .4s var(--ease);
+    }
+    .post-card:hover{border-color:var(--border-gold);transform:translateY(-4px)}
+    .post-card[data-hidden]{display:none}
+
+    .post-img-wrap{overflow:hidden;position:relative}
+    .post-img{width:100%;aspect-ratio:16/9;object-fit:cover;filter:brightness(.6) saturate(.6);transition:transform .7s var(--ease),filter .5s}
+    .post-card:hover .post-img{transform:scale(1.04);filter:brightness(.78) saturate(.8)}
+    .post-cat-badge{position:absolute;bottom:12px;left:12px;background:rgba(10,10,12,.8);backdrop-filter:blur(8px);font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);padding:4px 10px;border:1px solid var(--border-gold)}
+
+    .post-body{padding:clamp(18px,2.5vw,28px)}
+    .post-meta{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+    .post-date{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--ink-3)}
+    .post-read{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--ink-3)}
+    .post-meta-dot{width:3px;height:3px;border-radius:50%;background:var(--ink-3);flex-shrink:0}
+    .post-title{
+      font-family:var(--font-display);font-size:clamp(17px,1.7vw,22px);
+      font-weight:600;letter-spacing:-.01em;color:var(--ink);
+      line-height:1.3;margin-bottom:10px;transition:color .2s;
+    }
+    .post-card:hover .post-title{color:var(--gold-light)}
+    .post-excerpt{font-size:.875rem;color:var(--ink-3);line-height:1.7;margin-bottom:16px}
+    .post-footer{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);padding-top:14px;margin-top:4px}
+    .post-author-mini{display:flex;align-items:center;gap:8px}
+    .post-author-img-mini{width:28px;height:28px;border-radius:50%;object-fit:cover;filter:grayscale(.4)}
+    .post-author-name-mini{font-size:.8125rem;font-weight:500;color:var(--ink-2)}
+    .post-link{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--gold);transition:gap .3s}
+    .post-card:hover .post-link{gap:10px}
+
+    /* ── CATEGORY PAGES ───────────────── */
+    .category-strip{
+      display:grid;grid-template-columns:repeat(5,1fr);
+      gap:2px;margin-top:clamp(40px,5vw,72px);
+    }
+    @media(max-width:900px){.category-strip{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:480px){.category-strip{grid-template-columns:1fr 1fr}}
+    .cat-card{
+      background:var(--bg-3);border:1px solid var(--border);
+      padding:clamp(20px,3vw,32px);display:flex;flex-direction:column;gap:8px;
+      transition:border-color .3s,background .3s;
+    }
+    .cat-card:hover{border-color:var(--border-gold);background:var(--gold-dim)}
+    .cat-icon{font-size:22px;margin-bottom:4px}
+    .cat-name{font-family:var(--font-display);font-size:clamp(16px,1.6vw,20px);font-weight:600;color:var(--ink);letter-spacing:-.01em}
+    .cat-count{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+
+    /* ── NEWSLETTER ────────────────────── */
+    .nl-section{
+      background:var(--bg-2);border:1px solid var(--border);
+      padding:clamp(40px,6vw,72px);
+      display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,64px);
+      align-items:center;margin-top:clamp(40px,5vw,72px);
+    }
+    @media(max-width:768px){.nl-section{grid-template-columns:1fr}}
+    .nl-title{font-family:var(--font-display);font-size:clamp(24px,2.8vw,40px);font-weight:700;letter-spacing:-.02em;color:var(--ink);margin-bottom:10px}
+    .nl-title em{color:var(--gold);font-style:italic}
+    .nl-desc{font-size:.9375rem;color:var(--ink-2);line-height:1.7}
+    .nl-form{display:flex;gap:8px;flex-wrap:wrap}
+    .nl-input{flex:1;min-width:180px;background:var(--bg-3);border:1px solid var(--border);color:var(--ink);font-family:var(--font-body);font-size:.9375rem;padding:13px 18px;border-radius:var(--radius-sm);outline:none;transition:border-color .2s}
+    .nl-input::placeholder{color:var(--ink-3)}.nl-input:focus{border-color:var(--border-gold)}
+    .nl-submit{padding:13px 24px;background:var(--gold);color:var(--bg);font-size:.875rem;font-weight:700;border-radius:var(--radius-sm);border:none;transition:background .2s,transform .3s var(--ease)}
+    .nl-submit:hover{background:var(--gold-light);transform:translateY(-2px)}
+    .nl-note{font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;color:var(--ink-3);margin-top:10px}
+
+    /* ── LOAD MORE ──────────────────────── */
+    .load-more-wrap{text-align:center;padding:clamp(40px,5vw,64px) 0;border-top:1px solid var(--border)}
+    .load-more-btn{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;border:1px solid var(--border);color:var(--ink-2);font-size:.875rem;font-weight:600;border-radius:var(--radius-sm);transition:border-color .2s,color .2s,transform .3s var(--ease)}
+    .load-more-btn:hover{border-color:var(--border-gold);color:var(--gold);transform:translateY(-2px)}
+    .load-spinner{width:16px;height:16px;border:1.5px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;display:none}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* ── POPULAR TAGS ───────────────────── */
+    .tags-cloud{display:flex;flex-wrap:wrap;gap:8px;margin-top:clamp(40px,5vw,64px);padding:clamp(28px,4vw,48px);background:var(--bg-2);border:1px solid var(--border)}
+    .tag-chip{padding:7px 16px;border:1px solid var(--border);font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--ink-3);border-radius:100px;transition:border-color .2s,color .2s,background .2s}
+    .tag-chip:hover{border-color:var(--border-gold);color:var(--gold);background:var(--gold-dim)}
+    .tag-chip.hot{border-color:var(--border-gold);color:var(--gold)}
+
+    /* ── CTA ────────────────────────────── */
+    .cta-band{background:var(--bg-2);border-top:1px solid var(--border);position:relative;overflow:hidden}
+    .cta-glow{position:absolute;width:800px;height:800px;background:radial-gradient(circle,rgba(201,169,110,.055) 0%,transparent 70%);left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none}
+    .cta-inner{position:relative;text-align:center;padding:clamp(80px,12vw,160px) 0}
+    .cta-inner .display-lg{font-family:var(--font-display);font-size:clamp(32px,5vw,72px);font-weight:700;letter-spacing:-.025em;max-width:700px;margin:16px auto 40px}
+    .cta-inner .display-lg em{color:var(--gold);font-style:italic}
+    .cta-actions{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+
+    /* Footer */
+    .mini-footer{border-top:1px solid var(--border);padding:24px 0}
+    .mini-footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+    .mini-footer-copy{font-size:.8125rem;color:var(--ink-3)}.mini-footer-copy a{color:var(--gold)}
+  </style>
+</head>
+<body>
+  <div id="cd"></div>
+  <div id="cr"></div>
+  <button id="back-to-top" aria-label="Back to top"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 12V4M4 7l4-4 4 4" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+  <nav id="mobile-nav" aria-hidden="true">
+    <a href="index.html">Home</a>
+    <a href="devnoxxkit-services.html">Services</a>
+    <a href="devnoxxkit-portfolio.html">Work</a>
+    <a href="devnoxxkit-about.html">About</a>
+    <a href="devnoxxkit-blog.html">Journal</a>
+    <a href="devnoxxkit-contact.html">Let's Talk</a>
+  </nav>
+
+  <header id="nav" role="banner">
+    <div class="container"><div class="nav-inner">
+      <a href="index.html" class="nav-logo"><div class="nav-logo-mark"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="#0A0A0C" stroke-width="1.5" stroke-linecap="round"/></svg></div>Devnoxx<span style="color:var(--gold)">Kit</span></a>
+      <ul class="nav-links" role="list">
+        <li class="relative">
+          <a href="index.html" class="home-trigger" aria-haspopup="true" aria-expanded="false">Home</a>
+          <div class="nav-home-dropdown">
+
+            <a href="devnoxxkit-home-brutalist.html" class="nav-home-item">Brutalist</a>
+            <a href="devnoxxkit-home-ivory.html" class="nav-home-item">Ivory</a>
+            <a href="devnoxxkit-home-monochrome.html" class="nav-home-item">Monochrome</a>
+            <a href="devnoxxkit-home-teal.html" class="nav-home-item">Teal</a>
+          </div>
+        </li>
+        <li><a href="devnoxxkit-services.html">Services</a></li>
+        <li><a href="devnoxxkit-portfolio.html">Work</a></li>
+        <li><a href="devnoxxkit-about.html">About</a></li>
+        <li><a href="devnoxxkit-blog.html" class="active">Journal</a></li>
+        <li><a href="devnoxxkit-contact.html" class="nav-cta">Let's Talk</a></li>
+      </ul>
+      <button class="nav-hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div></div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <div class="page-hero">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="hero-glow-1" aria-hidden="true"></div>
+      <div class="container" style="position:relative;z-index:1">
+        <div class="hero-eyebrow"><div class="hero-eyebrow-line"></div><span class="label">The Journal</span></div>
+        <h1 style="font-family:var(--font-display);font-size:clamp(52px,9vw,140px);font-weight:800;line-height:.9;letter-spacing:-.03em">
+          <div class="hero-line-wrap"><span class="hero-line">Thinking</span></div>
+          <div class="hero-line-wrap"><span class="hero-line" style="color:var(--gold);font-style:italic">out loud.</span></div>
+        </h1>
+        <div class="hero-bottom">
+          <p style="max-width:440px;color:var(--ink-2);font-size:1.0625rem;line-height:1.8">Design theory, typography, creative process, and business perspectives from the DevnoxxKit studio. Published when we have something worth saying.</p>
+          <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+            <div style="text-align:center"><div style="font-family:var(--font-display);font-size:28px;font-weight:800;letter-spacing:-.04em;color:var(--ink)">24</div><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3)">Articles</div></div>
+            <div style="width:1px;height:36px;background:var(--border)"></div>
+            <div style="text-align:center"><div style="font-family:var(--font-display);font-size:28px;font-weight:800;letter-spacing:-.04em;color:var(--ink)">4</div><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3)">Categories</div></div>
+            <div style="width:1px;height:36px;background:var(--border)"></div>
+            <div style="text-align:center"><div style="font-family:var(--font-display);font-size:28px;font-weight:800;letter-spacing:-.04em;color:var(--ink)">~8<span style="color:var(--gold)">m</span></div><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3)">Avg read</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FILTER BAR -->
+    <div class="container">
+      <div class="filter-bar">
+        <div class="filter-pills" role="group" aria-label="Filter by category">
+          <button class="pill active" data-filter="all">All</button>
+          <button class="pill" data-filter="design">Design Theory</button>
+          <button class="pill" data-filter="typography">Typography</button>
+          <button class="pill" data-filter="business">Business</button>
+          <button class="pill" data-filter="process">Process</button>
+          <button class="pill" data-filter="tech">Tech</button>
+        </div>
+        <div class="search-wrap" role="search">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="6" cy="6" r="4" stroke="var(--ink-3)" stroke-width="1.5"/><path d="M10 10l3 3" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <input class="search-input" type="search" id="search" placeholder="Search articles…" aria-label="Search articles"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEATURED POST -->
+    <div class="container" id="featured-wrap">
+      <a href="devnoxxkit-blog-single.html" class="featured-post reveal" data-category="design" data-title="Why 95% of agency websites look identical">
+        <div class="feat-img-wrap">
+          <img class="feat-img" src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1200&q=75&auto=format&fit=crop" alt="Agency websites homogeneity"/>
+          <div class="feat-badge">✦ Featured</div>
+        </div>
+        <div class="feat-body">
+          <div>
+            <div class="feat-meta">
+              <span class="feat-cat">Design Theory</span>
+              <span class="feat-date">12 March 2026</span>
+            </div>
+            <h2 class="feat-title">Why 95% of agency websites look identical — and how to escape it</h2>
+            <p class="feat-excerpt">The Figma template economy has created a devastating homogeneity. Every studio claims to be different. Almost none of them prove it visually. Here's the design thinking that gets you out — and the three forces driving the problem no one wants to name.</p>
+            <div style="display:inline-flex;align-items:center;gap:8px;color:var(--gold);font-size:.875rem;font-weight:600;transition:gap .3s" class="read-link">
+              Read Article
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H6M13 3V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+          <div class="feat-author">
+            <img class="feat-author-img" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&q=70&auto=format&fit=crop&crop=faces" alt="Marcus Webb"/>
+            <div>
+              <div class="feat-author-name">Marcus Webb</div>
+              <div class="feat-author-role">Creative Director</div>
+            </div>
+            <div class="feat-read-time">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M6 3v3l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+              9 min read
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- POSTS GRID -->
+    <section aria-labelledby="posts-h" style="padding:clamp(24px,3vw,40px) 0 0">
+      <div class="container">
+        <h2 class="reveal" id="posts-h" style="font-family:var(--font-display);font-size:clamp(18px,2.2vw,26px);font-weight:700;letter-spacing:-.02em;margin-bottom:2px">Latest Articles</h2>
+        <div class="posts-grid" id="posts-grid" role="list">
+
+          <!-- 1 -->
+          <a href="devnoxxkit-blog-single.html" class="post-card reveal d1" role="listitem" data-category="typography" data-title="typographic decision professionals">
+            <div class="post-img-wrap">
+              <img class="post-img" src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?w=700&q=70&auto=format&fit=crop" alt="Typography" loading="lazy"/>
+              <div class="post-cat-badge">Typography</div>
+            </div>
+            <div class="post-body">
+              <div class="post-meta"><span class="post-date">28 Feb 2026</span><div class="post-meta-dot"></div><span class="post-read">7 min</span></div>
+              <h3 class="post-title">The one typographic decision that separates amateurs from professionals</h3>
+              <p class="post-excerpt">It's not the font choice. It's not the scale. It's something most designers never think to consider — and it's costing you credibility.</p>
+              <div class="post-footer">
+                <div class="post-author-mini"><img class="post-author-img-mini" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=80&q=70&auto=format&fit=crop&crop=faces" alt=""/><span class="post-author-name-mini">Marcus Webb</span></div>
+                <span class="post-link">Read <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H4M8 2V6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              </div>
+            </div>
+          </a>
+
+          <!-- 2 -->
+          <a href="devnoxxkit-blog-single.html" class="post-card reveal d2" role="listitem" data-category="business" data-title="pricing creative work framework">
+            <div class="post-img-wrap">
+              <img class="post-img" src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=700&q=70&auto=format&fit=crop" alt="Business" loading="lazy"/>
+              <div class="post-cat-badge">Business</div>
+            </div>
+            <div class="post-body">
+              <div class="post-meta"><span class="post-date">14 Feb 2026</span><div class="post-meta-dot"></div><span class="post-read">11 min</span></div>
+              <h3 class="post-title">How we price creative work: the framework that ended undervaluing ourselves</h3>
+              <p class="post-excerpt">After years of underselling, we built a pricing model grounded in value, not hours. Here's the full breakdown — numbers and all.</p>
+              <div class="post-footer">
+                <div class="post-author-mini"><img class="post-author-img-mini" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&q=70&auto=format&fit=crop&crop=faces" alt=""/><span class="post-author-name-mini">Nadia Osei</span></div>
+                <span class="post-link">Read <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H4M8 2V6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              </div>
+            </div>
+          </a>
+
+          <!-- 3 -->
+          <a href="devnoxxkit-blog-single.html" class="post-card reveal d3" role="listitem" data-category="process" data-title="present one concept agency">
+            <div class="post-img-wrap">
+              <img class="post-img" src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=700&q=70&auto=format&fit=crop" alt="Process" loading="lazy"/>
+              <div class="post-cat-badge">Process</div>
+            </div>
+            <div class="post-body">
+              <div class="post-meta"><span class="post-date">3 Jan 2026</span><div class="post-meta-dot"></div><span class="post-read">8 min</span></div>
+              <h3 class="post-title">The case for presenting one concept: why we stopped giving clients options</h3>
+              <p class="post-excerpt">Three options looks like value. One option IS value — if you've done the strategy work. Here's how we make the argument and win it every time.</p>
+              <div class="post-footer">
+                <div class="post-author-mini"><img class="post-author-img-mini" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=80&q=70&auto=format&fit=crop&crop=faces" alt=""/><span class="post-author-name-mini">Marcus Webb</span></div>
+                <span class="post-link">Read <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H4M8 2V6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              </div>
+            </div>
+          </a>
+
+          <!-- 4 -->
+          <a href="devnoxxkit-blog-single.html" class="post-card reveal d1" role="listitem" data-category="tech" data-title="tailwind design tokens css variables">
+            <div class="post-img-wrap">
+              <img class="post-img" src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=700&q=70&auto=format&fit=crop" alt="Tech" loading="lazy"/>
+              <div class="post-cat-badge">Tech</div>
+            </div>
+            <div class="post-body">
+              <div class="post-meta"><span class="post-date">18 Dec 2025</span><div class="post-meta-dot"></div><span class="post-read">12 min</span></div>
+              <h3 class="post-title">Tailwind v4, CSS variables, and the design tokens workflow that actually scales</h3>
+              <p class="post-excerpt">The tooling has finally caught up to the philosophy. Here's how we structure design tokens from Figma to CSS to production — and why Tailwind v4 changes everything.</p>
+              <div class="post-footer">
+                <div class="post-author-mini"><img class="post-author-img-mini" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&q=70&auto=format&fit=crop&crop=faces" alt=""/><span class="post-author-name-mini">Liam Foster</span></div>
+                <span class="post-link">Read <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H4M8 2V6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              </div>
+            </div>
+          </a>
+
+          <!-- 5 -->
+          <a href="devnoxxkit-blog-single.html" class="post-card reveal d2" role="listitem" data-category="design" data-title="white space negative space design">
+            <div class="post-img-wrap">
+              <img class="post-img" src="https://images.unsplash.com/photo-1555421689-491a97ff2040?w=700&q=70&auto=format&fit=crop" alt="Design" loading="lazy"/>
+              <div class="post-cat-badge">Design Theory</div>
+            </div>
+            <div class="post-body">
+              <div class="post-meta"><span class="post-date">2 Dec 2025</span><div class="post-meta-dot"></div><span class="post-read">6 min</span></div>
+              <h3 class="post-title">In defence of empty space: why the best designers use what isn't there</h3>
+              <p class="post-excerpt">White space isn't nothing. It's a decision — about hierarchy, breathing room, and what you're actually trying to communicate. Most designers are afraid of it.</p>
+              <div class="post-footer">
+                <div class="post-author-mini"><img class="post-author-img-mini" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=80&q=70&auto=format&fit=crop&crop=faces" alt=""/><span class="post-author-name-mini">Marcus Webb</span></div>
+                <span class="post-link">Read <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H4M8 2V6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              </div>
+            </div>
+          </a>
+
+          <!-- 6 -->
+          <a href="devnoxxkit-blog-single.html" class="post-card reveal d3" role="listitem" data-category="process" data-title="design brief strategy before creative">
+            <div class="post-img-wrap">
+              <img class="post-img" src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=700&q=70&auto=format&fit=crop" alt="Process" loading="lazy"/>
+              <div class="post-cat-badge">Process</div>
+            </div>
+            <div class="post-body">
+              <div class="post-meta"><span class="post-date">14 Nov 2025</span><div class="post-meta-dot"></div><span class="post-read">9 min</span></div>
+              <h3 class="post-title">Why we spend two weeks on strategy before opening Figma</h3>
+              <p class="post-excerpt">The biggest creative mistakes we see aren't aesthetic — they're strategic. Every hour spent in discovery saves three hours of revision.</p>
+              <div class="post-footer">
+                <div class="post-author-mini"><img class="post-author-img-mini" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&q=70&auto=format&fit=crop&crop=faces" alt=""/><span class="post-author-name-mini">Nadia Osei</span></div>
+                <span class="post-link">Read <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H4M8 2V6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              </div>
+            </div>
+          </a>
+
+          <!-- 7 -->
+          <a href="devnoxxkit-blog-single.html" class="post-card reveal d1" role="listitem" data-category="typography" data-title="variable fonts web typography 2026">
+            <div class="post-img-wrap">
+              <img class="post-img" src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=700&q=70&auto=format&fit=crop" alt="Typography" loading="lazy"/>
+              <div class="post-cat-badge">Typography</div>
+            </div>
+            <div class="post-body">
+              <div class="post-meta"><span class="post-date">29 Oct 2025</span><div class="post-meta-dot"></div><span class="post-read">10 min</span></div>
+              <h3 class="post-title">Variable fonts have changed everything — and most designers still aren't using them right</h3>
+              <p class="post-excerpt">Optical sizing, weight axes, and fluid typography. The tools have been there for years. Here's why barely anyone has unlocked their potential.</p>
+              <div class="post-footer">
+                <div class="post-author-mini"><img class="post-author-img-mini" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=80&q=70&auto=format&fit=crop&crop=faces" alt=""/><span class="post-author-name-mini">Aya Tanaka</span></div>
+                <span class="post-link">Read <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H4M8 2V6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              </div>
+            </div>
+          </a>
+
+          <!-- 8 -->
+          <a href="devnoxxkit-blog-single.html" class="post-card reveal d2" role="listitem" data-category="business" data-title="retainer vs project billing agencies">
+            <div class="post-img-wrap">
+              <img class="post-img" src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=700&q=70&auto=format&fit=crop" alt="Business" loading="lazy"/>
+              <div class="post-cat-badge">Business</div>
+            </div>
+            <div class="post-body">
+              <div class="post-meta"><span class="post-date">15 Oct 2025</span><div class="post-meta-dot"></div><span class="post-read">7 min</span></div>
+              <h3 class="post-title">Retainer vs project billing: after 13 years, here's what we've learned</h3>
+              <p class="post-excerpt">Projects feel safer. Retainers are actually where the money is — but only if you structure them correctly from day one. The mistakes we made so you don't have to.</p>
+              <div class="post-footer">
+                <div class="post-author-mini"><img class="post-author-img-mini" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&q=70&auto=format&fit=crop&crop=faces" alt=""/><span class="post-author-name-mini">Nadia Osei</span></div>
+                <span class="post-link">Read <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H4M8 2V6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              </div>
+            </div>
+          </a>
+
+          <!-- 9 -->
+          <a href="devnoxxkit-blog-single.html" class="post-card reveal d3" role="listitem" data-category="tech" data-title="css scroll animations intersection observer">
+            <div class="post-img-wrap">
+              <img class="post-img" src="https://images.unsplash.com/photo-1545235617-9465d2a55698?w=700&q=70&auto=format&fit=crop" alt="Tech" loading="lazy"/>
+              <div class="post-cat-badge">Tech</div>
+            </div>
+            <div class="post-body">
+              <div class="post-meta"><span class="post-date">1 Oct 2025</span><div class="post-meta-dot"></div><span class="post-read">13 min</span></div>
+              <h3 class="post-title">CSS scroll-driven animations vs GSAP: when to use which, and why we stopped arguing about it</h3>
+              <p class="post-excerpt">Native CSS animations are genuinely impressive now. GSAP is still irreplaceable for some things. Here's our decision framework, with code examples.</p>
+              <div class="post-footer">
+                <div class="post-author-mini"><img class="post-author-img-mini" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&q=70&auto=format&fit=crop&crop=faces" alt=""/><span class="post-author-name-mini">Liam Foster</span></div>
+                <span class="post-link">Read <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H4M8 2V6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              </div>
+            </div>
+          </a>
+
+        </div>
+
+        <!-- No results message -->
+        <div id="no-results" style="display:none;text-align:center;padding:clamp(48px,7vw,80px) 0;border:1px solid var(--border)">
+          <div style="font-family:var(--font-display);font-size:clamp(18px,2vw,24px);font-weight:600;color:var(--ink-2);margin-bottom:8px">No articles found</div>
+          <div style="font-size:.9rem;color:var(--ink-3)">Try a different search term or category.</div>
+        </div>
+
+        <!-- Load More -->
+        <div class="load-more-wrap" id="load-more-wrap">
+          <button class="load-more-btn" id="load-more" aria-label="Load more articles">
+            <div class="load-spinner" id="load-spinner"></div>
+            Load More Articles
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4 10l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section style="padding:clamp(48px,7vw,96px) 0 0" aria-labelledby="cats-h">
+      <div class="container">
+        <div class="section-eyebrow reveal"><div class="section-eyebrow-line"></div><span class="label">Browse by Topic</span></div>
+        <h2 class="reveal d1" id="cats-h" style="font-family:var(--font-display);font-size:clamp(24px,3vw,44px);font-weight:700;letter-spacing:-.02em;margin-bottom:0">Find what matters to you.</h2>
+        <div class="category-strip reveal d2">
+          <a href="#" class="cat-card" data-cat-filter="design">
+            <div class="cat-icon">◈</div>
+            <div class="cat-name">Design Theory</div>
+            <div class="cat-count">9 articles</div>
+          </a>
+          <a href="#" class="cat-card" data-cat-filter="typography">
+            <div class="cat-icon">T</div>
+            <div class="cat-name">Typography</div>
+            <div class="cat-count">5 articles</div>
+          </a>
+          <a href="#" class="cat-card" data-cat-filter="business">
+            <div class="cat-icon">▲</div>
+            <div class="cat-name">Business</div>
+            <div class="cat-count">4 articles</div>
+          </a>
+          <a href="#" class="cat-card" data-cat-filter="process">
+            <div class="cat-icon">⬡</div>
+            <div class="cat-name">Process</div>
+            <div class="cat-count">4 articles</div>
+          </a>
+          <a href="#" class="cat-card" data-cat-filter="tech">
+            <div class="cat-icon">{ }</div>
+            <div class="cat-name">Tech</div>
+            <div class="cat-count">2 articles</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAGS CLOUD -->
+    <div class="container" style="padding-top:clamp(32px,4vw,52px)">
+      <div class="tags-cloud reveal">
+        <span class="label" style="margin-right:8px;align-self:center">Tags:</span>
+        <a href="#" class="tag-chip hot" onclick="filterTag('design')">Design Theory</a>
+        <a href="#" class="tag-chip hot" onclick="filterTag('typography')">Typography</a>
+        <a href="#" class="tag-chip" onclick="filterTag('business')">Agency Business</a>
+        <a href="#" class="tag-chip" onclick="filterTag('process')">Creative Process</a>
+        <a href="#" class="tag-chip" onclick="filterTag('tech')">Frontend</a>
+        <a href="#" class="tag-chip">CSS</a>
+        <a href="#" class="tag-chip">Tailwind</a>
+        <a href="#" class="tag-chip">Figma</a>
+        <a href="#" class="tag-chip">Branding</a>
+        <a href="#" class="tag-chip">Motion Design</a>
+        <a href="#" class="tag-chip">Web Design</a>
+        <a href="#" class="tag-chip">Pricing</a>
+        <a href="#" class="tag-chip">Freelance</a>
+        <a href="#" class="tag-chip">GSAP</a>
+        <a href="#" class="tag-chip">Design Systems</a>
+      </div>
+    </div>
+
+    <!-- NEWSLETTER -->
+    <div class="container" style="padding:clamp(48px,7vw,80px) 0">
+      <div class="nl-section reveal">
+        <div>
+          <h2 class="nl-title">Get the next article<br><em>in your inbox.</em></h2>
+          <p class="nl-desc">About one article a month. No newsletters, no promotions — just the next piece when it's ready. Unsubscribe any time.</p>
+        </div>
+        <div>
+          <form class="nl-form" onsubmit="handleNl(event)" novalidate>
+            <input class="nl-input" type="email" placeholder="your@email.com" required aria-label="Email address"/>
+            <button type="submit" class="nl-submit">Subscribe</button>
+          </form>
+          <p class="nl-note" id="nl-msg">No spam. Just good writing.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-band">
+      <div class="cta-glow" aria-hidden="true"></div>
+      <div class="container">
+        <div class="cta-inner">
+          <div class="section-eyebrow reveal" style="justify-content:center"><div class="section-eyebrow-line"></div><span class="label">Work Together</span><div class="section-eyebrow-line"></div></div>
+          <h2 class="display-lg reveal d1">Ready to make something<br>truly <em>extraordinary?</em></h2>
+          <div class="cta-actions reveal d2">
+<a href="devnoxxkit-contact.html" class="btn btn-primary">Start a Project <svg class="btn-arrow" viewBox="0 0 20 20" fill="none"><path d="M4 16L16 4M16 4H8M16 4V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+            <a href="devnoxxkit-portfolio.html" class="btn btn-ghost">View Our Work</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="mini-footer" role="contentinfo"><div class="container"><div class="mini-footer-inner">
+    <a href="index.html" style="font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:8px"><div class="nav-logo-mark"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="#0A0A0C" stroke-width="1.5" stroke-linecap="round"/></svg></div>Devnoxx<span style="color:var(--gold)">Kit</span></a>
+    <p class="mini-footer-copy">© 2026 <a href="index.html">DevnoxxKit</a>. Crafted with obsession.</p>
+    <p class="mini-footer-copy" style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em">BLOG / JOURNAL</p>
+  </div></div></footer>
+
+  <script>
+    // Cursor
+    const cd=document.getElementById('cd'),cr=document.getElementById('cr');
+    let rx=0,ry=0,dx=0,dy=0,mx=0,my=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+    (function loop(){dx+=(mx-dx)*.85;dy+=(my-dy)*.85;rx+=(mx-rx)*.1;ry+=(my-ry)*.1;cd.style.left=dx+'px';cd.style.top=dy+'px';cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(loop)})();
+    const nav=document.getElementById('nav');
+    window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
+    const hb=document.getElementById('hamburger'),mn=document.getElementById('mobile-nav');
+    hb.addEventListener('click',()=>{const o=hb.classList.toggle('open');mn.classList.toggle('open',o);hb.setAttribute('aria-expanded',String(o));mn.setAttribute('aria-hidden',String(!o));document.body.style.overflow=o?'hidden':''});
+    const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target)}}),{threshold:.1,rootMargin:'0px 0px -48px 0px'});
+    document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+    const btt=document.getElementById('back-to-top');
+    window.addEventListener('scroll',()=>btt.classList.toggle('visible',scrollY>500),{passive:true});
+    btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+    // ── Filter ──────────────────────────────────────────────────
+    const pills=document.querySelectorAll('.pill');
+    const cards=document.querySelectorAll('.post-card');
+    const feat=document.getElementById('featured-wrap');
+    const noRes=document.getElementById('no-results');
+
+    function applyFilter(f){
+      pills.forEach(p=>p.classList.toggle('active',p.dataset.filter===f));
+      let vis=0;
+      cards.forEach(c=>{
+        const show=f==='all'||c.dataset.category===f;
+        c.style.display=show?'':'none';
+        if(show)vis++;
+      });
+      // featured post filter
+      if(feat){
+        const fCat=feat.querySelector('.featured-post')?.dataset.category;
+        feat.style.display=(f==='all'||fCat===f)?'':'none';
+      }
+      noRes.style.display=vis===0?'block':'none';
+    }
+
+    pills.forEach(p=>p.addEventListener('click',()=>applyFilter(p.dataset.filter)));
+
+    // Category cards
+    document.querySelectorAll('[data-cat-filter]').forEach(el=>{
+      el.addEventListener('click',e=>{e.preventDefault();applyFilter(el.dataset.catFilter);window.scrollTo({top:document.getElementById('posts-grid').getBoundingClientRect().top+scrollY-120,behavior:'smooth'})});
+    });
+
+    // Tag chips
+    function filterTag(cat){applyFilter(cat);window.scrollTo({top:document.getElementById('posts-grid').getBoundingClientRect().top+scrollY-120,behavior:'smooth'})}
+    window.filterTag=filterTag;
+
+    // ── Search ──────────────────────────────────────────────────
+    document.getElementById('search').addEventListener('input',function(){
+      const q=this.value.toLowerCase();
+      let vis=0;
+      // Reset pill active
+      pills.forEach(p=>p.classList.toggle('active',p.dataset.filter==='all'&&q===''));
+      cards.forEach(c=>{
+        const show=q===''||c.dataset.title?.toLowerCase().includes(q)||(c.querySelector('.post-title')?.textContent.toLowerCase().includes(q))||c.dataset.category?.includes(q);
+        c.style.display=show?'':'none';
+        if(show)vis++;
+      });
+      noRes.style.display=vis===0&&q!==''?'block':'none';
+      if(feat)feat.style.display=q===''?'':'none';
+    });
+
+    // ── Load more (simulated) ────────────────────────────────────
+    const loadBtn=document.getElementById('load-more');
+    const spinner=document.getElementById('load-spinner');
+    loadBtn.addEventListener('click',async()=>{
+      spinner.style.display='block';
+      loadBtn.querySelector('svg').style.display='none';
+      await new Promise(r=>setTimeout(r,1400));
+      spinner.style.display='none';
+      loadBtn.querySelector('svg').style.display='';
+      loadBtn.textContent='All articles loaded';
+      loadBtn.disabled=true;
+      loadBtn.style.opacity='.5';
+    });
+
+    // ── Newsletter ───────────────────────────────────────────────
+    function handleNl(e){
+      e.preventDefault();
+      const msg=document.getElementById('nl-msg');
+      const btn=e.target.querySelector('button');
+      btn.textContent='✓ Subscribed!';
+      btn.style.background='#6DBF8A';
+      msg.textContent='You\'re in. First article on its way.';
+      msg.style.color='#6DBF8A';
+      e.target.querySelector('input').value='';
+      setTimeout(()=>{btn.textContent='Subscribe';btn.style.background='';msg.textContent='No spam. Just good writing.';msg.style.color=''},3500);
+    }
+    window.handleNl=handleNl;
+  </script>
+  <script src="devnoxxkit-theme.js"></script>
+</body>
+</html>

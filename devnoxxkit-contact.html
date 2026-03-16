@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" sizes="any">
+  <link rel="shortcut icon" href="favicon.svg">
+  <script>
+    (function(){
+      var s = localStorage.getItem('dnk-theme');
+      var d = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', s || d);
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact — DevnoxxKit</title>
+  <meta name="description" content="Start a project with DevnoxxKit. Brand identity, web design, creative direction, and design systems for agencies and ambitious brands."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --bg:#0A0A0C;--bg-2:#111114;--bg-3:#18181D;--surface:#1E1E24;
+      --border:rgba(242,237,228,0.08);--border-gold:rgba(201,169,110,0.3);
+      --ink:#F2EDE4;--ink-2:#B8B0A4;--ink-3:#6E6860;
+      --gold:#C9A96E;--gold-light:#DFC28E;--gold-dim:rgba(201,169,110,0.12);
+      --font-display:'Fraunces',Georgia,serif;
+      --font-body:'DM Sans',system-ui,sans-serif;
+      --font-mono:'JetBrains Mono',monospace;
+      --radius-sm:4px;
+      --ease:cubic-bezier(0.16,1,0.3,1);
+    }
+    #nav.scrolled {
+      background: var(--nav-scrolled-bg) !important;
+      }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-size:16px;-webkit-font-smoothing:antialiased}
+    body{background:var(--bg);color:var(--ink);font-family:var(--font-body);overflow-x:hidden;cursor:none;line-height:1.65}
+    body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.032;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px 256px}
+    ::selection{background:var(--gold);color:var(--bg)}
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+    button{border:none;background:none;cursor:none;font:inherit}
+
+    /* Cursor */
+    #cd{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--gold);pointer-events:none;z-index:10000;transform:translate(-50%,-50%);will-change:transform}
+    #cr{position:fixed;width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,169,110,.5);pointer-events:none;z-index:10000;transform:translate(-50%,-50%);transition:width .3s var(--ease),height .3s var(--ease),border-color .3s;will-change:transform}
+    body:has(a:hover) #cr,body:has(button:hover) #cr{width:56px;height:56px;border-color:var(--gold)}
+
+    .container{width:100%;max-width:1320px;margin:0 auto;padding:0 clamp(20px,4vw,80px)}
+    .label{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+    .section-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+    .section-eyebrow-line{width:32px;height:1px;background:var(--gold)}
+
+    /* Nav */
+    #nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 0;transition:padding .4s var(--ease),background .4s,border-color .4s;border-bottom:1px solid transparent}
+    #nav.scrolled{padding:16px 0;background:rgba(10,10,12,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom-color:var(--border)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+    .nav-logo-mark{width:28px;height:28px;background:var(--gold);border-radius:6px;display:flex;align-items:center;justify-content:center}
+    .nav-links{display:flex;align-items:center;gap:40px;list-style:none}
+    .nav-links a{font-size:.875rem;color:var(--ink-2);transition:color .2s;position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s var(--ease)}
+    .nav-links a:hover{color:var(--ink)}.nav-links a:hover::after,.nav-links a.active::after{width:100%}.nav-links a.active{color:var(--gold)}
+    .nav-cta{padding:10px 22px;background:var(--gold);color:var(--bg)!important;font-size:.8125rem!important;font-weight:600;border-radius:var(--radius-sm)}.nav-cta::after{display:none!important}.nav-cta:hover{background:var(--gold-light)!important}
+    .nav-hamburger{display:none;flex-direction:column;gap:5px;width:26px}.nav-hamburger span{display:block;height:1.5px;background:var(--ink);transition:transform .3s,opacity .3s;transform-origin:center}.nav-hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}.nav-hamburger.open span:nth-child(2){opacity:0}.nav-hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+    @media(max-width:768px){.nav-links{display:none}.nav-hamburger{display:flex}}
+    #mobile-nav{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;transform:translateX(100%);transition:transform .5s var(--ease)}
+    #mobile-nav.open{transform:translateX(0)}
+    #mobile-nav a{font-family:var(--font-display);font-size:clamp(32px,8vw,52px);font-weight:700;color:var(--ink-2);transition:color .2s}
+    #mobile-nav a:hover{color:var(--gold)}
+
+    /* Reveal */
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}.reveal.visible{opacity:1;transform:none}
+    .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+    /* Buttons */
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;font-size:.875rem;font-weight:600;border-radius:var(--radius-sm);transition:transform .3s var(--ease),box-shadow .3s}.btn:hover{transform:translateY(-2px)}
+    .btn-primary{background:var(--gold);color:var(--bg);box-shadow:0 4px 24px rgba(201,169,110,.2)}.btn-primary:hover{box-shadow:0 8px 40px rgba(201,169,110,.35)}
+    .btn-ghost{border:1px solid var(--border);color:var(--ink-2)}.btn-ghost:hover{border-color:rgba(242,237,228,.2);color:var(--ink)}
+    .btn-arrow{width:20px;height:20px;transition:transform .3s var(--ease)}.btn:hover .btn-arrow{transform:translate(3px,-3px)}
+
+    #back-to-top{position:fixed;bottom:32px;right:32px;width:44px;height:44px;background:var(--bg-3);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(16px);transition:opacity .3s,transform .3s,background .2s;z-index:100}
+    #back-to-top.visible{opacity:1;transform:none}#back-to-top:hover{background:var(--gold);border-color:var(--gold)}
+
+    /* ── PAGE HERO ─────────────────────── */
+    .page-hero{
+      min-height:55svh;display:flex;flex-direction:column;
+      justify-content:flex-end;padding-bottom:clamp(48px,6vw,80px);
+      padding-top:130px;position:relative;overflow:hidden;
+    }
+    .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(242,237,228,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(242,237,228,.022) 1px,transparent 1px);background-size:80px 80px;pointer-events:none}
+    .hero-glow{position:absolute;border-radius:50%;filter:blur(120px);pointer-events:none}
+    .hero-glow-1{width:700px;height:700px;background:rgba(201,169,110,.07);top:-150px;right:-100px}
+    .hero-glow-2{width:500px;height:500px;background:rgba(30,58,58,.2);bottom:-100px;left:-80px}
+    .hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:32px;opacity:0;animation:fadeUp .8s .1s var(--ease) forwards}
+    .hero-eyebrow-line{width:40px;height:1px;background:var(--gold)}
+    @keyframes fadeUp{to{opacity:1;transform:none}}
+    .hero-line-wrap{overflow:hidden}
+    .hero-line{display:block;transform:translateY(110%);opacity:0;animation:lineReveal .95s var(--ease) forwards}
+    .hero-line:nth-child(1){animation-delay:.22s}.hero-line:nth-child(2){animation-delay:.38s}
+    @keyframes lineReveal{to{transform:none;opacity:1}}
+
+    /* ── CONTACT LAYOUT ────────────────── */
+    .contact-wrap{
+      display:grid;grid-template-columns:1fr 1.5fr;
+      gap:clamp(48px,8vw,120px);
+      padding:clamp(72px,10vw,140px) 0;
+      align-items:start;
+    }
+    @media(max-width:900px){.contact-wrap{grid-template-columns:1fr}}
+
+    /* Left info panel */
+    .contact-info-panel{}
+    .contact-tagline{
+      font-family:var(--font-display);
+      font-size:clamp(22px,2.5vw,34px);
+      font-weight:500;font-style:italic;
+      color:var(--ink-2);line-height:1.35;letter-spacing:-.01em;
+      margin-bottom:36px;
+    }
+    .contact-tagline em{color:var(--gold);font-style:italic}
+
+    .info-items{display:flex;flex-direction:column;gap:0;margin-bottom:48px}
+    .info-item{
+      padding:clamp(18px,2.5vw,28px) 0;
+      border-bottom:1px solid var(--border);
+      display:grid;grid-template-columns:1fr;gap:4px;
+    }
+    .info-item:first-child{border-top:1px solid var(--border)}
+    .info-label{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px}
+    .info-value{font-size:1.0625rem;color:var(--ink);transition:color .2s}
+    .info-value a{transition:color .2s}
+    .info-value a:hover{color:var(--gold)}
+    .info-status{display:flex;align-items:center;gap:8px}
+    .status-dot{width:8px;height:8px;border-radius:50%;background:#6DBF8A;box-shadow:0 0 0 3px rgba(109,191,138,.2);flex-shrink:0}
+
+    /* Social links */
+    .social-links{display:flex;gap:10px;margin-top:36px}
+    .social-link{
+      width:40px;height:40px;border-radius:50%;
+      border:1px solid var(--border);
+      display:flex;align-items:center;justify-content:center;
+      transition:border-color .2s,background .2s;
+    }
+    .social-link:hover{border-color:var(--border-gold);background:var(--gold-dim)}
+
+    /* Availability card */
+    .avail-card{
+      background:var(--bg-3);border:1px solid var(--border-gold);
+      padding:clamp(24px,3vw,36px);margin-top:36px;
+      position:relative;overflow:hidden;
+    }
+    .avail-card::before{
+      content:'';position:absolute;
+      width:200px;height:200px;border-radius:50%;
+      background:radial-gradient(circle,rgba(201,169,110,.08) 0%,transparent 70%);
+      top:-40px;right:-40px;pointer-events:none;
+    }
+    .avail-num{
+      font-family:var(--font-display);
+      font-size:clamp(44px,5vw,64px);font-weight:800;
+      letter-spacing:-.04em;color:var(--ink);line-height:1;margin-bottom:8px;
+    }
+    .avail-num span{color:var(--gold)}
+    .avail-text{font-size:.9375rem;color:var(--ink-2);line-height:1.7}
+    .avail-tag{
+      display:inline-flex;align-items:center;gap:6px;
+      margin-top:16px;font-family:var(--font-mono);
+      font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);
+    }
+    .avail-tag::before{content:'✦';font-size:8px}
+
+    /* ── FORM ──────────────────────────── */
+    .contact-form-wrap{}
+
+    /* Step indicator */
+    .form-steps{display:flex;gap:0;margin-bottom:clamp(32px,4vw,52px)}
+    .form-step{
+      display:flex;align-items:center;gap:10px;
+      font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;
+      text-transform:uppercase;color:var(--ink-3);
+      padding:10px 20px;border:1px solid var(--border);border-right:none;
+      transition:color .3s,background .3s,border-color .3s;
+    }
+    .form-step:last-child{border-right:1px solid var(--border)}
+    .form-step.active{color:var(--gold);border-color:var(--border-gold);background:var(--gold-dim)}
+    .form-step.done{color:var(--ink-2)}
+    .step-num{width:20px;height:20px;border-radius:50%;background:var(--bg-3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0}
+    .form-step.active .step-num{background:var(--gold);border-color:var(--gold);color:var(--bg)}
+    .form-step.done .step-num{background:var(--bg-3);color:var(--ink-3)}
+
+    /* Form panels */
+    .form-panel{display:none}
+    .form-panel.active{display:block}
+
+    /* Fields */
+    .field{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+    .field-label{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);display:flex;align-items:center;gap:8px}
+    .field-required{color:var(--gold)}
+    .field-input,.field-textarea,.field-select{
+      background:var(--bg-3);border:1px solid var(--border);
+      color:var(--ink);font-family:var(--font-body);font-size:.9375rem;
+      padding:14px 18px;outline:none;border-radius:var(--radius-sm);
+      transition:border-color .2s,box-shadow .2s;width:100%;
+      -webkit-appearance:none;
+    }
+    .field-input::placeholder,.field-textarea::placeholder{color:var(--ink-3)}
+    .field-input:focus,.field-textarea:focus,.field-select:focus{border-color:var(--border-gold);box-shadow:0 0 0 3px rgba(201,169,110,.07)}
+    .field-input.error,.field-textarea.error,.field-select.error{border-color:#E07070;box-shadow:0 0 0 3px rgba(224,112,112,.07)}
+    .field-error{font-size:.75rem;color:#E07070;display:none}
+    .field.has-error .field-error{display:block}
+    .field.has-error .field-input,.field.has-error .field-textarea,.field.has-error .field-select{border-color:#E07070}
+    .field-textarea{resize:vertical;min-height:140px;line-height:1.65}
+    .field-select{cursor:none;color:var(--ink)}
+    .field-select option{background:var(--bg-3);color:var(--ink)}
+
+    .field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media(max-width:540px){.field-row{grid-template-columns:1fr}}
+
+    /* Radio cards */
+    .radio-cards{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+    @media(max-width:480px){.radio-cards{grid-template-columns:1fr}}
+    .radio-card{
+      position:relative;
+    }
+    .radio-card input{position:absolute;opacity:0;pointer-events:none}
+    .radio-label{
+      display:flex;flex-direction:column;gap:4px;
+      padding:16px 18px;background:var(--bg-3);border:1px solid var(--border);
+      border-radius:var(--radius-sm);cursor:none;
+      transition:border-color .2s,background .2s;
+    }
+    .radio-card input:checked + .radio-label{border-color:var(--border-gold);background:var(--gold-dim)}
+    .radio-label:hover{border-color:rgba(242,237,228,.15);background:rgba(242,237,228,.03)}
+    .radio-label-title{font-size:.9375rem;font-weight:600;color:var(--ink)}
+    .radio-label-sub{font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;color:var(--ink-3)}
+    .radio-check{position:absolute;top:12px;right:12px;width:16px;height:16px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s}
+    .radio-card input:checked + .radio-label .radio-check{background:var(--gold);border-color:var(--gold)}
+
+    /* Budget slider */
+    .budget-slider{
+      width:100%;height:2px;background:var(--border);
+      -webkit-appearance:none;outline:none;border-radius:2px;
+      margin:16px 0 8px;
+    }
+    .budget-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--gold);cursor:none;box-shadow:0 0 0 4px rgba(201,169,110,.15)}
+    .budget-value{font-family:var(--font-display);font-size:clamp(28px,3vw,40px);font-weight:800;letter-spacing:-.03em;color:var(--gold)}
+
+    /* Checkbox */
+    .check-group{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+    .check-item{display:flex;align-items:start;gap:12px;cursor:none}
+    .check-item input{opacity:0;position:absolute}
+    .check-box{width:18px;height:18px;border:1px solid var(--border);border-radius:2px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s;margin-top:2px;background:var(--bg-3)}
+    .check-item:has(input:checked) .check-box{background:var(--gold);border-color:var(--gold)}
+    .check-label{font-size:.9375rem;color:var(--ink-2)}
+
+    /* Form nav */
+    .form-nav{display:flex;align-items:center;justify-content:space-between;margin-top:32px;padding-top:28px;border-top:1px solid var(--border)}
+    .form-back{display:inline-flex;align-items:center;gap:8px;font-size:.875rem;color:var(--ink-3);transition:color .2s}
+    .form-back:hover{color:var(--ink)}
+    .form-progress{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3)}
+
+    /* Success state */
+    .form-success-screen{
+      display:none;padding:clamp(48px,8vw,80px);
+      text-align:center;background:var(--bg-3);
+      border:1px solid var(--border-gold);
+    }
+    .form-success-screen.show{display:block}
+    .success-icon{width:64px;height:64px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--border-gold);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:24px}
+    .success-title{font-family:var(--font-display);font-size:clamp(28px,3vw,44px);font-weight:700;letter-spacing:-.02em;margin-bottom:14px}
+    .success-text{color:var(--ink-2);font-size:1rem;line-height:1.75;max-width:480px;margin:0 auto}
+
+    /* ── MAP / OFFICE STRIP ────────────── */
+    .offices{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg-2)}
+    .offices-grid{display:grid;grid-template-columns:repeat(3,1fr)}
+    @media(max-width:768px){.offices-grid{grid-template-columns:1fr}}
+    .office-cell{
+      padding:clamp(28px,4vw,48px);border-right:1px solid var(--border);
+      transition:background .3s;
+    }
+    .office-cell:last-child{border-right:none}
+    .office-cell:hover{background:rgba(242,237,228,.02)}
+    @media(max-width:768px){.office-cell{border-right:none;border-bottom:1px solid var(--border)}.office-cell:last-child{border-bottom:none}}
+    .office-city{font-family:var(--font-display);font-size:clamp(24px,2.5vw,36px);font-weight:700;letter-spacing:-.02em;color:var(--ink);margin-bottom:4px}
+    .office-country{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+    .office-address{font-size:.9rem;color:var(--ink-3);line-height:1.7;margin-bottom:16px}
+    .office-hours{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--ink-3)}
+    .office-tag{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);border:1px solid var(--border);padding:4px 10px;border-radius:100px}
+    .office-tag.primary{border-color:var(--border-gold);color:var(--gold)}
+
+    /* ── FAQ ───────────────────────────── */
+    .faq-contact{max-width:800px;margin:0 auto;padding:clamp(80px,10vw,140px) 0}
+    .faq-item-c{border-bottom:1px solid var(--border)}
+    .faq-item-c:first-child{border-top:1px solid var(--border)}
+    .faq-trigger-c{width:100%;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:clamp(18px,2.5vw,28px) 0;text-align:left}
+    .faq-q{font-family:var(--font-display);font-size:clamp(17px,1.8vw,22px);font-weight:600;color:var(--ink-2);transition:color .3s;letter-spacing:-.01em}
+    .faq-trigger-c:hover .faq-q,.faq-trigger-c.open .faq-q{color:var(--ink)}
+    .faq-chevron-c{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .3s,border-color .3s,transform .4s var(--ease)}
+    .faq-trigger-c.open .faq-chevron-c{background:var(--gold);border-color:var(--gold);transform:rotate(180deg)}
+    .faq-trigger-c.open .faq-chevron-c svg path{stroke:#0A0A0C}
+    .faq-ans{max-height:0;overflow:hidden;transition:max-height .5s var(--ease),opacity .4s;opacity:0}
+    .faq-ans.open{max-height:200px;opacity:1}
+    .faq-ans-inner{padding-bottom:clamp(18px,2.5vw,28px);font-size:.9375rem;color:var(--ink-3);line-height:1.8;max-width:640px}
+    .faq-ans-inner a{color:var(--gold);border-bottom:1px solid var(--border-gold);transition:border-color .2s}
+    .faq-ans-inner a:hover{border-bottom-color:var(--gold)}
+
+    /* Footer */
+    .mini-footer{border-top:1px solid var(--border);padding:24px 0}
+    .mini-footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+    .mini-footer-copy{font-size:.8125rem;color:var(--ink-3)}.mini-footer-copy a{color:var(--gold)}
+  </style>
+</head>
+<body>
+  <div id="cd"></div>
+  <div id="cr"></div>
+  <button id="back-to-top" aria-label="Back to top"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 12V4M4 7l4-4 4 4" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+  <nav id="mobile-nav" aria-hidden="true">
+    <a href="index.html">Home</a>
+    <a href="devnoxxkit-services.html">Services</a>
+    <a href="devnoxxkit-portfolio.html">Work</a>
+    <a href="devnoxxkit-about.html">About</a>
+    <a href="devnoxxkit-blog.html">Journal</a>
+    <a href="devnoxxkit-contact.html">Let's Talk</a>
+  </nav>
+
+  <header id="nav" role="banner">
+    <div class="container"><div class="nav-inner">
+      <a href="index.html" class="nav-logo"><div class="nav-logo-mark"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="#0A0A0C" stroke-width="1.5" stroke-linecap="round"/></svg></div>Devnoxx<span style="color:var(--gold)">Kit</span></a>
+      <ul class="nav-links" role="list">
+        <li class="relative">
+          <a href="index.html" class="home-trigger" aria-haspopup="true" aria-expanded="false">Home</a>
+          <div class="nav-home-dropdown">
+
+            <a href="devnoxxkit-home-brutalist.html" class="nav-home-item">Brutalist</a>
+            <a href="devnoxxkit-home-ivory.html" class="nav-home-item">Ivory</a>
+            <a href="devnoxxkit-home-monochrome.html" class="nav-home-item">Monochrome</a>
+            <a href="devnoxxkit-home-teal.html" class="nav-home-item">Teal</a>
+          </div>
+        </li>
+        <li><a href="devnoxxkit-services.html">Services</a></li>
+        <li><a href="devnoxxkit-portfolio.html">Work</a></li>
+        <li><a href="devnoxxkit-about.html">About</a></li>
+        <li><a href="devnoxxkit-blog.html">Journal</a></li>
+        <li><a href="devnoxxkit-contact.html" class="active nav-cta">Let's Talk</a></li>
+      </ul>
+      <button class="nav-hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div></div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <div class="page-hero">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow-1" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow-2" aria-hidden="true"></div>
+      <div class="container" style="position:relative;z-index:1">
+        <div class="hero-eyebrow"><div class="hero-eyebrow-line"></div><span class="label">Get In Touch</span></div>
+        <h1 style="font-family:var(--font-display);font-size:clamp(52px,9vw,140px);font-weight:800;line-height:.9;letter-spacing:-.03em">
+          <div class="hero-line-wrap"><span class="hero-line">Let's make</span></div>
+          <div class="hero-line-wrap"><span class="hero-line" style="color:var(--gold);font-style:italic">something.</span></div>
+        </h1>
+      </div>
+    </div>
+
+    <!-- MAIN CONTACT -->
+    <div class="container">
+      <div class="contact-wrap">
+
+        <!-- LEFT INFO -->
+        <aside class="contact-info-panel reveal">
+          <p class="contact-tagline">We work with a small number of clients at a time so every project gets our <em>full attention.</em></p>
+
+          <div class="info-items">
+            <div class="info-item">
+              <div class="info-label">Email</div>
+              <div class="info-value"><a href="mailto:chtauqeer1117@gmail.com">chtauqeer1117@gmail.com</a></div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Response Time</div>
+              <div class="info-value">Within 24 hours</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Based In</div>
+              <div class="info-value">Lisbon · Berlin · Remote</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Availability</div>
+              <div class="info-value">
+                <div class="info-status">
+                  <div class="status-dot"></div>
+                  Open for Q3 2026 projects
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="avail-card">
+            <div class="avail-num">3 <span>spots</span></div>
+            <p class="avail-text">We deliberately limit how many projects we take on at once. Three spots remain for Q3 2026. Once they're gone, the next availability is Q4.</p>
+            <div class="avail-tag">Project intake open</div>
+          </div>
+
+          <div class="social-links" aria-label="Social links">
+            <a href="#" class="social-link" aria-label="Twitter/X">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 4l16 16M4 20L20 4" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </a>
+            <a href="#" class="social-link" aria-label="Dribbble">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="var(--ink-2)" stroke-width="1.5"/><path d="M6.5 6.5c3 2.5 5 6 5.5 10M17.5 7c-2 1-6 2-11 1.5M22 12c-3.5 0-7-1-9.5-3" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </a>
+            <a href="#" class="social-link" aria-label="LinkedIn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="3" stroke="var(--ink-2)" stroke-width="1.5"/><path d="M7 10v7M7 7v.5M11 17v-4c0-1.1.9-2 2-2s2 .9 2 2v4M11 10v7" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </a>
+            <a href="#" class="social-link" aria-label="GitHub">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0112 6.8c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0022 12c0-5.52-4.48-10-10-10z" fill="var(--ink-2)"/></svg>
+            </a>
+          </div>
+        </aside>
+
+        <!-- RIGHT FORM -->
+        <div class="contact-form-wrap reveal d2">
+
+          <!-- Step indicators -->
+          <div class="form-steps" role="tablist" aria-label="Form steps">
+            <div class="form-step active" id="step-ind-1" role="tab">
+              <div class="step-num">1</div>About You
+            </div>
+            <div class="form-step" id="step-ind-2" role="tab">
+              <div class="step-num">2</div>Your Project
+            </div>
+            <div class="form-step" id="step-ind-3" role="tab">
+              <div class="step-num">3</div>Details
+            </div>
+          </div>
+
+          <form id="contact-form" novalidate>
+
+            <!-- Step 1 — About You -->
+            <div class="form-panel active" id="panel-1" role="tabpanel">
+              <div class="field-row">
+                <div class="field" id="g-fname">
+                  <label class="field-label" for="fname">First Name <span class="field-required">*</span></label>
+                  <input class="field-input" type="text" id="fname" name="fname" placeholder="Jane" autocomplete="given-name"/>
+                  <span class="field-error">Required</span>
+                </div>
+                <div class="field" id="g-lname">
+                  <label class="field-label" for="lname">Last Name <span class="field-required">*</span></label>
+                  <input class="field-input" type="text" id="lname" name="lname" placeholder="Smith" autocomplete="family-name"/>
+                  <span class="field-error">Required</span>
+                </div>
+              </div>
+              <div class="field" id="g-email">
+                <label class="field-label" for="email">Email Address <span class="field-required">*</span></label>
+                <input class="field-input" type="email" id="email" name="email" placeholder="jane@company.com" autocomplete="email"/>
+                <span class="field-error">Enter a valid email address</span>
+              </div>
+              <div class="field" id="g-company">
+                <label class="field-label" for="company">Company / Studio</label>
+                <input class="field-input" type="text" id="company" name="company" placeholder="Acme Creative"/>
+              </div>
+              <div class="field" id="g-role">
+                <label class="field-label" for="role">Your Role</label>
+                <select class="field-select" id="role" name="role">
+                  <option value="" disabled selected>Select your role…</option>
+                  <option>Founder / CEO</option>
+                  <option>Creative Director</option>
+                  <option>Marketing Lead</option>
+                  <option>Product Manager</option>
+                  <option>Developer</option>
+                  <option>Freelancer</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="form-nav">
+                <span class="form-progress">Step 1 of 3</span>
+                <button type="button" class="btn btn-primary" id="next-1">
+                  Next: Your Project
+                  <svg class="btn-arrow" viewBox="0 0 20 20" fill="none"><path d="M4 16L16 4M16 4H8M16 4V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Step 2 — Project Type -->
+            <div class="form-panel" id="panel-2" role="tabpanel">
+              <div class="field">
+                <div class="field-label">Project Type <span class="field-required">*</span></div>
+                <div class="radio-cards" id="project-type">
+                  <label class="radio-card">
+                    <input type="radio" name="project_type" value="brand"/>
+                    <div class="radio-label">
+                      <div class="radio-check"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="var(--bg)" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                      <span class="radio-label-title">Brand Identity</span>
+                      <span class="radio-label-sub">Logo, system, guidelines</span>
+                    </div>
+                  </label>
+                  <label class="radio-card">
+                    <input type="radio" name="project_type" value="web"/>
+                    <div class="radio-label">
+                      <div class="radio-check"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="var(--bg)" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                      <span class="radio-label-title">Web Design</span>
+                      <span class="radio-label-sub">UI, dev, CMS</span>
+                    </div>
+                  </label>
+                  <label class="radio-card">
+                    <input type="radio" name="project_type" value="system"/>
+                    <div class="radio-label">
+                      <div class="radio-check"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="var(--bg)" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                      <span class="radio-label-title">Design System</span>
+                      <span class="radio-label-sub">Tokens, components, docs</span>
+                    </div>
+                  </label>
+                  <label class="radio-card">
+                    <input type="radio" name="project_type" value="direction"/>
+                    <div class="radio-label">
+                      <div class="radio-check"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="var(--bg)" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                      <span class="radio-label-title">Creative Direction</span>
+                      <span class="radio-label-sub">Strategy, art direction</span>
+                    </div>
+                  </label>
+                  <label class="radio-card">
+                    <input type="radio" name="project_type" value="motion"/>
+                    <div class="radio-label">
+                      <div class="radio-check"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="var(--bg)" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                      <span class="radio-label-title">Motion & Interaction</span>
+                      <span class="radio-label-sub">Animation, micro-UX</span>
+                    </div>
+                  </label>
+                  <label class="radio-card">
+                    <input type="radio" name="project_type" value="other"/>
+                    <div class="radio-label">
+                      <div class="radio-check"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="var(--bg)" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                      <span class="radio-label-title">Something Else</span>
+                      <span class="radio-label-sub">Let's talk</span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="field-label">Timeline</div>
+                <select class="field-select" name="timeline">
+                  <option value="" disabled selected>When do you need to start?</option>
+                  <option>ASAP</option>
+                  <option>Within 1 month</option>
+                  <option>1–3 months</option>
+                  <option>3–6 months</option>
+                  <option>Just exploring</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <div class="field-label">Estimated Budget</div>
+                <div class="budget-value" id="budget-display">$15,000</div>
+                <input type="range" class="budget-slider" id="budget-slider" min="5" max="100" value="15" step="5" aria-label="Budget range" aria-valuemin="5000" aria-valuemax="100000"/>
+                <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;color:var(--ink-3)"><span>$5k</span><span>$100k+</span></div>
+              </div>
+
+              <div class="form-nav">
+                <button type="button" class="form-back" id="back-1">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                  Back
+                </button>
+                <div style="display:flex;align-items:center;gap:16px">
+                  <span class="form-progress">Step 2 of 3</span>
+                  <button type="button" class="btn btn-primary" id="next-2">
+                    Next: Details
+                    <svg class="btn-arrow" viewBox="0 0 20 20" fill="none"><path d="M4 16L16 4M16 4H8M16 4V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3 — Details -->
+            <div class="form-panel" id="panel-3" role="tabpanel">
+              <div class="field" id="g-message">
+                <label class="field-label" for="message">Tell us about your project <span class="field-required">*</span></label>
+                <textarea class="field-textarea" id="message" name="message" placeholder="What are you trying to achieve? Who is your audience? What does success look like?"></textarea>
+                <span class="field-error">Please describe your project</span>
+              </div>
+
+              <div class="field">
+                <div class="field-label">How did you find us?</div>
+                <select class="field-select" name="source">
+                  <option value="" disabled selected>Select one…</option>
+                  <option>Google / Search</option>
+                  <option>Dribbble / Behance</option>
+                  <option>Awwwards / FWA</option>
+                  <option>LinkedIn</option>
+                  <option>Referral from client</option>
+                  <option>Social media</option>
+                  <option>ThemeForest / Gumroad</option>
+                  <option>Word of mouth</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <div class="field-label">I'm interested in</div>
+                <div class="check-group">
+                  <label class="check-item">
+                    <input type="checkbox" name="interests" value="nda"/>
+                    <div class="check-box"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="var(--bg)" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                    <span class="check-label">Signing an NDA before discussing details</span>
+                  </label>
+                  <label class="check-item">
+                    <input type="checkbox" name="interests" value="case_study"/>
+                    <div class="check-box"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="var(--bg)" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                    <span class="check-label">Receiving a case study for a similar past project</span>
+                  </label>
+                  <label class="check-item">
+                    <input type="checkbox" name="interests" value="retainer"/>
+                    <div class="check-box"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="var(--bg)" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                    <span class="check-label">Exploring an ongoing retainer relationship</span>
+                  </label>
+                  <label class="check-item">
+                    <input type="checkbox" name="interests" value="template"/>
+                    <div class="check-box"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="var(--bg)" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                    <span class="check-label">Purchasing the DevnoxxKit template license</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-nav">
+                <button type="button" class="form-back" id="back-2">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                  Back
+                </button>
+                <div style="display:flex;align-items:center;gap:16px">
+                  <span class="form-progress">Step 3 of 3</span>
+                  <button type="submit" class="btn btn-primary" id="submit-btn">
+                    <span id="submit-text">Send Message</span>
+                    <svg class="btn-arrow" viewBox="0 0 20 20" fill="none"><path d="M4 16L16 4M16 4H8M16 4V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </form>
+
+          <!-- Success screen -->
+          <div class="form-success-screen" id="success-screen" role="status" aria-live="polite">
+            <div class="success-icon">✦</div>
+            <h2 class="success-title">Message received.</h2>
+            <p class="success-text">We'll review your project details and get back to you within 24 hours. Keep an eye on your inbox — including the spam folder, just in case.</p>
+    <a href="devnoxxkit-portfolio.html" class="btn btn-ghost" style="margin-top:28px;display:inline-flex">Explore Our Work</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- OFFICES -->
+    <div class="offices">
+      <div class="container" style="padding:0 clamp(20px,4vw,80px)">
+        <div class="offices-grid">
+          <div class="office-cell reveal">
+            <div class="office-city">Lisbon</div>
+            <div class="office-country">Portugal — HQ</div>
+            <p class="office-address">Rua do Alecrim 22, 1st Floor<br>1200-017 Lisboa</p>
+            <div class="office-hours">Mon–Fri · 09:00–18:00 WET</div>
+            <div class="office-tag primary">Headquarters</div>
+          </div>
+          <div class="office-cell reveal d1">
+            <div class="office-city">Berlin</div>
+            <div class="office-country">Germany</div>
+            <p class="office-address">Torstraße 130, 2nd Floor<br>10119 Berlin-Mitte</p>
+            <div class="office-hours">Mon–Fri · 09:00–18:00 CET</div>
+            <div class="office-tag">Studio</div>
+          </div>
+          <div class="office-cell reveal d2">
+            <div class="office-city">Remote</div>
+            <div class="office-country">Worldwide</div>
+            <p class="office-address">We work with clients across 40+ countries. Time zones are just a detail we manage so you don't have to.</p>
+            <div class="office-hours">Async-first · Always available</div>
+            <div class="office-tag">Global</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="container">
+      <div class="faq-contact">
+        <div class="section-eyebrow reveal"><div class="section-eyebrow-line"></div><span class="label">Before You Write</span></div>
+        <h2 class="reveal d1" style="font-family:var(--font-display);font-size:clamp(26px,3.5vw,48px);font-weight:700;letter-spacing:-.02em;margin-bottom:clamp(32px,4vw,52px)">Answers to the questions<br>you're probably thinking.</h2>
+        <div id="faq">
+          <div class="faq-item-c">
+            <button class="faq-trigger-c" aria-expanded="false"><span class="faq-q">What's the minimum project size you take on?</span><div class="faq-chevron-c"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 5l4 4 4-4" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></div></button>
+            <div class="faq-ans"><div class="faq-ans-inner">Brand identity projects start at $12,000. Web design and development from $18,000. Design systems from $25,000. We don't do cheap, fast, or generic — and we're transparent about that upfront. If you're not sure your budget fits, send us a message anyway. Occasionally we make exceptions for work we find genuinely interesting.</div></div>
+          </div>
+          <div class="faq-item-c">
+            <button class="faq-trigger-c" aria-expanded="false"><span class="faq-q">How quickly can you start?</span><div class="faq-chevron-c"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 5l4 4 4-4" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></div></button>
+            <div class="faq-ans"><div class="faq-ans-inner">We have three spots open for Q3 2026. Assuming contracts and kick-off alignment go smoothly, most projects can start within 2–3 weeks of initial contact. For urgent requests, we sometimes hold emergency capacity — mention it in your message.</div></div>
+          </div>
+          <div class="faq-item-c">
+            <button class="faq-trigger-c" aria-expanded="false"><span class="faq-q">Do you work with international clients?</span><div class="faq-chevron-c"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 5l4 4 4-4" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></div></button>
+            <div class="faq-ans"><div class="faq-ans-inner">Absolutely — the majority of our clients are international. We've worked with companies in 40+ countries entirely remotely. We use async communication tools, structured check-in rhythms, and clear documentation to make sure distance is never an obstacle.</div></div>
+          </div>
+          <div class="faq-item-c">
+            <button class="faq-trigger-c" aria-expanded="false"><span class="faq-q">What information do you need to give a quote?</span><div class="faq-chevron-c"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 5l4 4 4-4" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></div></button>
+            <div class="faq-ans"><div class="faq-ans-inner">Use the form above to share your project type, rough timeline, and budget range. A brief description of what you're trying to achieve is enough to get a preliminary conversation started. We'll schedule a 30-minute discovery call from there.</div></div>
+          </div>
+          <div class="faq-item-c">
+            <button class="faq-trigger-c" aria-expanded="false"><span class="faq-q">Do you sign NDAs?</span><div class="faq-chevron-c"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 5l4 4 4-4" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></div></button>
+            <div class="faq-ans"><div class="faq-ans-inner">Yes — we routinely sign mutual NDAs before discussing sensitive project details. Tick the box in the form above and we'll have one over to you before the first call.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="mini-footer" role="contentinfo"><div class="container"><div class="mini-footer-inner">
+    <a href="index.html" style="font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:8px"><div class="nav-logo-mark"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="#0A0A0C" stroke-width="1.5" stroke-linecap="round"/></svg></div>Devnoxx<span style="color:var(--gold)">Kit</span></a>
+    <p class="mini-footer-copy">© 2026 <a href="index.html">DevnoxxKit</a>. Crafted with obsession.</p>
+    <p class="mini-footer-copy" style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em">CONTACT PAGE</p>
+  </div></div></footer>
+
+  <script>
+    // Cursor
+    const cd=document.getElementById('cd'),cr=document.getElementById('cr');
+    let rx=0,ry=0,dx=0,dy=0,mx=0,my=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+    (function loop(){dx+=(mx-dx)*.85;dy+=(my-dy)*.85;rx+=(mx-rx)*.1;ry+=(my-ry)*.1;cd.style.left=dx+'px';cd.style.top=dy+'px';cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(loop)})();
+    const nav=document.getElementById('nav');
+    window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
+    const hb=document.getElementById('hamburger'),mn=document.getElementById('mobile-nav');
+    hb.addEventListener('click',()=>{const o=hb.classList.toggle('open');mn.classList.toggle('open',o);hb.setAttribute('aria-expanded',String(o));mn.setAttribute('aria-hidden',String(!o));document.body.style.overflow=o?'hidden':''});
+    const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target)}}),{threshold:.1,rootMargin:'0px 0px -48px 0px'});
+    document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+    const btt=document.getElementById('back-to-top');
+    window.addEventListener('scroll',()=>btt.classList.toggle('visible',scrollY>500),{passive:true});
+    btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+    // ── Multi-step form ──────────────────────────────────────
+    let currentStep=1;
+    function showStep(n){
+      document.querySelectorAll('.form-panel').forEach((p,i)=>p.classList.toggle('active',i===n-1));
+      document.querySelectorAll('.form-step').forEach((s,i)=>{
+        s.classList.remove('active','done');
+        if(i===n-1)s.classList.add('active');
+        else if(i<n-1)s.classList.add('done');
+      });
+      currentStep=n;
+      window.scrollTo({top:document.getElementById('contact-form').getBoundingClientRect().top+scrollY-120,behavior:'smooth'});
+    }
+
+    function validate1(){
+      let ok=true;
+      [['fname',v=>v.length>1],['email',v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)]].forEach(([id,test])=>{
+        const g=document.getElementById('g-'+id),f=document.getElementById(id);
+        const v=f.value.trim();const pass=test(v);
+        g.classList.toggle('has-error',!pass);if(!pass)ok=false;
+      });
+      return ok;
+    }
+    function validate3(){
+      const g=document.getElementById('g-message'),f=document.getElementById('message');
+      const ok=f.value.trim().length>10;g.classList.toggle('has-error',!ok);return ok;
+    }
+
+    document.getElementById('next-1').addEventListener('click',()=>{if(validate1())showStep(2)});
+    document.getElementById('next-2').addEventListener('click',()=>showStep(3));
+    document.getElementById('back-1').addEventListener('click',()=>showStep(1));
+    document.getElementById('back-2').addEventListener('click',()=>showStep(2));
+
+    // Budget slider
+    const slider=document.getElementById('budget-slider'),display=document.getElementById('budget-display');
+    slider.addEventListener('input',()=>{
+      const v=parseInt(slider.value);
+      display.textContent=v>=100?'$100,000+':'$'+v.toLocaleString()+'k'.replace('k','000').replace(/000$/,'k');
+      display.textContent=v>=100?'$100k+':'$'+(v*1000).toLocaleString();
+      slider.setAttribute('aria-valuenow',v*1000);
+    });
+
+    // Form submit
+    document.getElementById('contact-form').addEventListener('submit',async e=>{
+      e.preventDefault();
+      if(!validate3())return;
+      const btn=document.getElementById('submit-btn');
+      document.getElementById('submit-text').textContent='Sending…';
+      btn.disabled=true;
+      await new Promise(r=>setTimeout(r,1400));
+      document.getElementById('contact-form').style.display='none';
+      document.getElementById('success-screen').classList.add('show');
+      document.querySelector('.form-steps').style.display='none';
+    });
+
+    // Blur validation
+    document.getElementById('fname').addEventListener('blur',()=>{const g=document.getElementById('g-fname'),f=document.getElementById('fname');g.classList.toggle('has-error',f.value.trim().length<2)});
+    document.getElementById('email').addEventListener('blur',()=>{const g=document.getElementById('g-email'),f=document.getElementById('email');g.classList.toggle('has-error',!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.value.trim()))});
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-trigger-c').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const open=btn.classList.contains('open');
+        document.querySelectorAll('.faq-trigger-c').forEach(b=>{b.classList.remove('open');b.setAttribute('aria-expanded','false')});
+        document.querySelectorAll('.faq-ans').forEach(a=>a.classList.remove('open'));
+        if(!open){btn.classList.add('open');btn.setAttribute('aria-expanded','true');btn.nextElementSibling.classList.add('open')}
+      });
+    });
+  </script>
+  <script src="devnoxxkit-theme.js"></script>
+</body>
+</html>

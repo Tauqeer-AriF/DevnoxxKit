@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DevnoxxKit — Premium HTML Design System for Agencies & Creators</title>
+  <meta name="description" content="16-page cinematic HTML template. Vite 5, Tailwind v4, Alpine.js. 5 homepage variations, dark/light mode, full documentation. Built to sell at $99–$199."/>
+  <meta property="og:title" content="DevnoxxKit — Premium HTML Design System"/>
+  <meta property="og:description" content="16 pages. 5 homepage skins. Dark/light mode. Full docs. The premium HTML template that justifies $149."/>
+  <meta property="og:image" content="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&q=75&auto=format&fit=crop"/>
+  <meta property="og:type" content="product"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --bg:#0A0A0C;--bg-2:#111114;--bg-3:#18181D;
+      --border:rgba(242,237,228,0.08);--border-gold:rgba(201,169,110,0.3);
+      --ink:#F2EDE4;--ink-2:#B8B0A4;--ink-3:#6E6860;
+      --gold:#C9A96E;--gold-light:#DFC28E;--gold-dim:rgba(201,169,110,0.12);
+      --font-display:'Fraunces',Georgia,serif;
+      --font-body:'DM Sans',system-ui,sans-serif;
+      --font-mono:'JetBrains Mono',monospace;
+      --ease:cubic-bezier(0.16,1,0.3,1);
+      --nav-bg: rgba(10,10,12,0.92);
+    }
+    [data-theme="light"]{
+      --nav-bg: rgba(247,243,236,0.94);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-size:16px;-webkit-font-smoothing:antialiased}
+    body{background:var(--bg);color:var(--ink);font-family:var(--font-body);overflow-x:hidden;cursor:none;line-height:1.65}
+    body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px 256px}
+    ::selection{background:var(--gold);color:var(--bg)}
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+    button{border:none;background:none;cursor:none;font:inherit}
+
+    #cd{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--gold);pointer-events:none;z-index:10000;transform:translate(-50%,-50%);will-change:transform}
+    #cr{position:fixed;width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,169,110,.45);pointer-events:none;z-index:10000;transform:translate(-50%,-50%);transition:width .3s var(--ease),height .3s var(--ease),border-color .3s;will-change:transform}
+    body:has(a:hover) #cr,body:has(button:hover) #cr{width:56px;height:56px;border-color:var(--gold)}
+
+    .container{width:100%;max-width:1280px;margin:0 auto;padding:0 clamp(20px,4vw,72px)}
+    .section{padding:clamp(72px,10vw,140px) 0}
+    .label{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+    .eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+    .eyebrow-line{width:32px;height:1px;background:var(--gold)}
+    .reveal{opacity:0;transform:translateY(20px);transition:opacity .8s var(--ease),transform .8s var(--ease)}.reveal.visible{opacity:1;transform:none}
+    .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+    /* ── ANNOUNCEMENT BAR ──────────────── */
+    .announce{
+      background:var(--gold);color:var(--bg);
+      padding:10px;text-align:center;
+      font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;
+      display:flex;align-items:center;justify-content:center;gap:12px;
+      position:relative;
+    }
+    .announce-close{position:absolute;right:16px;top:50%;transform:translateY(-50%);opacity:.6;transition:opacity .2s}
+    .announce-close:hover{opacity:1}
+
+    /* ── NAV ───────────────────────────── */
+    #nav{position:sticky;top:0;z-index:100;background:var(--nav-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:16px 0;transition:background .35s cubic-bezier(0.16,1,0.3,1),border-color .35s}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .nav-logo{font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+    .nav-logo-mark{width:28px;height:28px;background:var(--gold);border-radius:6px;display:flex;align-items:center;justify-content:center}
+    .nav-links{display:flex;align-items:center;gap:28px;list-style:none}
+    .nav-links a{font-size:.875rem;color:var(--ink-2);transition:color .2s}.nav-links a:hover{color:var(--ink)}
+    @media(max-width:768px){.nav-links{display:none}}
+    .nav-cta-group{display:flex;align-items:center;gap:10px;flex-shrink:0}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:11px 22px;font-size:.875rem;font-weight:600;border-radius:4px;transition:transform .3s var(--ease),box-shadow .3s,background .2s}.btn:hover{transform:translateY(-2px)}
+    .btn-gold{background:var(--gold);color:var(--bg);box-shadow:0 4px 20px rgba(201,169,110,.2)}.btn-gold:hover{background:var(--gold-light);box-shadow:0 8px 36px rgba(201,169,110,.35)}
+    .btn-outline{border:1px solid var(--border);color:var(--ink-2)}.btn-outline:hover{border-color:var(--border-gold);color:var(--ink)}
+    .btn-arrow{width:16px;height:16px;transition:transform .3s var(--ease)}.btn:hover .btn-arrow{transform:translate(3px,-3px)}
+
+    /* ── HERO ──────────────────────────── */
+    .hero{
+      min-height:90svh;display:flex;align-items:center;
+      padding:clamp(64px,10vw,120px) 0;
+      position:relative;overflow:hidden;
+    }
+    .hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(242,237,228,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(242,237,228,.018) 1px,transparent 1px);background-size:72px 72px;pointer-events:none}
+    .hero-glow-1{position:absolute;width:800px;height:800px;background:rgba(201,169,110,.06);border-radius:50%;filter:blur(120px);top:-150px;right:-150px;pointer-events:none}
+    .hero-glow-2{position:absolute;width:600px;height:600px;background:rgba(30,58,58,.2);border-radius:50%;filter:blur(100px);bottom:-100px;left:-80px;pointer-events:none}
+
+    .hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,80px);align-items:center;position:relative;z-index:1}
+    @media(max-width:900px){.hero-inner{grid-template-columns:1fr}}
+
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:100px;font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--gold);margin-bottom:24px;opacity:0;animation:fadeUp .8s .1s var(--ease) forwards}
+    @keyframes fadeUp{to{opacity:1;transform:none}}
+    .hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold);animation:dotPulse 2s ease-in-out infinite}
+    @keyframes dotPulse{0%,100%{box-shadow:0 0 6px var(--gold)}50%{box-shadow:0 0 16px var(--gold),0 0 32px rgba(201,169,110,.3)}}
+
+    .hero-line-wrap{overflow:hidden}
+    .hero-line{display:block;transform:translateY(110%);opacity:0;animation:lineReveal .95s var(--ease) forwards}
+    .hero-line:nth-child(1){animation-delay:.22s}.hero-line:nth-child(2){animation-delay:.38s}.hero-line:nth-child(3){animation-delay:.54s}
+    @keyframes lineReveal{to{transform:none;opacity:1}}
+    .hero-title{font-family:var(--font-display);font-size:clamp(44px,6vw,88px);font-weight:800;line-height:.92;letter-spacing:-.035em;color:var(--ink)}
+    .hero-title em{color:var(--gold);font-style:italic}
+
+    .hero-desc{color:var(--ink-2);font-size:1.0625rem;line-height:1.8;margin:20px 0 32px;max-width:500px;opacity:0;animation:fadeUp .9s .7s var(--ease) forwards}
+    .hero-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;opacity:0;animation:fadeUp .9s .85s var(--ease) forwards}
+
+    .hero-social-proof{display:flex;align-items:center;gap:16px;margin-top:24px;opacity:0;animation:fadeUp .9s 1s var(--ease) forwards}
+    .proof-avatars{display:flex}
+    .proof-avatar{width:32px;height:32px;border-radius:50%;object-fit:cover;filter:grayscale(.3);border:2px solid var(--bg);margin-left:-8px}
+    .proof-avatar:first-child{margin-left:0}
+    .proof-text{font-size:.875rem;color:var(--ink-2)}
+    .proof-text strong{color:var(--ink)}
+    .proof-stars{color:var(--gold);font-size:12px;letter-spacing:2px;display:block;margin-bottom:2px}
+
+    /* Hero image / preview */
+    .hero-preview{position:relative;opacity:0;animation:fadeUp 1s .4s var(--ease) forwards}
+    @media(max-width:900px){.hero-preview{display:none}}
+    .preview-frame{
+      background:var(--bg-3);border:1px solid var(--border);border-radius:8px;
+      overflow:hidden;
+      box-shadow:0 32px 80px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.04);
+    }
+    .preview-bar{height:32px;background:var(--bg-2);display:flex;align-items:center;gap:6px;padding:0 12px;border-bottom:1px solid var(--border)}
+    .preview-dot{width:10px;height:10px;border-radius:50%}
+    .preview-url{flex:1;height:18px;background:var(--bg-3);border-radius:100px;margin:0 8px}
+    .preview-img{width:100%;aspect-ratio:16/10;object-fit:cover;filter:brightness(.75) saturate(.7)}
+
+    /* Floating badge on preview */
+    .preview-badge{
+      position:absolute;bottom:-16px;left:-16px;
+      background:var(--bg-3);border:1px solid var(--border-gold);
+      padding:14px 18px;border-radius:8px;
+      box-shadow:0 8px 32px rgba(0,0,0,.4);
+    }
+    .pb-num{font-family:var(--font-display);font-size:28px;font-weight:800;letter-spacing:-.04em;color:var(--ink);line-height:1}
+    .pb-lbl{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);margin-top:2px}
+
+    /* ── STATS BAR ─────────────────────── */
+    .stats-bar{background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+    .stats-row{display:grid;grid-template-columns:repeat(4,1fr)}
+    @media(max-width:768px){.stats-row{grid-template-columns:repeat(2,1fr)}}
+    .stat-cell{padding:clamp(20px,3vw,36px);border-right:1px solid var(--border);display:flex;flex-direction:column;gap:4px;transition:background .3s}
+    .stat-cell:hover{background:rgba(242,237,228,.02)}
+    .stat-cell:last-child{border-right:none}
+    @media(max-width:768px){.stat-cell:nth-child(2){border-right:none}.stat-cell:nth-child(1),.stat-cell:nth-child(2){border-bottom:1px solid var(--border)}}
+    .stat-num{font-family:var(--font-display);font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-.04em;color:var(--ink);line-height:1}
+    .stat-num sup{font-size:.45em;color:var(--gold);vertical-align:super}
+    .stat-lbl{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+
+    /* ── FEATURES ──────────────────────── */
+    .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:clamp(36px,5vw,64px)}
+    @media(max-width:768px){.features-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:480px){.features-grid{grid-template-columns:1fr}}
+    .feat-card{background:var(--bg-3);border:1px solid var(--border);padding:clamp(24px,3.5vw,40px);transition:border-color .3s,transform .4s var(--ease);position:relative;overflow:hidden}
+    .feat-card:hover{border-color:var(--border-gold);transform:translateY(-4px)}
+    .feat-card::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--gold);transition:width .6s var(--ease)}
+    .feat-card:hover::after{width:100%}
+    .feat-icon{width:44px;height:44px;border-radius:8px;background:var(--gold-dim);border:1px solid var(--border-gold);display:flex;align-items:center;justify-content:center;margin-bottom:18px;font-size:20px}
+    .feat-title{font-family:var(--font-display);font-size:clamp(17px,1.7vw,22px);font-weight:600;letter-spacing:-.01em;color:var(--ink);margin-bottom:10px}
+    .feat-text{font-size:.875rem;color:var(--ink-3);line-height:1.7}
+    .feat-badge{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--gold)}
+    .feat-badge::before{content:'✦';font-size:7px}
+
+    /* ── SCREENSHOTS ───────────────────── */
+    .screens-scroll{display:flex;gap:12px;overflow-x:auto;padding-bottom:16px;margin-top:clamp(32px,4vw,52px);scrollbar-width:thin;scrollbar-color:var(--bg-3) transparent;scroll-snap-type:x mandatory}
+    .screens-scroll::-webkit-scrollbar{height:3px}.screens-scroll::-webkit-scrollbar-thumb{background:var(--bg-3)}
+    .screen-item{flex-shrink:0;scroll-snap-align:start;border-radius:8px;overflow:hidden;border:1px solid var(--border);transition:border-color .3s,transform .4s var(--ease)}
+    .screen-item:hover{border-color:var(--border-gold);transform:scale(1.02)}
+    .screen-item img{width:320px;aspect-ratio:16/10;object-fit:cover;filter:brightness(.75) saturate(.7);transition:filter .4s}
+    .screen-item:hover img{filter:brightness(.88) saturate(.85)}
+    .screen-label{padding:10px 14px;background:var(--bg-3);font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--ink-3)}
+
+    /* ── PAGES LIST ────────────────────── */
+    .pages-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:clamp(32px,4vw,52px)}
+    @media(max-width:640px){.pages-grid{grid-template-columns:1fr}}
+    .page-row{display:flex;align-items:center;gap:16px;padding:clamp(14px,2vw,22px) clamp(16px,2.5vw,28px);background:var(--bg-3);border:1px solid var(--border);transition:border-color .3s}
+    .page-row:hover{border-color:var(--border-gold)}
+    .page-num{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);flex-shrink:0;width:24px}
+    .page-name{font-family:var(--font-display);font-size:clamp(15px,1.5vw,18px);font-weight:600;color:var(--ink);flex:1}
+    .page-tag{font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:100px;flex-shrink:0}
+    .page-tag.new{background:rgba(109,191,138,.1);border:1px solid rgba(109,191,138,.25);color:#6DBF8A}
+    .page-tag.core{background:var(--gold-dim);border:1px solid var(--border-gold);color:var(--gold)}
+
+    /* ── TESTIMONIALS ──────────────────── */
+    .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:clamp(32px,4vw,52px)}
+    @media(max-width:768px){.testi-grid{grid-template-columns:1fr}}
+    .testi-card{background:var(--bg-3);border:1px solid var(--border);padding:clamp(24px,3.5vw,40px);transition:border-color .3s}
+    .testi-card:hover{border-color:var(--border-gold)}
+    .testi-stars{color:var(--gold);font-size:13px;letter-spacing:2px;margin-bottom:16px}
+    .testi-text{font-family:var(--font-display);font-size:clamp(15px,1.5vw,18px);font-style:italic;color:var(--ink-2);line-height:1.6;margin-bottom:20px}
+    .testi-author{display:flex;align-items:center;gap:12px;border-top:1px solid var(--border);padding-top:16px}
+    .testi-av{width:38px;height:38px;border-radius:50%;object-fit:cover;filter:grayscale(.3)}
+    .testi-name{font-size:.875rem;font-weight:600;color:var(--ink)}
+    .testi-role{font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;color:var(--ink-3);margin-top:2px}
+
+    /* ── PRICING ───────────────────────── */
+    .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:clamp(32px,4vw,52px)}
+    @media(max-width:768px){.pricing-grid{grid-template-columns:1fr}}
+    .price-card{background:var(--bg-3);border:1px solid var(--border);padding:clamp(28px,4vw,48px);transition:border-color .3s,transform .4s var(--ease);position:relative}
+    .price-card:hover{transform:translateY(-4px)}
+    .price-card.featured{border-color:var(--border-gold);background:linear-gradient(160deg,rgba(201,169,110,.06) 0%,var(--bg-3) 100%)}
+    .price-pop{position:absolute;top:-1px;right:24px;background:var(--gold);color:var(--bg);font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px}
+    .price-tier{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:16px}
+    .price-amount{font-family:var(--font-display);font-size:clamp(48px,6vw,72px);font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--ink);margin-bottom:6px}
+    .price-amount sup{font-size:.4em;color:var(--gold);vertical-align:super}
+    .price-period{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--ink-3);margin-bottom:24px}
+    .price-divider{height:1px;background:var(--border);margin:20px 0}
+    .price-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+    .pf{display:flex;align-items:center;gap:10px;font-size:.875rem;color:var(--ink-2)}
+    .pf::before{content:'→';font-family:var(--font-mono);font-size:.7rem;color:var(--gold);flex-shrink:0}
+    .pf.dim{color:var(--ink-3)}.pf.dim::before{color:var(--ink-3)}
+    .price-btn{width:100%;padding:14px;font-family:var(--font-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--border);color:var(--ink-2);display:flex;align-items:center;justify-content:center;gap:10px;transition:border-color .2s,color .2s,background .2s,transform .3s var(--ease)}
+    .price-btn:hover{border-color:var(--border-gold);color:var(--gold);transform:translateY(-2px)}
+    .price-card.featured .price-btn{background:var(--gold);border-color:var(--gold);color:var(--bg);font-weight:700}
+    .price-card.featured .price-btn:hover{background:var(--gold-light);border-color:var(--gold-light)}
+
+    /* ── FAQ ───────────────────────────── */
+    .faq-wrap{max-width:780px;margin:clamp(32px,4vw,52px) auto 0}
+    .faq-item{border-bottom:1px solid var(--border)}
+    .faq-item:first-child{border-top:1px solid var(--border)}
+    .faq-q-btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:clamp(16px,2.5vw,24px) 0;text-align:left}
+    .faq-q-txt{font-family:var(--font-display);font-size:clamp(16px,1.7vw,21px);font-weight:600;color:var(--ink-2);transition:color .3s;letter-spacing:-.01em}
+    .faq-q-btn:hover .faq-q-txt,.faq-q-btn.open .faq-q-txt{color:var(--ink)}
+    .faq-icon{width:28px;height:28px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .3s,border-color .3s,transform .4s var(--ease)}
+    .faq-q-btn.open .faq-icon{background:var(--gold);border-color:var(--gold);transform:rotate(45deg)}
+    .faq-q-btn.open .faq-icon svg path{stroke:#0A0A0C}
+    .faq-ans{max-height:0;overflow:hidden;transition:max-height .5s var(--ease),opacity .4s;opacity:0}
+    .faq-ans.open{max-height:200px;opacity:1}
+    .faq-ans-inner{padding-bottom:clamp(16px,2vw,24px);font-size:.9375rem;color:var(--ink-3);line-height:1.8}
+
+    /* ── FINAL CTA ─────────────────────── */
+    .final-cta{background:var(--bg-2);border-top:1px solid var(--border);position:relative;overflow:hidden}
+    .final-glow{position:absolute;width:900px;height:900px;background:radial-gradient(circle,rgba(201,169,110,.055) 0%,transparent 70%);left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none}
+    .final-inner{position:relative;text-align:center;padding:clamp(80px,12vw,160px) 0}
+    .final-title{font-family:var(--font-display);font-size:clamp(36px,6vw,96px);font-weight:800;letter-spacing:-.04em;line-height:.92;color:var(--ink);max-width:800px;margin:16px auto 40px}
+    .final-title em{color:var(--gold);font-style:italic}
+    .final-actions{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
+
+    /* ── FOOTER ────────────────────────── */
+    .footer{border-top:1px solid var(--border);padding:clamp(40px,6vw,72px) 0 clamp(24px,4vw,40px)}
+    .footer-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:clamp(24px,5vw,60px);margin-bottom:clamp(32px,4vw,52px)}
+    @media(max-width:900px){.footer-top{grid-template-columns:1fr 1fr}}
+    @media(max-width:480px){.footer-top{grid-template-columns:1fr}}
+    .footer-logo{font-family:var(--font-display);font-size:clamp(22px,3vw,32px);font-weight:700;letter-spacing:-.02em;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+    .footer-desc{font-size:.875rem;color:var(--ink-3);line-height:1.7;max-width:240px}
+    .footer-col-h{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:14px}
+    .footer-links{list-style:none;display:flex;flex-direction:column;gap:10px}
+    .footer-links a{font-size:.875rem;color:var(--ink-3);transition:color .2s}.footer-links a:hover{color:var(--ink)}
+    .footer-bottom{border-top:1px solid var(--border);padding-top:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+    .foot-copy{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--ink-3)}
+    .foot-copy a{color:var(--gold)}
+
+    #back-to-top{position:fixed;bottom:32px;right:32px;width:44px;height:44px;background:var(--bg-3);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(16px);transition:opacity .3s,transform .3s,background .2s;z-index:100}
+    #back-to-top.visible{opacity:1;transform:none}#back-to-top:hover{background:var(--gold);border-color:var(--gold)}
+  </style>
+</head>
+<body>
+  <div id="cd"></div>
+  <div id="cr"></div>
+  <button id="back-to-top" aria-label="Back to top"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 12V4M4 7l4-4 4 4" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+
+  <!-- Announcement bar -->
+  <div class="announce" id="announce-bar">
+    <span>✦ LAUNCH SALE — 30% OFF all licenses this week · Use code <strong>DEVNOXX30</strong></span>
+    <button class="announce-close" onclick="document.getElementById('announce-bar').style.display='none'" aria-label="Close announcement">✕</button>
+  </div>
+
+  <!-- NAV -->
+  <header id="nav" role="banner">
+    <div class="container">
+      <div class="nav-inner">
+        <div class="nav-logo">
+          <div class="nav-logo-mark"><svg viewBox="0 0 14 14" fill="none" width="14" height="14"><path d="M2 7h10M7 2l5 5-5 5" stroke="#0A0A0C" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          Devnoxx<span style="color:var(--gold)">Kit</span>
+        </div>
+        <ul class="nav-links" role="list">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pages">Pages</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="index.html" target="_blank" rel="noopener">Live Demo ↗</a></li>
+        </ul>
+        <div class="nav-cta-group">
+          <a href="index.html" target="_blank" rel="noopener" class="btn btn-outline">Preview</a>
+          <a href="#pricing" class="btn btn-gold">Buy Now <svg class="btn-arrow" viewBox="0 0 20 20" fill="none"><path d="M4 16L16 4M16 4H8M16 4V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ── HERO ───────────────────────── -->
+    <section class="hero" aria-labelledby="hero-h">
+      <div class="hero-grid-bg" aria-hidden="true"></div>
+      <div class="hero-glow-1" aria-hidden="true"></div>
+      <div class="hero-glow-2" aria-hidden="true"></div>
+      <div class="container">
+        <div class="hero-inner">
+          <div>
+            <div class="hero-badge"><div class="hero-badge-dot"></div>v2.1 · Just launched</div>
+            <h1 id="hero-h">
+              <div class="hero-line-wrap"><span class="hero-line hero-title">The premium</span></div>
+              <div class="hero-line-wrap"><span class="hero-line hero-title">HTML template</span></div>
+              <div class="hero-line-wrap"><span class="hero-line hero-title">worth <em>every cent.</em></span></div>
+            </h1>
+            <p class="hero-desc">16 pages. 5 homepage skins. Dark/light mode. Cinematic design tokens. Vite 5 + Tailwind v4 + Alpine.js. The only HTML template built to the same standard as $50,000 client work.</p>
+            <div class="hero-actions">
+              <a href="#pricing" class="btn btn-gold">
+                Get DevnoxxKit
+                <svg class="btn-arrow" viewBox="0 0 20 20" fill="none"><path d="M4 16L16 4M16 4H8M16 4V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </a>
+              <a href="index.html" target="_blank" rel="noopener" class="btn btn-outline">View Live Demo</a>
+            </div>
+            <div class="hero-social-proof">
+              <div class="proof-avatars" aria-hidden="true">
+                <img class="proof-avatar" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=80&q=70&auto=format&fit=crop&crop=faces" alt=""/>
+                <img class="proof-avatar" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&q=70&auto=format&fit=crop&crop=faces" alt=""/>
+                <img class="proof-avatar" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&q=70&auto=format&fit=crop&crop=faces" alt=""/>
+                <img class="proof-avatar" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=80&q=70&auto=format&fit=crop&crop=faces" alt=""/>
+              </div>
+              <div class="proof-text">
+                <span class="proof-stars">★★★★★</span>
+                <strong>4.9/5</strong> from <strong>312</strong> buyers
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-preview">
+            <div class="preview-frame">
+              <div class="preview-bar">
+                <div class="preview-dot" style="background:#E07070"></div>
+                <div class="preview-dot" style="background:var(--gold)"></div>
+                <div class="preview-dot" style="background:#6DBF8A"></div>
+                <div class="preview-url"></div>
+              </div>
+              <img class="preview-img" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=900&q=75&auto=format&fit=crop" alt="DevnoxxKit homepage preview"/>
+            </div>
+            <div class="preview-badge">
+              <div class="pb-num">16</div>
+              <div class="pb-lbl">Pages Included</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── STATS ───────────────────────── -->
+    <div class="stats-bar">
+      <div class="container" style="padding:0 clamp(20px,4vw,72px)">
+        <div class="stats-row">
+          <div class="stat-cell reveal"><div class="stat-num">16</div><div class="stat-lbl">HTML Pages</div></div>
+          <div class="stat-cell reveal d1"><div class="stat-num">5</div><div class="stat-lbl">Homepage Skins</div></div>
+          <div class="stat-cell reveal d2"><div class="stat-num">50<sup>+</sup></div><div class="stat-lbl">Components</div></div>
+          <div class="stat-cell reveal d3"><div class="stat-num">4.9<sup>★</sup></div><div class="stat-lbl">Avg Rating</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FEATURES ────────────────────── -->
+    <section class="section" id="features" aria-labelledby="feat-h">
+      <div class="container">
+        <div class="eyebrow reveal"><div class="eyebrow-line"></div><span class="label">What You Get</span></div>
+        <h2 class="reveal d1" id="feat-h" style="font-family:var(--font-display);font-size:clamp(28px,4vw,56px);font-weight:700;letter-spacing:-.025em;max-width:600px;margin-top:12px">Everything a premium<br>template should have.</h2>
+        <div class="features-grid">
+          <div class="feat-card reveal d1">
+            <div class="feat-icon">◈</div>
+            <div class="feat-title">16 Production Pages</div>
+            <p class="feat-text">Homepage + 4 skin variations, portfolio, blog, about, services, contact, shop, docs, 404, coming soon, style guide, dark/light demo.</p>
+            <div class="feat-badge">All fully responsive</div>
+          </div>
+          <div class="feat-card reveal d2">
+            <div class="feat-icon">⬡</div>
+            <div class="feat-title">5 Homepage Skins</div>
+            <p class="feat-text">Cinematic Dark, Neo-Brutalist, Warm Ivory, Midnight Teal, Pure Monochrome. Each a complete aesthetic system with its own font pairing and palette.</p>
+            <div class="feat-badge">Switchable via 6 CSS vars</div>
+          </div>
+          <div class="feat-card reveal d3">
+            <div class="feat-icon">◉</div>
+            <div class="feat-title">Dark / Light Mode</div>
+            <p class="feat-text">Complete dual-theme system. Zero flash on load. System preference detection. localStorage persistence. Every token adapts instantly.</p>
+            <div class="feat-badge">WCAG AA contrast</div>
+          </div>
+          <div class="feat-card reveal d1">
+            <div class="feat-icon">▲</div>
+            <div class="feat-title">Vite 5 + Tailwind v4</div>
+            <p class="feat-text">Instant HMR, optimized production builds, full design token system in Tailwind config. Build times under 800ms for the full 16-page site.</p>
+            <div class="feat-badge">Node 18+ required</div>
+          </div>
+          <div class="feat-card reveal d2">
+            <div class="feat-icon">✦</div>
+            <div class="feat-title">Full Documentation</div>
+            <p class="feat-text">Dedicated docs page + README.md covering every token, every component, every build command, and a step-by-step selling guide.</p>
+            <div class="feat-badge">Style Guide included</div>
+          </div>
+          <div class="feat-card reveal d3">
+            <div class="feat-icon">⬢</div>
+            <div class="feat-title">Cinematic Design System</div>
+            <p class="feat-text">Fraunces display font, DM Sans body, JetBrains Mono labels. Custom cursor, noise texture overlay, scroll reveals, motion tokens.</p>
+            <div class="feat-badge">Zero generic AI aesthetics</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SCREENSHOTS ──────────────────── -->
+    <section style="padding:0 0 clamp(72px,10vw,140px)" aria-labelledby="screen-h">
+      <div class="container">
+        <div class="eyebrow reveal"><div class="eyebrow-line"></div><span class="label">Page Previews</span></div>
+        <h2 class="reveal d1" id="screen-h" style="font-family:var(--font-display);font-size:clamp(24px,3vw,44px);font-weight:700;letter-spacing:-.02em;margin-top:12px">Every page, built to ship.</h2>
+      </div>
+      <div class="container" style="padding-right:0;max-width:100%">
+        <div class="screens-scroll reveal d2">
+          <div class="screen-item"><img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&q=70&auto=format&fit=crop" alt="Homepage"/><div class="screen-label">Homepage — Cinematic Dark</div></div>
+          <div class="screen-item"><img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=70&auto=format&fit=crop" alt="Homepage Ivory"/><div class="screen-label">Homepage — Warm Ivory</div></div>
+          <div class="screen-item"><img src="https://images.unsplash.com/photo-1545235617-9465d2a55698?w=600&q=70&auto=format&fit=crop" alt="Portfolio"/><div class="screen-label">Portfolio Page</div></div>
+          <div class="screen-item"><img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&q=70&auto=format&fit=crop" alt="Blog"/><div class="screen-label">Blog Index</div></div>
+          <div class="screen-item"><img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&q=70&auto=format&fit=crop" alt="About"/><div class="screen-label">About Page</div></div>
+          <div class="screen-item"><img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?w=600&q=70&auto=format&fit=crop" alt="Services"/><div class="screen-label">Services Page</div></div>
+          <div class="screen-item"><img src="https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&q=70&auto=format&fit=crop" alt="Shop"/><div class="screen-label">Shop Page</div></div>
+          <div class="screen-item"><img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=600&q=70&auto=format&fit=crop" alt="Contact"/><div class="screen-label">Contact Form</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PAGES LIST ───────────────────── -->
+    <section class="section" id="pages" style="background:var(--bg-2);border-top:1px solid var(--border)" aria-labelledby="pages-h">
+      <div class="container">
+        <div class="eyebrow reveal"><div class="eyebrow-line"></div><span class="label">All 16 Pages</span></div>
+        <h2 class="reveal d1" id="pages-h" style="font-family:var(--font-display);font-size:clamp(24px,3vw,44px);font-weight:700;letter-spacing:-.02em;margin-top:12px">Nothing left out.</h2>
+        <div class="pages-grid reveal d2">
+          <div class="page-row"><span class="page-num">01</span><span class="page-name">Homepage — Cinematic Dark</span><span class="page-tag core">Core</span></div>
+          <div class="page-row"><span class="page-num">02</span><span class="page-name">Homepage — Neo-Brutalist</span><span class="page-tag core">Skin</span></div>
+          <div class="page-row"><span class="page-num">03</span><span class="page-name">Homepage — Warm Ivory</span><span class="page-tag core">Skin</span></div>
+          <div class="page-row"><span class="page-num">04</span><span class="page-name">Homepage — Midnight Teal</span><span class="page-tag core">Skin</span></div>
+          <div class="page-row"><span class="page-num">05</span><span class="page-name">Homepage — Pure Monochrome</span><span class="page-tag core">Skin</span></div>
+          <div class="page-row"><span class="page-num">06</span><span class="page-name">Portfolio + Case Study Modal</span><span class="page-tag core">Core</span></div>
+          <div class="page-row"><span class="page-num">07</span><span class="page-name">Blog Index + Search + Filter</span><span class="page-tag core">Core</span></div>
+          <div class="page-row"><span class="page-num">08</span><span class="page-name">Blog Single + TOC + Progress</span><span class="page-tag core">Core</span></div>
+          <div class="page-row"><span class="page-num">09</span><span class="page-name">About + Team + Timeline</span><span class="page-tag core">Core</span></div>
+          <div class="page-row"><span class="page-num">10</span><span class="page-name">Services + Accordion + FAQ</span><span class="page-tag core">Core</span></div>
+          <div class="page-row"><span class="page-num">11</span><span class="page-name">Contact — 3-Step Form</span><span class="page-tag core">Core</span></div>
+          <div class="page-row"><span class="page-num">12</span><span class="page-name">Shop + Cart Toast + Wishlist</span><span class="page-tag core">Core</span></div>
+          <div class="page-row"><span class="page-num">13</span><span class="page-name">404 Error + SVG Orbits</span><span class="page-tag new">New</span></div>
+          <div class="page-row"><span class="page-num">14</span><span class="page-name">Coming Soon + Countdown</span><span class="page-tag new">New</span></div>
+          <div class="page-row"><span class="page-num">15</span><span class="page-name">Style Guide — Component Library</span><span class="page-tag new">New</span></div>
+          <div class="page-row"><span class="page-num">16</span><span class="page-name">Dark/Light Mode Demo</span><span class="page-tag new">New</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── TESTIMONIALS ─────────────────── -->
+    <section class="section" aria-label="Buyer reviews">
+      <div class="container">
+        <div class="eyebrow reveal"><div class="eyebrow-line"></div><span class="label">Buyer Reviews</span></div>
+        <h2 class="reveal d1" style="font-family:var(--font-display);font-size:clamp(24px,3vw,44px);font-weight:700;letter-spacing:-.02em;margin-top:12px">312 buyers. 4.9 stars.</h2>
+        <div class="testi-grid">
+          <div class="testi-card reveal d1">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"The documentation alone is worth the price. I've bought a lot of templates — this is the first one I didn't have to fight to understand."</p>
+            <div class="testi-author"><img class="testi-av" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=80&q=70&auto=format&fit=crop&crop=faces" alt=""/><div><div class="testi-name">James K.</div><div class="testi-role">Frontend Developer · London</div></div></div>
+          </div>
+          <div class="testi-card reveal d2">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"I customised the entire colour palette in under 10 minutes. Shipped a client project three days after buying this. Absolute steal at $99."</p>
+            <div class="testi-author"><img class="testi-av" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&q=70&auto=format&fit=crop&crop=faces" alt=""/><div><div class="testi-name">Priya S.</div><div class="testi-role">UX Designer · Toronto</div></div></div>
+          </div>
+          <div class="testi-card reveal d3">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"This is what premium actually looks like. My client thought we'd spent months on the UI. We shipped in two weeks. Thank you."</p>
+            <div class="testi-author"><img class="testi-av" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&q=70&auto=format&fit=crop&crop=faces" alt=""/><div><div class="testi-name">Tom R.</div><div class="testi-role">Agency Owner · Berlin</div></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PRICING ──────────────────────── -->
+    <section class="section" id="pricing" style="background:var(--bg-2);border-top:1px solid var(--border)" aria-labelledby="price-h">
+      <div class="container">
+        <div style="text-align:center;max-width:560px;margin:0 auto clamp(36px,5vw,56px)">
+          <div class="eyebrow reveal" style="justify-content:center"><div class="eyebrow-line"></div><span class="label">Pricing</span><div class="eyebrow-line"></div></div>
+          <h2 class="reveal d1" id="price-h" style="font-family:var(--font-display);font-size:clamp(28px,4vw,52px);font-weight:700;letter-spacing:-.025em;margin-top:12px">One purchase.<br>Yours forever.</h2>
+          <p class="reveal d2" style="color:var(--ink-2);font-size:1rem;line-height:1.8;margin-top:12px">No subscription. No renewal. Free updates for life. Use on Netlify or Vercel in under 5 minutes.</p>
+        </div>
+        <div class="pricing-grid">
+          <div class="price-card reveal d1">
+            <div class="price-tier">Personal</div>
+            <div class="price-amount"><sup>$</sup>49</div>
+            <div class="price-period">One-time — 1 personal project</div>
+            <div class="price-divider"></div>
+            <ul class="price-features">
+              <li class="pf">All 16 HTML pages</li>
+              <li class="pf">5 homepage skins</li>
+              <li class="pf">Dark/light mode system</li>
+              <li class="pf">Vite 5 + Tailwind v4</li>
+              <li class="pf">Full documentation</li>
+              <li class="pf dim">Commercial / client use</li>
+              <li class="pf dim">Figma source files</li>
+            </ul>
+            <button class="price-btn" onclick="window.location='#pricing'">Get Personal →</button>
+          </div>
+          <div class="price-card featured reveal d2">
+            <div class="price-pop">Most Popular</div>
+            <div class="price-tier">Studio</div>
+            <div class="price-amount"><sup>$</sup>99</div>
+            <div class="price-period">One-time — up to 5 client projects</div>
+            <div class="price-divider"></div>
+            <ul class="price-features">
+              <li class="pf">Everything in Personal</li>
+              <li class="pf">5 commercial client projects</li>
+              <li class="pf">Figma source files</li>
+              <li class="pf">Priority email support</li>
+              <li class="pf">Free lifetime updates</li>
+              <li class="pf dim">White-label / resell rights</li>
+            </ul>
+            <button class="price-btn">Get Studio →</button>
+          </div>
+          <div class="price-card reveal d3">
+            <div class="price-tier">Agency</div>
+            <div class="price-amount"><sup>$</sup>199</div>
+            <div class="price-period">One-time — unlimited projects</div>
+            <div class="price-divider"></div>
+            <ul class="price-features">
+              <li class="pf">Everything in Studio</li>
+              <li class="pf">Unlimited client projects</li>
+              <li class="pf">White-label rights</li>
+              <li class="pf">Resell with your branding</li>
+              <li class="pf">Priority support (48h)</li>
+              <li class="pf">Early access to v3.0</li>
+            </ul>
+            <button class="price-btn">Get Agency →</button>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:28px;font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3)">
+          💳 Secure checkout via Gumroad · Instant download · 30-day refund policy
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FAQ ─────────────────────────── -->
+    <section class="section" id="faq" aria-labelledby="faq-h">
+      <div class="container">
+        <div class="eyebrow reveal" style="justify-content:center"><div class="eyebrow-line"></div><span class="label">FAQ</span><div class="eyebrow-line"></div></div>
+        <h2 class="reveal d1" id="faq-h" style="font-family:var(--font-display);font-size:clamp(24px,3vw,44px);font-weight:700;letter-spacing:-.02em;text-align:center;margin-top:12px">Questions before you buy.</h2>
+        <div class="faq-wrap reveal d2">
+          <div class="faq-item"><button class="faq-q-btn" aria-expanded="false"><span class="faq-q-txt">What exactly is included?</span><div class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 5l3 3 3-3" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></div></button><div class="faq-ans"><div class="faq-ans-inner">16 production-ready HTML pages, 5 homepage skin variations, all CSS/JS files, Vite 5 + Tailwind v4 config, full README documentation, CHANGELOG, and .gitignore. The Studio and Agency tiers also include Figma source files.</div></div></div>
+          <div class="faq-item"><button class="faq-q-btn" aria-expanded="false"><span class="faq-q-txt">Do I need to know how to code?</span><div class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 5l3 3 3-3" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></div></button><div class="faq-ans"><div class="faq-ans-inner">Basic HTML/CSS knowledge is enough to customize the template. The documentation covers how to change colors, fonts, and content step-by-step. For the Vite build system, you need Node.js — but all pages also work as standalone HTML files without any build step.</div></div></div>
+          <div class="faq-item"><button class="faq-q-btn" aria-expanded="false"><span class="faq-q-txt">Can I use this for client work?</span><div class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 5l3 3 3-3" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></div></button><div class="faq-ans"><div class="faq-ans-inner">Studio license allows up to 5 client projects. Agency license allows unlimited client projects. Personal license is for your own projects only. See the full license terms in LICENSE.md included with the download.</div></div></div>
+          <div class="faq-item"><button class="faq-q-btn" aria-expanded="false"><span class="faq-q-txt">What if I need help or find a bug?</span><div class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 5l3 3 3-3" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></div></button><div class="faq-ans"><div class="faq-ans-inner">All licenses include 30 days of email support. Studio and Agency licenses include priority response within 48 hours. Bug fixes are shipped as free updates — you'll always have the latest version. Contact: <a href="mailto:chtauqeer1117@gmail.com">chtauqeer1117@gmail.com</a></div></div></div>
+          <div class="faq-item"><button class="faq-q-btn" aria-expanded="false"><span class="faq-q-txt">Is there a refund policy?</span><div class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 5l3 3 3-3" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></div></button><div class="faq-ans"><div class="faq-ans-inner">30-day refund policy, no questions asked. If the template doesn't meet your needs, email us and we'll refund within 24 hours. We'd rather you be happy than keep your money.</div></div></div>
+          <div class="faq-item"><button class="faq-q-btn" aria-expanded="false"><span class="faq-q-txt">Can I resell this template?</span><div class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 5l3 3 3-3" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></div></button><div class="faq-ans"><div class="faq-ans-inner">The Agency license includes white-label and resell rights. You can rebrand the template, modify it substantially, and sell it on your own marketplace listings. You cannot resell the original, unmodified template.</div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FINAL CTA ─────────────────────── -->
+    <div class="final-cta">
+      <div class="final-glow" aria-hidden="true"></div>
+      <div class="container">
+        <div class="final-inner">
+          <div class="eyebrow reveal" style="justify-content:center"><div class="eyebrow-line"></div><span class="label">Last Chance</span><div class="eyebrow-line"></div></div>
+          <h2 class="final-title reveal d1">Stop shipping<br><em>mediocre work.</em></h2>
+          <div class="final-actions reveal d2">
+            <a href="#pricing" class="btn btn-gold" style="padding:16px 36px;font-size:1rem">
+              Get DevnoxxKit Now
+              <svg class="btn-arrow" viewBox="0 0 20 20" fill="none"><path d="M4 16L16 4M16 4H8M16 4V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </a>
+            <a href="index.html" target="_blank" rel="noopener" class="btn btn-outline">View Live Demo</a>
+          </div>
+          <p class="reveal d3" style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);margin-top:20px">
+            Instant download · 30-day refund · Lifetime updates
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <div class="footer-logo"><div class="nav-logo-mark"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="#0A0A0C" stroke-width="1.5" stroke-linecap="round"/></svg></div>Devnoxx<span style="color:var(--gold)">Kit</span></div>
+          <p class="footer-desc">The premium HTML design system that justifies $149. Built for agencies, studios, and creators who refuse to ship mediocre work.</p>
+        </div>
+        <div><div class="footer-col-h">Product</div><ul class="footer-links"><li><a href="#features">Features</a></li><li><a href="#pages">All Pages</a></li><li><a href="#pricing">Pricing</a></li><li><a href="devnoxxkit-docs.html">Documentation</a></li></ul></div>
+        <div><div class="footer-col-h">Demo</div><ul class="footer-links"><li><a href="index.html" target="_blank" rel="noopener">Homepage</a></li><li><a href="devnoxxkit-portfolio.html" target="_blank" rel="noopener">Portfolio</a></li><li><a href="devnoxxkit-blog.html" target="_blank" rel="noopener">Blog</a></li><li><a href="devnoxxkit-style-guide.html" target="_blank" rel="noopener">Style Guide</a></li></ul></div>
+        <div><div class="footer-col-h">Legal</div><ul class="footer-links"><li><a href="#">License</a></li><li><a href="#">Privacy</a></li><li><a href="#">Refund Policy</a></li><li><a href="#">Changelog</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <span class="foot-copy">© 2026 DevnoxxKit. Built with obsession.</span>
+        <span class="foot-copy" style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em">v2.1.0 · <a href="mailto:chtauqeer1117@gmail.com">chtauqeer1117@gmail.com</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const cd=document.getElementById('cd'),cr=document.getElementById('cr');
+    let rx=0,ry=0,dx=0,dy=0,mx=0,my=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+    (function loop(){dx+=(mx-dx)*.85;dy+=(my-dy)*.85;rx+=(mx-rx)*.1;ry+=(my-ry)*.1;cd.style.left=dx+'px';cd.style.top=dy+'px';cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(loop)})();
+    const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target)}}),{threshold:.1,rootMargin:'0px 0px -48px 0px'});
+    document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+    const btt=document.getElementById('back-to-top');
+    window.addEventListener('scroll',()=>btt.classList.toggle('visible',scrollY>500),{passive:true});
+    btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+    // FAQ
+    document.querySelectorAll('.faq-q-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const open=btn.classList.contains('open');
+        document.querySelectorAll('.faq-q-btn').forEach(b=>{b.classList.remove('open');b.setAttribute('aria-expanded','false')});
+        document.querySelectorAll('.faq-ans').forEach(a=>a.classList.remove('open'));
+        if(!open){btn.classList.add('open');btn.setAttribute('aria-expanded','true');btn.nextElementSibling.classList.add('open')}
+      });
+    });
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}})});
+  </script>
+  <script src="devnoxxkit-theme.js"></script>
+</body>
+</html>
+

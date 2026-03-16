@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dark / Light Mode — DevnoxxKit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    /* ══════════════════════════════════════════════
+       DEVNOXXKIT — DUAL THEME TOKEN SYSTEM
+       Everything controlled via CSS custom properties.
+       Swap [data-theme="dark"] ↔ [data-theme="light"]
+       to toggle the entire site.
+    ══════════════════════════════════════════════ */
+
+    /* DARK MODE (default) */
+    :root, [data-theme="dark"] {
+      --bg:          #0A0A0C;
+      --bg-2:        #111114;
+      --bg-3:        #18181D;
+      --surface:     #1E1E24;
+      --border:      rgba(242,237,228,0.08);
+      --border-gold: rgba(201,169,110,0.30);
+      --ink:         #F2EDE4;
+      --ink-2:       #B8B0A4;
+      --ink-3:       #6E6860;
+      --gold:        #C9A96E;
+      --gold-light:  #DFC28E;
+      --gold-dim:    rgba(201,169,110,0.12);
+      --shadow-card: none;
+      --noise-op:    0.032;
+      --img-filter:  brightness(0.65) saturate(0.65);
+    }
+
+    /* LIGHT MODE */
+    [data-theme="light"] {
+      --bg:          #F7F3EC;
+      --bg-2:        #EDE8DF;
+      --bg-3:        #E4DED4;
+      --surface:     #F0EBE3;
+      --border:      rgba(26,24,20,0.10);
+      --border-gold: rgba(180,130,60,0.30);
+      --ink:         #1A1814;
+      --ink-2:       #4A4540;
+      --ink-3:       #8A8078;
+      --gold:        #B87A2E;
+      --gold-light:  #C8953E;
+      --gold-dim:    rgba(184,122,46,0.10);
+      --shadow-card: 0 2px 20px rgba(26,24,20,0.08);
+      --noise-op:    0.018;
+      --img-filter:  brightness(0.9) saturate(0.85);
+    }
+
+    /* Shared tokens — same in both modes */
+    :root {
+      --font-display:'Fraunces',Georgia,serif;
+      --font-body:'DM Sans',system-ui,sans-serif;
+      --font-mono:'JetBrains Mono',monospace;
+      --radius-sm:4px;
+      --ease:cubic-bezier(0.16,1,0.3,1);
+    }
+
+    /* ── BASE ─────────────────────────── */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-size:16px;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+    body{
+      background:var(--bg);color:var(--ink);
+      font-family:var(--font-body);overflow-x:hidden;cursor:none;line-height:1.65;
+      transition:background .4s var(--ease),color .4s;
+    }
+    body::before{
+      content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
+      opacity:var(--noise-op);
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size:256px 256px;
+      transition:opacity .4s;
+    }
+    ::selection{background:var(--gold);color:var(--bg)}
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+    button{border:none;background:none;cursor:none;font:inherit}
+
+    /* cursor */
+    #cd{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--gold);pointer-events:none;z-index:10000;transform:translate(-50%,-50%);will-change:transform;transition:background .4s}
+    #cr{position:fixed;width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,169,110,.5);pointer-events:none;z-index:10000;transform:translate(-50%,-50%);transition:width .3s var(--ease),height .3s var(--ease),border-color .3s;will-change:transform}
+    body:has(a:hover) #cr,body:has(button:hover) #cr{width:56px;height:56px;border-color:var(--gold)}
+
+    /* layout */
+    .container{width:100%;max-width:1260px;margin:0 auto;padding:0 clamp(20px,4vw,72px)}
+
+    /* ── NAV with TOGGLE ──────────────── */
+    #nav{
+      position:sticky;top:0;z-index:100;
+      border-bottom:1px solid var(--border);
+      background:var(--bg);
+      backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+      transition:background .4s,border-color .4s;
+    }
+    .nav-inner{display:flex;align-items:center;height:64px;gap:0}
+    .nav-logo{font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:10px;margin-right:auto}
+    .nav-logo-mark{width:28px;height:28px;background:var(--gold);border-radius:6px;display:flex;align-items:center;justify-content:center;transition:background .4s}
+    .nav-links{display:flex;align-items:center;gap:32px;list-style:none}
+    .nav-links a{font-size:.875rem;color:var(--ink-2);transition:color .2s;position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s var(--ease)}
+    .nav-links a:hover{color:var(--ink)}.nav-links a:hover::after{width:100%}
+    @media(max-width:768px){.nav-links{display:none}}
+
+    /* ── THE TOGGLE ───────────────────── */
+    .theme-toggle{
+      display:flex;align-items:center;gap:10px;
+      margin-left:28px;padding:8px 14px;
+      background:var(--bg-3);border:1px solid var(--border);
+      border-radius:100px;
+      transition:background .3s,border-color .3s;
+      flex-shrink:0;
+    }
+    .theme-toggle:hover{border-color:var(--border-gold)}
+    .toggle-icon{
+      width:16px;height:16px;color:var(--ink-3);
+      transition:color .3s,opacity .3s;
+      flex-shrink:0;
+    }
+    .toggle-icon.active{color:var(--gold)}
+    .toggle-track{
+      width:40px;height:22px;
+      background:var(--surface);border:1px solid var(--border);
+      border-radius:100px;position:relative;
+      transition:background .4s var(--ease),border-color .3s;
+    }
+    [data-theme="light"] .toggle-track{
+      background:var(--gold);border-color:var(--gold-light);
+    }
+    .toggle-thumb{
+      position:absolute;width:16px;height:16px;border-radius:50%;
+      background:var(--ink-3);top:2px;left:2px;
+      transition:transform .4s var(--ease),background .4s;
+    }
+    [data-theme="light"] .toggle-thumb{transform:translateX(18px);background:var(--bg)}
+    .toggle-label{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);transition:color .3s;white-space:nowrap}
+    [data-theme="light"] .toggle-label{color:var(--gold)}
+
+    /* reveal */
+    .reveal{opacity:0;transform:translateY(20px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+    .reveal.visible{opacity:1;transform:none}
+    .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+
+    /* ── HERO ─────────────────────────── */
+    .hero{
+      padding:clamp(72px,12vw,160px) 0;
+      position:relative;overflow:hidden;
+    }
+    .hero-glow{position:absolute;width:700px;height:700px;border-radius:50%;filter:blur(120px);pointer-events:none;background:rgba(201,169,110,.07);top:-150px;right:-100px;transition:opacity .4s}
+    [data-theme="light"] .hero-glow{background:rgba(184,122,46,.06)}
+    .hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:28px;opacity:0;animation:fadeUp .8s .2s var(--ease) forwards}
+    @keyframes fadeUp{to{opacity:1;transform:none}}
+    .hero-eyebrow-line{width:32px;height:1px;background:var(--gold);transition:background .4s}
+    .label{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);transition:color .4s}
+    .hero-title{font-family:var(--font-display);font-size:clamp(48px,8vw,128px);font-weight:800;line-height:.92;letter-spacing:-.03em;color:var(--ink);transition:color .4s}
+    .hero-title em{color:var(--gold);font-style:italic}
+    .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,80px);align-items:end;margin-top:clamp(40px,5vw,64px)}
+    @media(max-width:768px){.hero-grid{grid-template-columns:1fr}}
+    .hero-desc{font-size:1.0625rem;color:var(--ink-2);line-height:1.8;transition:color .4s}
+    .hero-actions{display:flex;align-items:center;gap:14px;justify-content:flex-end}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:13px 24px;font-size:.875rem;font-weight:600;border-radius:var(--radius-sm);transition:transform .3s var(--ease),box-shadow .3s,background .4s,color .4s,border-color .4s}
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{background:var(--gold);color:var(--bg);box-shadow:var(--shadow-card)}
+    .btn-primary:hover{box-shadow:0 8px 32px rgba(201,169,110,.3)}
+    .btn-ghost{border:1px solid var(--border);color:var(--ink-2)}
+    .btn-ghost:hover{border-color:var(--border-gold);color:var(--ink)}
+
+    /* ── SHOWCASE: side-by-side ───────── */
+    .showcase{padding:clamp(48px,7vw,96px) 0;border-top:1px solid var(--border);transition:border-color .4s}
+    .showcase-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border)}
+    @media(max-width:768px){.showcase-grid{grid-template-columns:1fr}}
+    .showcase-cell{
+      padding:clamp(28px,4vw,48px);
+      display:flex;flex-direction:column;gap:16px;
+      transition:background .4s;
+    }
+    .showcase-cell.dark-cell{background:#0A0A0C}
+    .showcase-cell.light-cell{background:#F7F3EC}
+    .showcase-mode-label{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;border-radius:100px;width:fit-content}
+    .showcase-mode-label.dark{background:rgba(201,169,110,.1);border:1px solid rgba(201,169,110,.25);color:#C9A96E}
+    .showcase-mode-label.light{background:rgba(184,122,46,.1);border:1px solid rgba(184,122,46,.25);color:#B87A2E}
+    .showcase-title{font-family:var(--font-display);font-size:clamp(22px,2.5vw,32px);font-weight:700;letter-spacing:-.02em;line-height:1.1}
+    .showcase-title.dark-text{color:#F2EDE4}
+    .showcase-title.light-text{color:#1A1814}
+    .showcase-card{border-radius:var(--radius-sm);overflow:hidden}
+    .showcase-card.dark-card{background:#18181D;border:1px solid rgba(242,237,228,.08)}
+    .showcase-card.light-card{background:#E4DED4;border:1px solid rgba(26,24,20,.1);box-shadow:0 2px 20px rgba(26,24,20,.08)}
+    .sc-img{width:100%;aspect-ratio:16/9;object-fit:cover}
+    .sc-img.dark-img{filter:brightness(.65) saturate(.65)}
+    .sc-img.light-img{filter:brightness(.9) saturate(.85)}
+    .sc-body{padding:16px}
+    .sc-tag{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+    .sc-tag.dark-tag{color:#C9A96E}.sc-tag.light-tag{color:#B87A2E}
+    .sc-title{font-family:var(--font-display);font-size:clamp(16px,1.6vw,20px);font-weight:600;letter-spacing:-.01em}
+    .sc-title.dark-title{color:#F2EDE4}.sc-title.light-title{color:#1A1814}
+    .sc-text{font-size:.875rem;line-height:1.65;margin-top:6px}
+    .sc-text.dark-text{color:#6E6860}.sc-text.light-text{color:#8A8078}
+
+    /* ── FEATURE GRID ─────────────────── */
+    .features{padding:clamp(48px,7vw,96px) 0;border-top:1px solid var(--border);transition:border-color .4s}
+    .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:clamp(32px,4vw,52px)}
+    @media(max-width:768px){.features-grid{grid-template-columns:1fr}}
+    .feat-cell{background:var(--bg-3);border:1px solid var(--border);padding:clamp(24px,3.5vw,40px);transition:background .4s,border-color .4s;position:relative;overflow:hidden}
+    .feat-cell::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--gold);transition:width .6s var(--ease)}
+    .feat-cell:hover::after{width:100%}
+    .feat-icon{width:40px;height:40px;border-radius:var(--radius-sm);background:var(--gold-dim);border:1px solid var(--border-gold);display:flex;align-items:center;justify-content:center;margin-bottom:16px;transition:background .4s,border-color .4s}
+    .feat-title{font-family:var(--font-display);font-size:clamp(17px,1.7vw,22px);font-weight:600;letter-spacing:-.01em;color:var(--ink);margin-bottom:10px;transition:color .4s}
+    .feat-text{font-size:.875rem;color:var(--ink-3);line-height:1.7;transition:color .4s}
+
+    /* ── BLOG TEASE ───────────────────── */
+    .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:clamp(32px,4vw,52px);background:var(--border)}
+    @media(max-width:768px){.blog-grid{grid-template-columns:1fr}}
+    .blog-card{background:var(--bg);border:1px solid var(--border);overflow:hidden;transition:background .4s,border-color .3s}
+    .blog-card:hover{border-color:var(--border-gold)}
+    .blog-img{width:100%;aspect-ratio:16/9;object-fit:cover;filter:var(--img-filter);transition:transform .6s var(--ease),filter .4s}
+    .blog-card:hover .blog-img{transform:scale(1.04)}
+    .blog-body{padding:clamp(16px,2.5vw,24px)}
+    .blog-cat{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;transition:color .4s}
+    .blog-title{font-family:var(--font-display);font-size:clamp(16px,1.6vw,20px);font-weight:600;color:var(--ink);letter-spacing:-.01em;line-height:1.3;transition:color .4s}
+    .blog-card:hover .blog-title{color:var(--gold-light)}
+    .blog-date{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--ink-3);margin-top:8px;transition:color .4s}
+
+    /* CTA section */
+    .cta-band{background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:clamp(60px,8vw,120px) 0;text-align:center;transition:background .4s,border-color .4s}
+    .cta-title{font-family:var(--font-display);font-size:clamp(32px,5vw,72px);font-weight:700;letter-spacing:-.025em;color:var(--ink);max-width:700px;margin:16px auto 36px;transition:color .4s}
+    .cta-title em{color:var(--gold);font-style:italic}
+    .cta-actions{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
+
+    /* footer */
+    .mini-footer{border-top:1px solid var(--border);padding:20px 0;transition:border-color .4s}
+    .mini-footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px}
+    .foot-copy{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--ink-3);transition:color .4s}
+    .foot-copy a{color:var(--gold)}
+
+    /* ── SYSTEM THEME NOTICE ──────────── */
+    .sys-notice{
+      background:var(--gold-dim);border:1px solid var(--border-gold);
+      padding:10px 16px;display:flex;align-items:center;gap:10px;
+      font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;
+      color:var(--ink-2);transition:background .4s,border-color .4s,color .4s;
+    }
+    .sys-notice-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;transition:background .4s}
+
+    /* Section labels */
+    .section-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+    .section-eyebrow-line{width:32px;height:1px;background:var(--gold);transition:background .4s}
+  </style>
+</head>
+<body>
+  <div id="cd"></div>
+  <div id="cr"></div>
+
+  <!-- Theme initializer — runs before paint to prevent flash -->
+  <script>
+    (function(){
+      const saved=localStorage.getItem('dnk-theme');
+      const sys=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+      document.documentElement.setAttribute('data-theme',saved||sys);
+    })();
+  </script>
+
+  <!-- NAV -->
+  <header id="nav" role="banner">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-logo" aria-label="DevnoxxKit home">
+          <div class="nav-logo-mark"><svg viewBox="0 0 14 14" fill="none" width="14" height="14"><path d="M2 7h10M7 2l5 5-5 5" stroke="#0A0A0C" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          Devnoxx<span style="color:var(--gold)">Kit</span>
+        </a>
+        <ul class="nav-links" role="list">
+          <li><a href="devnoxxkit-services.html">Services</a></li>
+          <li><a href="devnoxxkit-portfolio.html">Work</a></li>
+          <li><a href="devnoxxkit-about.html">About</a></li>
+          <li><a href="devnoxxkit-blog.html">Journal</a></li>
+        </ul>
+
+        <!-- THE TOGGLE BUTTON -->
+        <button
+          class="theme-toggle"
+          id="theme-btn"
+          aria-label="Toggle dark/light mode"
+          aria-pressed="false"
+          onclick="toggleTheme()"
+        >
+          <!-- Moon icon (dark mode indicator) -->
+          <svg class="toggle-icon" id="icon-moon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M13 9.5A6 6 0 117 3.5a4.5 4.5 0 006 6z" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+
+          <!-- Track + thumb -->
+          <div class="toggle-track" aria-hidden="true">
+            <div class="toggle-thumb"></div>
+          </div>
+
+          <!-- Sun icon (light mode indicator) -->
+          <svg class="toggle-icon" id="icon-sun" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M8 2v1M8 13v1M2 8H1M15 8h-1M4.22 4.22L3.5 3.5M12.5 12.5l-.72-.72M4.22 11.78L3.5 12.5M12.5 3.5l-.72.72" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+
+          <span class="toggle-label" id="toggle-label">Dark</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- System preference notice -->
+    <div class="sys-notice" id="sys-notice">
+      <div class="sys-notice-dot"></div>
+      <span id="sys-notice-text">Theme detected from system preference. Click the toggle to override.</span>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="container">
+        <div class="hero-eyebrow">
+          <div class="hero-eyebrow-line"></div>
+          <span class="label">Dark / Light Mode</span>
+        </div>
+        <h1 class="hero-title">
+          One codebase.<br><em>Both worlds.</em>
+        </h1>
+        <div class="hero-grid">
+          <p class="hero-desc">DevnoxxKit ships with a complete dual-theme system. Every color token, border, shadow, and image filter adapts instantly when you toggle — with no flicker, no JavaScript-required CSS, and full <code style="font-family:var(--font-mono);font-size:.85em">localStorage</code> persistence.</p>
+          <div class="hero-actions">
+            <a href="index.html" class="btn btn-primary">See Full Site</a>
+            <a href="devnoxxkit-style-guide.html" class="btn btn-ghost">Style Guide</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIDE BY SIDE SHOWCASE -->
+    <section class="showcase" aria-labelledby="showcase-h">
+      <div class="container">
+        <div class="section-eyebrow reveal">
+          <div class="section-eyebrow-line"></div>
+          <span class="label">Both Themes</span>
+        </div>
+        <h2 class="reveal d1" id="showcase-h" style="font-family:var(--font-display);font-size:clamp(24px,3vw,44px);font-weight:700;letter-spacing:-.02em;color:var(--ink);max-width:600px;margin-top:12px;transition:color .4s">Same component. Two personalities.</h2>
+        <div class="showcase-grid reveal d2" style="margin-top:clamp(28px,4vw,48px)">
+          <div class="showcase-cell dark-cell">
+            <span class="showcase-mode-label dark">◉ Dark Mode</span>
+            <div class="showcase-title dark-text">Craft digital<br>work that lasts.</div>
+            <div class="showcase-card dark-card">
+              <img class="sc-img dark-img" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=70&auto=format&fit=crop" alt="Dark mode preview" loading="lazy"/>
+              <div class="sc-body">
+                <div class="sc-tag dark-tag">Brand Identity</div>
+                <div class="sc-title dark-title">Meridian Capital</div>
+                <div class="sc-text dark-text">Luxury finance rebrand — identity and digital presence.</div>
+              </div>
+            </div>
+          </div>
+          <div class="showcase-cell light-cell">
+            <span class="showcase-mode-label light">◎ Light Mode</span>
+            <div class="showcase-title light-text">Craft digital<br>work that lasts.</div>
+            <div class="showcase-card light-card">
+              <img class="sc-img light-img" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=70&auto=format&fit=crop" alt="Light mode preview" loading="lazy"/>
+              <div class="sc-body">
+                <div class="sc-tag light-tag">Brand Identity</div>
+                <div class="sc-title light-title">Meridian Capital</div>
+                <div class="sc-text light-text">Luxury finance rebrand — identity and digital presence.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIVE DEMO: cards that respond to current theme -->
+    <section class="features" aria-labelledby="feat-h">
+      <div class="container">
+        <div class="section-eyebrow reveal"><div class="section-eyebrow-line"></div><span class="label">Live Preview</span></div>
+        <h2 class="reveal d1" id="feat-h" style="font-family:var(--font-display);font-size:clamp(24px,3vw,44px);font-weight:700;letter-spacing:-.02em;color:var(--ink);max-width:600px;margin-top:12px;transition:color .4s">These cards update when you toggle.</h2>
+        <div class="features-grid">
+          <div class="feat-cell reveal d1">
+            <div class="feat-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="var(--gold)" stroke-width="1.5"/><path d="M6 9l2 2 4-4" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="feat-title">Zero Flash</div>
+            <p class="feat-text">The theme initializer runs before the first paint using an inline <code style="font-family:var(--font-mono);font-size:.8em">script</code> tag — no visible flash of unstyled content.</p>
+          </div>
+          <div class="feat-cell reveal d2">
+            <div class="feat-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="14" height="14" rx="2" stroke="var(--gold)" stroke-width="1.5"/><path d="M6 9h6M9 6v6" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+            <div class="feat-title">Persisted Preference</div>
+            <p class="feat-text">User choice is saved to <code style="font-family:var(--font-mono);font-size:.8em">localStorage</code> under <code style="font-family:var(--font-mono);font-size:.8em;color:var(--gold)">dnk-theme</code>. Refreshing the page respects the saved preference.</p>
+          </div>
+          <div class="feat-cell reveal d3">
+            <div class="feat-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M15 11A7 7 0 117 4a5 5 0 008 7z" stroke="var(--gold)" stroke-width="1.5"/></svg></div>
+            <div class="feat-title">System Preference</div>
+            <p class="feat-text">If no preference is saved, the system theme (<code style="font-family:var(--font-mono);font-size:.8em">prefers-color-scheme</code>) is detected and applied automatically on first visit.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOG using current theme -->
+    <section style="padding:clamp(48px,7vw,96px) 0;border-top:1px solid var(--border);transition:border-color .4s" aria-labelledby="blog-h">
+      <div class="container">
+        <div class="section-eyebrow reveal"><div class="section-eyebrow-line"></div><span class="label">The Journal</span></div>
+        <h2 class="reveal d1" id="blog-h" style="font-family:var(--font-display);font-size:clamp(24px,3vw,44px);font-weight:700;letter-spacing:-.02em;color:var(--ink);max-width:600px;margin-top:12px;transition:color .4s">Thinking out loud.</h2>
+        <div class="blog-grid reveal d2">
+          <a href="devnoxxkit-blog-single.html" class="blog-card">
+            <img class="blog-img" src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=700&q=70&auto=format&fit=crop" alt="" loading="lazy" aria-hidden="true"/>
+            <div class="blog-body"><div class="blog-cat">Design Theory</div><div class="blog-title">Why 95% of agency websites look identical</div><div class="blog-date">12 March 2026 · 9 min</div></div>
+          </a>
+          <a href="devnoxxkit-blog-single.html" class="blog-card">
+            <img class="blog-img" src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?w=700&q=70&auto=format&fit=crop" alt="" loading="lazy" aria-hidden="true"/>
+            <div class="blog-body"><div class="blog-cat">Typography</div><div class="blog-title">The one typographic decision that separates amateurs from professionals</div><div class="blog-date">28 Feb 2026 · 7 min</div></div>
+          </a>
+          <a href="devnoxxkit-blog-single.html" class="blog-card">
+            <img class="blog-img" src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=700&q=70&auto=format&fit=crop" alt="" loading="lazy" aria-hidden="true"/>
+            <div class="blog-body"><div class="blog-cat">Business</div><div class="blog-title">How we price creative work: the framework that ended undervaluing ourselves</div><div class="blog-date">14 Feb 2026 · 11 min</div></div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-band">
+      <div class="container">
+        <div class="section-eyebrow reveal" style="justify-content:center"><div class="section-eyebrow-line"></div><span class="label">Ready?</span><div class="section-eyebrow-line"></div></div>
+        <h2 class="cta-title reveal d1">Your next project<br>deserves to be <em>extraordinary.</em></h2>
+        <div class="cta-actions reveal d2">
+          <a href="devnoxxkit-contact.html" class="btn btn-primary">Start a Project</a>
+          <a href="devnoxxkit-portfolio.html" class="btn btn-ghost">View Work</a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="mini-footer" role="contentinfo">
+    <div class="container"><div class="mini-footer-inner">
+      <a href="index.html" style="font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:8px;transition:color .4s"><div class="nav-logo-mark"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="#0A0A0C" stroke-width="1.5" stroke-linecap="round"/></svg></div>Devnoxx<span style="color:var(--gold)">Kit</span></a>
+      <span class="foot-copy">© 2026 <a href="index.html">DevnoxxKit</a>. Both worlds, one system.</span>
+      <span class="foot-copy" style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em" id="theme-indicator">DARK MODE</span>
+    </div></div>
+  </footer>
+
+  <script>
+    // ── Cursor ────────────────────────────────────────────────────
+    const cd=document.getElementById('cd'),cr=document.getElementById('cr');
+    let rx=0,ry=0,dx=0,dy=0,mx=0,my=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+    (function loop(){dx+=(mx-dx)*.85;dy+=(my-dy)*.85;rx+=(mx-rx)*.1;ry+=(my-ry)*.1;cd.style.left=dx+'px';cd.style.top=dy+'px';cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(loop)})();
+
+    // ── Reveal ────────────────────────────────────────────────────
+    const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target)}}),{threshold:.1,rootMargin:'0px 0px -48px 0px'});
+    document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+    // ── Theme toggle ──────────────────────────────────────────────
+    const STORAGE_KEY='dnk-theme';
+    const root=document.documentElement;
+    const btn=document.getElementById('theme-btn');
+    const lbl=document.getElementById('toggle-label');
+    const indicator=document.getElementById('theme-indicator');
+    const sysNotice=document.getElementById('sys-notice');
+    const sysNoticeText=document.getElementById('sys-notice-text');
+
+    function applyThemeUI(theme){
+      const isDark=theme==='dark';
+      btn.setAttribute('aria-pressed',String(!isDark));
+      lbl.textContent=isDark?'Dark':'Light';
+      indicator.textContent=isDark?'DARK MODE':'LIGHT MODE';
+    }
+
+    // Detect if user has overridden system
+    function updateNotice(){
+      const saved=localStorage.getItem(STORAGE_KEY);
+      const sys=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+      if(saved){
+        sysNoticeText.textContent=`Using saved preference: ${saved} mode. Click toggle to switch or clear browser storage to reset.`;
+      } else {
+        sysNoticeText.textContent=`Theme auto-detected from system: ${sys} mode. Click toggle to override.`;
+      }
+    }
+
+    // Apply initial UI state
+    applyThemeUI(root.getAttribute('data-theme')||'dark');
+    updateNotice();
+
+    function toggleTheme(){
+      const current=root.getAttribute('data-theme')||'dark';
+      const next=current==='dark'?'light':'dark';
+      root.setAttribute('data-theme',next);
+      localStorage.setItem(STORAGE_KEY,next);
+      applyThemeUI(next);
+      updateNotice();
+    }
+    window.toggleTheme=toggleTheme;
+
+    // Keyboard: T to toggle
+    document.addEventListener('keydown',e=>{
+      if(e.key.toLowerCase()==='t'&&!e.ctrlKey&&!e.metaKey&&document.activeElement.tagName!=='INPUT'&&document.activeElement.tagName!=='TEXTAREA'){
+        toggleTheme();
+      }
+    });
+
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',e=>{
+      if(!localStorage.getItem(STORAGE_KEY)){
+        const next=e.matches?'dark':'light';
+        root.setAttribute('data-theme',next);
+        applyThemeUI(next);
+        updateNotice();
+      }
+    });
+  </script>
+</body>
+</html>

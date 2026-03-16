@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <script>
+    (function(){
+      var s = localStorage.getItem('dnk-theme');
+      var d = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', s || d);
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Services — DevnoxxKit</title>
+  <meta name="description" content="Bespoke creative services for agencies, studios, and ambitious brands. Brand identity, web design, creative direction, and more."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --bg:#0A0A0C;--bg-2:#111114;--bg-3:#18181D;--surface:#1E1E24;
+      --border:rgba(242,237,228,0.08);--border-gold:rgba(201,169,110,0.3);
+      --ink:#F2EDE4;--ink-2:#B8B0A4;--ink-3:#6E6860;
+      --gold:#C9A96E;--gold-light:#DFC28E;--gold-dim:rgba(201,169,110,0.12);
+      --teal:#1E3A3A;--teal-light:#2A5050;
+      --font-display:'Fraunces',Georgia,serif;
+      --font-body:'DM Sans',system-ui,sans-serif;
+      --font-mono:'JetBrains Mono',monospace;
+      --radius-sm:4px;--radius-md:8px;
+      --ease-out:cubic-bezier(0.16,1,0.3,1);
+    }
+    #nav.scrolled {
+      background: var(--nav-scrolled-bg) !important;
+      }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-size:16px;-webkit-font-smoothing:antialiased}
+    body{background:var(--bg);color:var(--ink);font-family:var(--font-body);overflow-x:hidden;cursor:none;line-height:1.65}
+    body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.032;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");background-size:256px 256px}
+    ::selection{background:var(--gold);color:var(--bg)}
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+    button{border:none;background:none;cursor:none;font:inherit}
+
+    /* Cursor */
+    #cursor-dot{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--gold);pointer-events:none;z-index:10000;transform:translate(-50%,-50%);will-change:transform}
+    #cursor-ring{position:fixed;width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,169,110,.5);pointer-events:none;z-index:10000;transform:translate(-50%,-50%);transition:width .3s var(--ease-out),height .3s var(--ease-out),border-color .3s;will-change:transform}
+    body:has(a:hover) #cursor-ring,body:has(button:hover) #cursor-ring{width:56px;height:56px;border-color:var(--gold)}
+
+    /* Layout */
+    .container{width:100%;max-width:1320px;margin:0 auto;padding:0 clamp(20px,4vw,80px)}
+    .section{padding:clamp(80px,10vw,160px) 0}
+
+    /* Type */
+    .display-xl{font-family:var(--font-display);font-size:clamp(52px,8vw,130px);font-weight:800;line-height:.92;letter-spacing:-.03em}
+    .display-lg{font-family:var(--font-display);font-size:clamp(40px,5.5vw,88px);font-weight:700;line-height:.95;letter-spacing:-.025em}
+    .display-md{font-family:var(--font-display);font-size:clamp(26px,3.2vw,50px);font-weight:600;line-height:1.1;letter-spacing:-.015em}
+    .label{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+    .section-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+    .section-eyebrow-line{width:32px;height:1px;background:var(--gold)}
+
+    /* Nav */
+    #nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 0;transition:padding .4s var(--ease-out),background .4s,border-color .4s;border-bottom:1px solid transparent}
+    #nav.scrolled{padding:16px 0;background:rgba(10,10,12,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom-color:var(--border)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+    .nav-logo-mark{width:28px;height:28px;background:var(--gold);border-radius:6px;display:flex;align-items:center;justify-content:center}
+    .nav-links{display:flex;align-items:center;gap:40px;list-style:none}
+    .nav-links a{font-size:.875rem;color:var(--ink-2);transition:color .2s;position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s var(--ease-out)}
+    .nav-links a:hover{color:var(--ink)}
+    .nav-links a:hover::after,.nav-links a.active::after{width:100%}
+    .nav-links a.active{color:var(--gold)}
+    .nav-cta{padding:10px 22px;background:var(--gold);color:var(--bg)!important;font-size:.8125rem!important;font-weight:600;border-radius:var(--radius-sm)}
+    .nav-cta::after{display:none!important}
+    .nav-cta:hover{background:var(--gold-light)!important}
+    .nav-hamburger{display:none;flex-direction:column;gap:5px;width:26px}
+    .nav-hamburger span{display:block;height:1.5px;background:var(--ink);transition:transform .3s,opacity .3s;transform-origin:center}
+    .nav-hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+    .nav-hamburger.open span:nth-child(2){opacity:0}
+    .nav-hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+    @media(max-width:768px){.nav-links{display:none}.nav-hamburger{display:flex}}
+    #mobile-nav{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;transform:translateX(100%);transition:transform .5s var(--ease-out)}
+    #mobile-nav.open{transform:translateX(0)}
+    #mobile-nav a{font-family:var(--font-display);font-size:clamp(32px,8vw,52px);font-weight:700;color:var(--ink-2);transition:color .2s}
+    #mobile-nav a:hover{color:var(--gold)}
+
+    /* Reveal */
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)}
+    .reveal.visible{opacity:1;transform:none}
+    .reveal-delay-1{transition-delay:.1s}
+    .reveal-delay-2{transition-delay:.2s}
+    .reveal-delay-3{transition-delay:.3s}
+    .reveal-delay-4{transition-delay:.4s}
+
+    /* Buttons */
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;font-size:.875rem;font-weight:600;border-radius:var(--radius-sm);transition:transform .3s var(--ease-out),box-shadow .3s}
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{background:var(--gold);color:var(--bg);box-shadow:0 4px 24px rgba(201,169,110,.2)}
+    .btn-primary:hover{box-shadow:0 8px 40px rgba(201,169,110,.35)}
+    .btn-ghost{border:1px solid var(--border);color:var(--ink-2)}
+    .btn-ghost:hover{border-color:rgba(242,237,228,.2);color:var(--ink)}
+    .btn-arrow{width:20px;height:20px;transition:transform .3s var(--ease-out)}
+    .btn:hover .btn-arrow{transform:translate(3px,-3px)}
+
+    /* Back to top */
+    #back-to-top{position:fixed;bottom:32px;right:32px;width:44px;height:44px;background:var(--bg-3);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(16px);transition:opacity .3s,transform .3s,background .2s,border-color .2s;z-index:100}
+    #back-to-top.visible{opacity:1;transform:none}
+    #back-to-top:hover{background:var(--gold);border-color:var(--gold)}
+
+    /* ══════════════════════════════════════
+       PAGE HERO
+    ══════════════════════════════════════ */
+    .page-hero{
+      min-height:72svh;
+      display:flex;flex-direction:column;justify-content:flex-end;
+      padding-bottom:clamp(48px,7vw,100px);padding-top:130px;
+      position:relative;overflow:hidden;
+    }
+    .hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(242,237,228,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(242,237,228,.022) 1px,transparent 1px);background-size:80px 80px;pointer-events:none}
+    .hero-glow{position:absolute;border-radius:50%;filter:blur(120px);pointer-events:none}
+    .hero-glow-1{width:700px;height:700px;background:rgba(201,169,110,.07);top:-150px;right:-100px}
+    .hero-glow-2{width:500px;height:500px;background:rgba(30,58,58,.2);bottom:-100px;left:-80px}
+
+    .hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:32px;opacity:0;animation:fadeUp .8s .1s var(--ease-out) forwards}
+    .hero-eyebrow-line{width:40px;height:1px;background:var(--gold)}
+    @keyframes fadeUp{to{opacity:1;transform:none}}
+
+    .hero-line-wrap{overflow:hidden}
+    .hero-line{display:block;transform:translateY(110%);opacity:0;animation:lineReveal .95s var(--ease-out) forwards}
+    .hero-line:nth-child(1){animation-delay:.22s}
+    .hero-line:nth-child(2){animation-delay:.38s}
+    .hero-line:nth-child(3){animation-delay:.54s}
+    @keyframes lineReveal{to{transform:none;opacity:1}}
+
+    .hero-bottom{display:flex;align-items:flex-end;justify-content:space-between;margin-top:clamp(36px,5vw,72px);gap:40px;flex-wrap:wrap}
+    .hero-desc{max-width:400px;color:var(--ink-2);font-size:1.0625rem;line-height:1.8}
+
+    /* Floating badge */
+    .hero-badge{
+      display:flex;align-items:center;gap:12px;
+      padding:14px 20px;background:var(--bg-3);
+      border:1px solid var(--border);border-radius:var(--radius-sm);
+      flex-shrink:0;opacity:0;animation:fadeUp 1s .8s var(--ease-out) forwards;
+    }
+    .hero-badge-dot{width:8px;height:8px;border-radius:50%;background:#6DBF8A;box-shadow:0 0 0 3px rgba(109,191,138,.2);flex-shrink:0}
+    .hero-badge-text{font-size:.8125rem;color:var(--ink-2)}
+    .hero-badge-text strong{color:var(--ink)}
+
+    /* ══════════════════════════════════════
+       SERVICES ACCORDION
+    ══════════════════════════════════════ */
+    .services-intro{
+      display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,100px);
+      align-items:end;margin-bottom:clamp(56px,7vw,100px);
+    }
+    @media(max-width:768px){.services-intro{grid-template-columns:1fr;gap:24px}}
+
+    .service-accordion{border-top:1px solid var(--border)}
+    .service-panel{border-bottom:1px solid var(--border)}
+    .service-trigger{
+      width:100%;display:grid;
+      grid-template-columns:64px 1fr auto;
+      align-items:center;gap:24px;
+      padding:clamp(24px,3vw,40px) 0;
+      text-align:left;
+    }
+    .service-num{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;color:var(--ink-3)}
+    .service-name{
+      font-family:var(--font-display);
+      font-size:clamp(22px,2.8vw,38px);
+      font-weight:600;letter-spacing:-.015em;
+      color:var(--ink-2);transition:color .3s;
+    }
+    .service-trigger:hover .service-name,.service-trigger.open .service-name{color:var(--ink)}
+    .service-icon{
+      width:40px;height:40px;border-radius:50%;border:1px solid var(--border);
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;
+      transition:background .3s,border-color .3s,transform .4s var(--ease-out);
+    }
+    .service-trigger:hover .service-icon{border-color:rgba(242,237,228,.2)}
+    .service-trigger.open .service-icon{background:var(--gold);border-color:var(--gold);transform:rotate(45deg)}
+    .service-trigger.open .service-icon svg path{stroke:#0A0A0C}
+
+    .service-body{
+      display:grid;grid-template-columns:64px 1fr;gap:24px;
+      max-height:0;overflow:hidden;
+      transition:max-height .55s var(--ease-out),opacity .4s;opacity:0;
+    }
+    .service-body.open{max-height:600px;opacity:1}
+    .service-body-inner{padding-bottom:clamp(28px,4vw,48px)}
+    .service-desc{color:var(--ink-2);font-size:1rem;line-height:1.8;margin-bottom:28px;max-width:640px}
+    .service-deliverables{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+    .service-tag{padding:6px 14px;border:1px solid var(--border);font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--ink-3);border-radius:var(--radius-sm);transition:border-color .2s,color .2s}
+    .service-tag:hover{border-color:var(--border-gold);color:var(--gold)}
+    .service-cta{display:inline-flex;align-items:center;gap:8px;font-size:.875rem;font-weight:600;color:var(--gold);transition:gap .3s}
+    .service-cta:hover{gap:14px}
+
+    /* Service image panel */
+    .service-img{
+      width:100%;aspect-ratio:16/9;object-fit:cover;
+      filter:brightness(.6) saturate(.6);margin-bottom:24px;
+    }
+
+    /* ══════════════════════════════════════
+       PROCESS SECTION
+    ══════════════════════════════════════ */
+    .process-header{
+      display:grid;grid-template-columns:1fr 1fr;
+      gap:clamp(40px,6vw,100px);align-items:end;
+      margin-bottom:clamp(56px,7vw,100px);
+    }
+    @media(max-width:768px){.process-header{grid-template-columns:1fr;gap:24px}}
+
+    .process-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+    @media(max-width:768px){.process-grid{grid-template-columns:1fr}}
+
+    .process-cell{
+      background:var(--bg-3);border:1px solid var(--border);
+      padding:clamp(28px,4vw,52px);
+      position:relative;overflow:hidden;
+      transition:border-color .3s;
+    }
+    .process-cell:hover{border-color:var(--border-gold)}
+    .process-cell-num{
+      font-family:var(--font-display);
+      font-size:clamp(60px,8vw,100px);
+      font-weight:900;letter-spacing:-.04em;
+      color:var(--ink);opacity:.04;
+      position:absolute;top:-16px;right:24px;
+      line-height:1;pointer-events:none;
+    }
+    .process-cell-label{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+    .process-cell-title{font-family:var(--font-display);font-size:clamp(20px,2.2vw,28px);font-weight:600;color:var(--ink);letter-spacing:-.015em;margin-bottom:14px}
+    .process-cell-text{font-size:.9rem;color:var(--ink-3);line-height:1.75}
+    .process-cell-duration{display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase}
+    .process-cell-duration::before{content:'';width:20px;height:1px;background:var(--border)}
+
+    /* ══════════════════════════════════════
+       CAPABILITIES TABLE
+    ══════════════════════════════════════ */
+    .cap-table{border:1px solid var(--border);margin-top:clamp(40px,5vw,72px)}
+    .cap-row{
+      display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+      border-bottom:1px solid var(--border);
+    }
+    .cap-row:last-child{border-bottom:none}
+    .cap-row.header .cap-cell{
+      font-family:var(--font-mono);font-size:10px;
+      letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);
+      background:var(--bg-3);
+    }
+    .cap-cell{
+      padding:clamp(14px,2vw,22px) clamp(16px,2.5vw,28px);
+      border-right:1px solid var(--border);font-size:.875rem;
+      color:var(--ink-2);display:flex;align-items:center;
+    }
+    .cap-cell:last-child{border-right:none}
+    .cap-cell.name{font-family:var(--font-display);font-size:clamp(15px,1.4vw,18px);font-weight:500;color:var(--ink);letter-spacing:-.005em}
+    .cap-check{color:var(--gold);font-size:14px}
+    .cap-dash{color:var(--ink-3)}
+    @media(max-width:768px){
+      .cap-row{grid-template-columns:1fr 1fr}
+      .cap-row.header .cap-cell:nth-child(n+3){display:none}
+      .cap-cell:nth-child(n+3){display:none}
+    }
+
+    /* ══════════════════════════════════════
+       TOOLS & STACK
+    ══════════════════════════════════════ */
+    .tools-grid{
+      display:grid;grid-template-columns:repeat(6,1fr);gap:2px;
+      margin-top:clamp(40px,5vw,72px);
+    }
+    @media(max-width:900px){.tools-grid{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:540px){.tools-grid{grid-template-columns:repeat(2,1fr)}}
+
+    .tool-cell{
+      background:var(--bg-3);border:1px solid var(--border);
+      padding:clamp(20px,3vw,32px) clamp(16px,2vw,24px);
+      display:flex;flex-direction:column;align-items:center;gap:12px;
+      text-align:center;transition:border-color .3s,background .3s;
+    }
+    .tool-cell:hover{border-color:var(--border-gold);background:var(--gold-dim)}
+    .tool-icon{width:36px;height:36px;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:18px}
+    .tool-name{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+
+    /* ══════════════════════════════════════
+       FAQ
+    ══════════════════════════════════════ */
+    .faq-list{margin-top:clamp(40px,5vw,72px)}
+    .faq-item{border-bottom:1px solid var(--border)}
+    .faq-item:first-child{border-top:1px solid var(--border)}
+    .faq-trigger{
+      width:100%;display:flex;align-items:center;
+      justify-content:space-between;gap:24px;
+      padding:clamp(20px,2.5vw,32px) 0;text-align:left;
+    }
+    .faq-question{font-family:var(--font-display);font-size:clamp(17px,1.8vw,24px);font-weight:600;color:var(--ink-2);transition:color .3s;letter-spacing:-.01em}
+    .faq-trigger:hover .faq-question,.faq-trigger.open .faq-question{color:var(--ink)}
+    .faq-chevron{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .3s,border-color .3s,transform .4s var(--ease-out)}
+    .faq-trigger.open .faq-chevron{background:var(--gold);border-color:var(--gold);transform:rotate(180deg)}
+    .faq-trigger.open .faq-chevron svg path{stroke:#0A0A0C}
+    .faq-answer{max-height:0;overflow:hidden;transition:max-height .5s var(--ease-out),opacity .4s;opacity:0}
+    .faq-answer.open{max-height:300px;opacity:1}
+    .faq-answer-inner{padding-bottom:clamp(20px,2.5vw,32px);font-size:.9375rem;color:var(--ink-3);line-height:1.8;max-width:720px}
+    .faq-answer-inner a{color:var(--gold);border-bottom:1px solid var(--border-gold);transition:border-color .2s}
+    .faq-answer-inner a:hover{border-bottom-color:var(--gold)}
+
+    /* ══════════════════════════════════════
+       CTA SECTION
+    ══════════════════════════════════════ */
+    .cta-band{background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+    .cta-glow{position:absolute;width:800px;height:800px;background:radial-gradient(circle,rgba(201,169,110,.055) 0%,transparent 70%);left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none}
+    .cta-inner{position:relative;text-align:center;padding:clamp(80px,12vw,180px) 0}
+    .cta-inner .display-lg em{color:var(--gold);font-style:italic}
+    .cta-inner .display-lg{max-width:800px;margin:16px auto 40px}
+    .cta-actions{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+
+    /* Footer */
+    .mini-footer{border-top:1px solid var(--border);padding:24px 0}
+    .mini-footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+    .mini-footer-copy{font-size:.8125rem;color:var(--ink-3)}
+    .mini-footer-copy a{color:var(--gold)}
+  </style>
+</head>
+<body>
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <button id="back-to-top" aria-label="Back to top">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 12V4M4 7l4-4 4 4" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg>
+  </button>
+  <nav id="mobile-nav" aria-hidden="true">
+    <a href="index.html">Home</a>
+    <a href="devnoxxkit-services.html">Services</a>
+    <a href="devnoxxkit-portfolio.html">Work</a>
+    <a href="devnoxxkit-about.html">About</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+
+  <!-- NAV -->
+  <header id="nav" role="banner">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-logo" aria-label="DevnoxxKit home">
+          <div class="nav-logo-mark"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="#0A0A0C" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          Devnoxx<span style="color:var(--gold)">Kit</span>
+        </a>
+        <ul class="nav-links" role="list">
+          <li class="relative">
+            <a href="index.html" class="home-trigger" aria-haspopup="true" aria-expanded="false">Home</a>
+            <div class="nav-home-dropdown">
+
+              <a href="devnoxxkit-home-brutalist.html" class="nav-home-item">Brutalist</a>
+              <a href="devnoxxkit-home-ivory.html" class="nav-home-item">Ivory</a>
+              <a href="devnoxxkit-home-monochrome.html" class="nav-home-item">Monochrome</a>
+              <a href="devnoxxkit-home-teal.html" class="nav-home-item">Teal</a>
+            </div>
+          </li>
+          <li><a href="devnoxxkit-services.html" class="active">Services</a></li>
+          <li><a href="devnoxxkit-portfolio.html">Work</a></li>
+          <li><a href="devnoxxkit-about.html">About</a></li>
+          <li><a href="devnoxxkit-blog-single.html">Journal</a></li>
+          <li><a href="index.html#contact" class="nav-cta">Let's Talk</a></li>
+        </ul>
+        <button class="nav-hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ── HERO ────────────────────────────────────── -->
+    <div class="page-hero">
+      <div class="hero-grid-bg" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow-1" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow-2" aria-hidden="true"></div>
+      <div class="container" style="position:relative;z-index:1">
+        <div class="hero-eyebrow">
+          <div class="hero-eyebrow-line"></div>
+          <span class="label">What We Offer</span>
+        </div>
+        <h1 class="display-xl">
+          <div class="hero-line-wrap"><span class="hero-line">Creative services</span></div>
+          <div class="hero-line-wrap"><span class="hero-line">built for <em style="color:var(--gold);font-style:italic">impact.</em></span></div>
+        </h1>
+        <div class="hero-bottom">
+          <p class="hero-desc">Every engagement is a bespoke partnership — not a service menu. We work with a small number of clients at any given time, so every project gets our full attention.</p>
+          <div class="hero-badge">
+            <div class="hero-badge-dot"></div>
+            <div class="hero-badge-text"><strong>3 spots available</strong> for Q3 2026</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SERVICES ACCORDION ────────────────────── -->
+    <section class="section" aria-labelledby="services-heading">
+      <div class="container">
+        <div class="services-intro">
+          <div>
+            <div class="section-eyebrow reveal"><div class="section-eyebrow-line"></div><span class="label">Our Disciplines</span></div>
+            <h2 class="display-md reveal reveal-delay-1" id="services-heading">Five disciplines.<br>One coherent <em style="color:var(--gold);font-style:italic">vision.</em></h2>
+          </div>
+          <p class="reveal reveal-delay-2" style="color:var(--ink-2);font-size:1.0625rem;line-height:1.8">We don't believe in siloed services. Every project we take on touches multiple disciplines — and the magic happens at the intersection.</p>
+        </div>
+
+        <div class="service-accordion reveal" role="list">
+
+          <!-- 01 -->
+          <div class="service-panel" role="listitem">
+            <button class="service-trigger" aria-expanded="false" aria-controls="svc-body-1">
+              <span class="service-num">01</span>
+              <span class="service-name">Brand Identity & Strategy</span>
+              <div class="service-icon" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H6M11 3V8" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </div>
+            </button>
+            <div class="service-body" id="svc-body-1" role="region">
+              <div></div>
+              <div class="service-body-inner">
+                <img class="service-img" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&q=70&auto=format&fit=crop" alt="Brand Identity work" loading="lazy"/>
+                <p class="service-desc">A brand is not a logo. It's the sum of every impression you make — visual, verbal, experiential. We build identity systems that hold up under pressure: across print, digital, environments, and time. From naming and positioning through to full visual identity, guidelines, and brand voice documentation.</p>
+                <div class="service-deliverables">
+                  <span class="service-tag">Logo System</span><span class="service-tag">Brand Guidelines</span><span class="service-tag">Typography</span><span class="service-tag">Color System</span><span class="service-tag">Brand Voice</span><span class="service-tag">Iconography</span><span class="service-tag">Stationery</span><span class="service-tag">Social Templates</span>
+                </div>
+                <a href="index.html#contact" class="service-cta">
+                  Start a brand project <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 02 -->
+          <div class="service-panel" role="listitem">
+            <button class="service-trigger" aria-expanded="false" aria-controls="svc-body-2">
+              <span class="service-num">02</span>
+              <span class="service-name">Editorial Web Design</span>
+              <div class="service-icon" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H6M11 3V8" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </div>
+            </button>
+            <div class="service-body" id="svc-body-2" role="region">
+              <div></div>
+              <div class="service-body-inner">
+                <img class="service-img" src="https://images.unsplash.com/photo-1545235617-9465d2a55698?w=1000&q=70&auto=format&fit=crop" alt="Web Design" loading="lazy"/>
+                <p class="service-desc">We design websites that read like magazines and perform like dashboards. Every layout decision is purposeful, every typographic choice earns its place. We handle design, frontend development, CMS integration, and performance optimization — delivering sites that are production-ready on day one.</p>
+                <div class="service-deliverables">
+                  <span class="service-tag">UI/UX Design</span><span class="service-tag">Figma Prototypes</span><span class="service-tag">HTML/CSS/JS</span><span class="service-tag">CMS Setup</span><span class="service-tag">Motion Design</span><span class="service-tag">Performance Audit</span><span class="service-tag">SEO Foundation</span>
+                </div>
+                <a href="index.html#contact" class="service-cta">
+                  Start a web project <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 03 -->
+          <div class="service-panel" role="listitem">
+            <button class="service-trigger" aria-expanded="false" aria-controls="svc-body-3">
+              <span class="service-num">03</span>
+              <span class="service-name">Creative Direction</span>
+              <div class="service-icon" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H6M11 3V8" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </div>
+            </button>
+            <div class="service-body" id="svc-body-3" role="region">
+              <div></div>
+              <div class="service-body-inner">
+                <img class="service-img" src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1000&q=70&auto=format&fit=crop" alt="Creative Direction" loading="lazy"/>
+                <p class="service-desc">The invisible force that makes campaigns, identities, and products cohere. Creative direction is what transforms a collection of good ideas into a singular, unforgettable statement. We offer both full-project creative direction and ongoing creative partnership for teams who need a guiding hand without a full retainer.</p>
+                <div class="service-deliverables">
+                  <span class="service-tag">Creative Brief</span><span class="service-tag">Moodboarding</span><span class="service-tag">Art Direction</span><span class="service-tag">Campaign Strategy</span><span class="service-tag">Shoot Direction</span><span class="service-tag">Ongoing Advisory</span>
+                </div>
+                <a href="index.html#contact" class="service-cta">
+                  Discuss direction <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 04 -->
+          <div class="service-panel" role="listitem">
+            <button class="service-trigger" aria-expanded="false" aria-controls="svc-body-4">
+              <span class="service-num">04</span>
+              <span class="service-name">Design Systems Engineering</span>
+              <div class="service-icon" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H6M11 3V8" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </div>
+            </button>
+            <div class="service-body" id="svc-body-4" role="region">
+              <div></div>
+              <div class="service-body-inner">
+                <img class="service-img" src="https://images.unsplash.com/photo-1555421689-491a97ff2040?w=1000&q=70&auto=format&fit=crop" alt="Design Systems" loading="lazy"/>
+                <p class="service-desc">Tokens to Figma to production code — we build design systems that your entire team can use without creating entropy. Component libraries with full documentation, accessibility baked in, and a governance model that scales. We've shipped systems for teams of 3 and teams of 300.</p>
+                <div class="service-deliverables">
+                  <span class="service-tag">Design Tokens</span><span class="service-tag">Figma Library</span><span class="service-tag">Component Code</span><span class="service-tag">Documentation Site</span><span class="service-tag">A11Y Audit</span><span class="service-tag">Governance Model</span>
+                </div>
+                <a href="index.html#contact" class="service-cta">
+                  Build a system <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 05 -->
+          <div class="service-panel" role="listitem">
+            <button class="service-trigger" aria-expanded="false" aria-controls="svc-body-5">
+              <span class="service-num">05</span>
+              <span class="service-name">Motion & Interaction Design</span>
+              <div class="service-icon" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H6M11 3V8" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </div>
+            </button>
+            <div class="service-body" id="svc-body-5" role="region">
+              <div></div>
+              <div class="service-body-inner">
+                <img class="service-img" src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1000&q=70&auto=format&fit=crop" alt="Motion Design" loading="lazy"/>
+                <p class="service-desc">Motion that communicates hierarchy and reveals narrative — never motion for its own sake. We design micro-interactions, scroll animations, loading sequences, and transition systems that make interfaces feel alive without becoming distracting. Delivered as production-ready CSS, GSAP, or Framer Motion code.</p>
+                <div class="service-deliverables">
+                  <span class="service-tag">Micro-interactions</span><span class="service-tag">Scroll Animation</span><span class="service-tag">Page Transitions</span><span class="service-tag">Lottie Animation</span><span class="service-tag">Motion Guidelines</span><span class="service-tag">GSAP / Framer</span>
+                </div>
+                <a href="index.html#contact" class="service-cta">
+                  Add motion <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PROCESS ────────────────────────────────── -->
+    <section class="section" style="background:var(--bg-2)" aria-labelledby="process-heading">
+      <div class="container">
+        <div class="process-header">
+          <div>
+            <div class="section-eyebrow reveal"><div class="section-eyebrow-line"></div><span class="label">How We Work</span></div>
+            <h2 class="display-md reveal reveal-delay-1" id="process-heading">A process built on<br><em style="color:var(--gold);font-style:italic">honest work.</em></h2>
+          </div>
+          <p class="reveal reveal-delay-2" style="color:var(--ink-2);font-size:1.0625rem;line-height:1.8">Four phases. Clear deliverables at each stage. No surprises, no scope creep, no revision roulette.</p>
+        </div>
+        <div class="process-grid">
+          <div class="process-cell reveal reveal-delay-1">
+            <div class="process-cell-num" aria-hidden="true">01</div>
+            <div class="process-cell-label">Phase One</div>
+            <div class="process-cell-title">Discovery & Strategy</div>
+            <p class="process-cell-text">We spend two weeks learning your business, audience, and competitive context before touching a single pixel. Interviews, audits, benchmarking, positioning workshops. The most important work happens before the creative work.</p>
+            <div class="process-cell-duration">1–2 weeks</div>
+          </div>
+          <div class="process-cell reveal reveal-delay-2">
+            <div class="process-cell-num" aria-hidden="true">02</div>
+            <div class="process-cell-label">Phase Two</div>
+            <div class="process-cell-title">Creative Direction</div>
+            <p class="process-cell-text">One creative direction — not three options that dilute focus. We present a fully committed visual and conceptual framework, backed by the rationale from Phase One. You respond, we refine.</p>
+            <div class="process-cell-duration">1–2 weeks</div>
+          </div>
+          <div class="process-cell reveal reveal-delay-3">
+            <div class="process-cell-num" aria-hidden="true">03</div>
+            <div class="process-cell-label">Phase Three</div>
+            <div class="process-cell-title">Design & Build</div>
+            <p class="process-cell-text">The execution phase. Pixel-perfect Figma files, production code, or both — depending on scope. Weekly check-ins, transparent feedback loops, and a staging environment you can click through before we go live.</p>
+            <div class="process-cell-duration">3–8 weeks</div>
+          </div>
+          <div class="process-cell reveal reveal-delay-4">
+            <div class="process-cell-num" aria-hidden="true">04</div>
+            <div class="process-cell-label">Phase Four</div>
+            <div class="process-cell-title">Launch & Handoff</div>
+            <p class="process-cell-text">A clean handoff package: source files, documentation, guidelines, and a recorded walkthrough. 30-day post-launch support. And a standing invitation to reach out when the next chapter begins.</p>
+            <div class="process-cell-duration">1 week + 30d support</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CAPABILITIES TABLE ─────────────────────── -->
+    <section class="section" aria-labelledby="cap-heading">
+      <div class="container">
+        <div class="section-eyebrow reveal"><div class="section-eyebrow-line"></div><span class="label">Capabilities</span></div>
+        <h2 class="display-md reveal reveal-delay-1" id="cap-heading" style="margin-top:12px;max-width:600px">Everything we do<br>and who it's for.</h2>
+        <div class="cap-table reveal reveal-delay-2" role="table" aria-label="Service capabilities by client type">
+          <div class="cap-row header" role="row">
+            <div class="cap-cell" role="columnheader">Service</div>
+            <div class="cap-cell" role="columnheader">Startups</div>
+            <div class="cap-cell" role="columnheader">Scale-ups</div>
+            <div class="cap-cell" role="columnheader">Enterprise</div>
+          </div>
+          <div class="cap-row" role="row"><div class="cap-cell name" role="cell">Brand Identity</div><div class="cap-cell" role="cell"><span class="cap-check">✦</span></div><div class="cap-cell" role="cell"><span class="cap-check">✦</span></div><div class="cap-cell" role="cell"><span class="cap-check">✦</span></div></div>
+          <div class="cap-row" role="row"><div class="cap-cell name" role="cell">Web Design & Dev</div><div class="cap-cell" role="cell"><span class="cap-check">✦</span></div><div class="cap-cell" role="cell"><span class="cap-check">✦</span></div><div class="cap-cell" role="cell"><span class="cap-check">✦</span></div></div>
+          <div class="cap-row" role="row"><div class="cap-cell name" role="cell">Creative Direction</div><div class="cap-cell" role="cell"><span class="cap-dash">—</span></div><div class="cap-cell" role="cell"><span class="cap-check">✦</span></div><div class="cap-cell" role="cell"><span class="cap-check">✦</span></div></div>
+          <div class="cap-row" role="row"><div class="cap-cell name" role="cell">Design Systems</div><div class="cap-cell" role="cell"><span class="cap-dash">—</span></div><div class="cap-cell" role="cell"><span class="cap-check">✦</span></div><div class="cap-cell" role="cell"><span class="cap-check">✦</span></div></div>
+          <div class="cap-row" role="row"><div class="cap-cell name" role="cell">Motion & Interaction</div><div class="cap-cell" role="cell"><span class="cap-check">✦</span></div><div class="cap-cell" role="cell"><span class="cap-check">✦</span></div><div class="cap-cell" role="cell"><span class="cap-check">✦</span></div></div>
+          <div class="cap-row" role="row"><div class="cap-cell name" role="cell">Campaign Art Direction</div><div class="cap-cell" role="cell"><span class="cap-dash">—</span></div><div class="cap-cell" role="cell"><span class="cap-check">✦</span></div><div class="cap-cell" role="cell"><span class="cap-check">✦</span></div></div>
+          <div class="cap-row" role="row"><div class="cap-cell name" role="cell">Ongoing Retainer</div><div class="cap-cell" role="cell"><span class="cap-dash">—</span></div><div class="cap-cell" role="cell"><span class="cap-dash">—</span></div><div class="cap-cell" role="cell"><span class="cap-check">✦</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── TOOLS ──────────────────────────────────── -->
+    <section class="section" style="background:var(--bg-2)" aria-labelledby="tools-heading">
+      <div class="container">
+        <div class="section-eyebrow reveal"><div class="section-eyebrow-line"></div><span class="label">Our Stack</span></div>
+        <h2 class="display-md reveal reveal-delay-1" id="tools-heading" style="margin-top:12px;max-width:500px">Tools we trust to<br>do the work.</h2>
+        <div class="tools-grid">
+          <div class="tool-cell reveal reveal-delay-1"><div class="tool-icon">✦</div><div class="tool-name">Figma</div></div>
+          <div class="tool-cell reveal reveal-delay-1"><div class="tool-icon">⬡</div><div class="tool-name">Vite</div></div>
+          <div class="tool-cell reveal reveal-delay-2"><div class="tool-icon">◈</div><div class="tool-name">Tailwind</div></div>
+          <div class="tool-cell reveal reveal-delay-2"><div class="tool-icon">▲</div><div class="tool-name">Vercel</div></div>
+          <div class="tool-cell reveal reveal-delay-3"><div class="tool-icon">⬢</div><div class="tool-name">GSAP</div></div>
+          <div class="tool-cell reveal reveal-delay-3"><div class="tool-icon">◉</div><div class="tool-name">Webflow</div></div>
+          <div class="tool-cell reveal reveal-delay-1"><div class="tool-icon">⬡</div><div class="tool-name">Framer</div></div>
+          <div class="tool-cell reveal reveal-delay-2"><div class="tool-icon">◈</div><div class="tool-name">After Effects</div></div>
+          <div class="tool-cell reveal reveal-delay-3"><div class="tool-icon">▲</div><div class="tool-name">Lottie</div></div>
+          <div class="tool-cell reveal reveal-delay-1"><div class="tool-icon">◉</div><div class="tool-name">Sanity CMS</div></div>
+          <div class="tool-cell reveal reveal-delay-2"><div class="tool-icon">✦</div><div class="tool-name">Alpine.js</div></div>
+          <div class="tool-cell reveal reveal-delay-3"><div class="tool-icon">⬢</div><div class="tool-name">Netlify</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FAQ ────────────────────────────────────── -->
+    <section class="section" aria-labelledby="faq-heading">
+      <div class="container" style="max-width:900px">
+        <div class="section-eyebrow reveal"><div class="section-eyebrow-line"></div><span class="label">FAQ</span></div>
+        <h2 class="display-md reveal reveal-delay-1" id="faq-heading" style="margin-top:12px">Questions we get<br><em style="color:var(--gold);font-style:italic">all the time.</em></h2>
+        <div class="faq-list reveal reveal-delay-2">
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false"><span class="faq-question">How much does a project cost?</span><div class="faq-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 5l4 4 4-4" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></div></button>
+            <div class="faq-answer"><div class="faq-answer-inner">Brand identity projects typically start at $12,000. Web design and development projects start at $18,000. Design systems from $25,000. We don't do cheap, fast, or generic — and we're transparent about that from the first conversation.</div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false"><span class="faq-question">How long does a project take?</span><div class="faq-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 5l4 4 4-4" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></div></button>
+            <div class="faq-answer"><div class="faq-answer-inner">Brand projects: 6–10 weeks. Web projects: 8–14 weeks. Design systems: 10–16 weeks. We move quickly when the client moves quickly — our process is designed to eliminate bottlenecks on both sides.</div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false"><span class="faq-question">Do you work with startups?</span><div class="faq-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 5l4 4 4-4" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></div></button>
+            <div class="faq-answer"><div class="faq-answer-inner">Yes — if the ambition is there. We've worked with pre-seed companies who understood that brand is a competitive advantage. We don't work with businesses that want a logo and a website; we work with businesses that want a brand and a platform.</div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false"><span class="faq-question">How many revision rounds do we get?</span><div class="faq-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 5l4 4 4-4" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></div></button>
+            <div class="faq-answer"><div class="faq-answer-inner">We don't count revisions. We define clear success criteria at the start of every phase and work until those criteria are met. In practice, most projects land in 2–3 rounds of refinement because the strategy work at the front eliminates guesswork.</div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false"><span class="faq-question">Can you work with our in-house team?</span><div class="faq-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 5l4 4 4-4" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></div></button>
+            <div class="faq-answer"><div class="faq-answer-inner">Absolutely. Many of our best projects have been collaborations with in-house designers and developers. We've operated as everything from an embedded creative partner to a pure creative direction resource. We're flexible — the work isn't.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CTA ────────────────────────────────────── -->
+    <div class="cta-band">
+      <div class="cta-glow" aria-hidden="true"></div>
+      <div class="container"><div class="cta-inner">
+        <div class="section-eyebrow reveal" style="justify-content:center"><div class="section-eyebrow-line"></div><span class="label">Start Here</span><div class="section-eyebrow-line"></div></div>
+        <h2 class="display-lg reveal reveal-delay-1">Tell us what you're<br>trying to <em>build.</em></h2>
+        <div class="cta-actions reveal reveal-delay-2">
+          <a href="index.html#contact" class="btn btn-primary">Start a Project <svg class="btn-arrow" viewBox="0 0 20 20" fill="none"><path d="M4 16L16 4M16 4H8M16 4V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          <a href="devnoxxkit-portfolio.html" class="btn btn-ghost">View Our Work</a>
+        </div>
+      </div></div>
+    </div>
+
+  </main>
+
+  <footer class="mini-footer" role="contentinfo">
+    <div class="container"><div class="mini-footer-inner">
+      <a href="index.html" style="font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:8px">
+        <div class="nav-logo-mark"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="#0A0A0C" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        Devnoxx<span style="color:var(--gold)">Kit</span>
+      </a>
+      <p class="mini-footer-copy">© 2026 <a href="index.html">DevnoxxKit</a>. Crafted with obsession.</p>
+      <p class="mini-footer-copy" style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em">SERVICES PAGE</p>
+    </div></div>
+  </footer>
+
+  <script>
+    const dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring');
+    let rX=0,rY=0,dX=0,dY=0,mX=0,mY=0;
+    document.addEventListener('mousemove',e=>{mX=e.clientX;mY=e.clientY});
+    (function a(){dX+=(mX-dX)*.85;dY+=(mY-dY)*.85;rX+=(mX-rX)*.12;rY+=(mY-rY)*.12;dot.style.left=dX+'px';dot.style.top=dY+'px';ring.style.left=rX+'px';ring.style.top=rY+'px';requestAnimationFrame(a)})();
+    const nav=document.getElementById('nav');
+    window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
+    const hb=document.getElementById('hamburger'),mn=document.getElementById('mobile-nav');
+    hb.addEventListener('click',()=>{const o=hb.classList.toggle('open');mn.classList.toggle('open',o);hb.setAttribute('aria-expanded',String(o));mn.setAttribute('aria-hidden',String(!o));document.body.style.overflow=o?'hidden':''});
+    const ro=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target)}}),{threshold:.1,rootMargin:'0px 0px -48px 0px'});
+    document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+    const btt=document.getElementById('back-to-top');
+    window.addEventListener('scroll',()=>btt.classList.toggle('visible',scrollY>500),{passive:true});
+    btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+    // Service accordion
+    document.querySelectorAll('.service-trigger').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const isOpen=btn.classList.contains('open');
+        document.querySelectorAll('.service-trigger').forEach(b=>{b.classList.remove('open');b.setAttribute('aria-expanded','false')});
+        document.querySelectorAll('.service-body').forEach(b=>b.classList.remove('open'));
+        if(!isOpen){btn.classList.add('open');btn.setAttribute('aria-expanded','true');document.getElementById(btn.getAttribute('aria-controls')).classList.add('open')}
+      });
+    });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-trigger').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const isOpen=btn.classList.contains('open');
+        document.querySelectorAll('.faq-trigger').forEach(b=>{b.classList.remove('open');b.setAttribute('aria-expanded','false')});
+        document.querySelectorAll('.faq-answer').forEach(a=>a.classList.remove('open'));
+        if(!isOpen){btn.classList.add('open');btn.setAttribute('aria-expanded','true');btn.nextElementSibling.classList.add('open')}
+      });
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}});
+    });
+  </script>
+  <script src="devnoxxkit-theme.js"></script>
+</body>
+</html>

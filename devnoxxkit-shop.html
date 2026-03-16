@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <script>
+    (function(){
+      var s = localStorage.getItem('dnk-theme');
+      var d = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', s || d);
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shop — DevnoxxKit Digital Products</title>
+  <meta name="description" content="Premium HTML templates, UI kits, design systems, and digital resources from DevnoxxKit."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#0A0A0C;--bg-2:#111114;--bg-3:#18181D;--surface:#1E1E24;--border:rgba(242,237,228,0.08);--border-gold:rgba(201,169,110,0.3);--ink:#F2EDE4;--ink-2:#B8B0A4;--ink-3:#6E6860;--gold:#C9A96E;--gold-light:#DFC28E;--gold-dim:rgba(201,169,110,0.12);--font-display:'Fraunces',Georgia,serif;--font-body:'DM Sans',system-ui,sans-serif;--font-mono:'JetBrains Mono',monospace;--radius-sm:4px;--radius-md:8px;--ease-out:cubic-bezier(0.16,1,0.3,1)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-size:16px;-webkit-font-smoothing:antialiased}
+    body{background:var(--bg);color:var(--ink);font-family:var(--font-body);overflow-x:hidden;cursor:none;line-height:1.65}
+    body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.032;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");background-size:256px 256px}
+    ::selection{background:var(--gold);color:var(--bg)}
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+    button{border:none;background:none;cursor:none;font:inherit}
+    #cursor-dot{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--gold);pointer-events:none;z-index:10000;transform:translate(-50%,-50%);will-change:transform}
+    #cursor-ring{position:fixed;width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,169,110,.5);pointer-events:none;z-index:10000;transform:translate(-50%,-50%);transition:width .3s var(--ease-out),height .3s var(--ease-out),border-color .3s;will-change:transform}
+    body:has(a:hover) #cursor-ring,body:has(button:hover) #cursor-ring{width:56px;height:56px;border-color:var(--gold)}
+    .container{width:100%;max-width:1320px;margin:0 auto;padding:0 clamp(20px,4vw,80px)}
+    .section{padding:clamp(80px,10vw,160px) 0}
+    .display-xl{font-family:var(--font-display);font-size:clamp(52px,8vw,128px);font-weight:800;line-height:.92;letter-spacing:-.03em}
+    .display-md{font-family:var(--font-display);font-size:clamp(26px,3.2vw,50px);font-weight:600;line-height:1.1;letter-spacing:-.015em}
+    .label{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+    .section-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+    .section-eyebrow-line{width:32px;height:1px;background:var(--gold)}
+    #nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 0;transition:padding .4s var(--ease-out),background .4s,border-color .4s;border-bottom:1px solid transparent}
+    #nav.scrolled{padding:16px 0;background:rgba(10,10,12,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom-color:var(--border)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+    .nav-logo-mark{width:28px;height:28px;background:var(--gold);border-radius:6px;display:flex;align-items:center;justify-content:center}
+    .nav-links{display:flex;align-items:center;gap:40px;list-style:none}
+    .nav-links a{font-size:.875rem;color:var(--ink-2);transition:color .2s;position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s var(--ease-out)}
+    .nav-links a:hover{color:var(--ink)}.nav-links a:hover::after,.nav-links a.active::after{width:100%}.nav-links a.active{color:var(--gold)}
+    .nav-cta{padding:10px 22px;background:var(--gold);color:var(--bg)!important;font-size:.8125rem!important;font-weight:600;border-radius:var(--radius-sm)}.nav-cta::after{display:none!important}.nav-cta:hover{background:var(--gold-light)!important}
+    .nav-hamburger{display:none;flex-direction:column;gap:5px;width:26px}.nav-hamburger span{display:block;height:1.5px;background:var(--ink);transition:transform .3s,opacity .3s;transform-origin:center}.nav-hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}.nav-hamburger.open span:nth-child(2){opacity:0}.nav-hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+    @media(max-width:768px){.nav-links{display:none}.nav-hamburger{display:flex}}
+    #mobile-nav{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;transform:translateX(100%);transition:transform .5s var(--ease-out)}
+    #mobile-nav.open{transform:translateX(0)}
+    #mobile-nav a{font-family:var(--font-display);font-size:clamp(32px,8vw,52px);font-weight:700;color:var(--ink-2);transition:color .2s}
+    #mobile-nav a:hover{color:var(--gold)}
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)}.reveal.visible{opacity:1;transform:none}.reveal-delay-1{transition-delay:.1s}.reveal-delay-2{transition-delay:.2s}.reveal-delay-3{transition-delay:.3s}.reveal-delay-4{transition-delay:.4s}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;font-size:.875rem;font-weight:600;border-radius:var(--radius-sm);transition:transform .3s var(--ease-out),box-shadow .3s}.btn:hover{transform:translateY(-2px)}.btn-primary{background:var(--gold);color:var(--bg);box-shadow:0 4px 24px rgba(201,169,110,.2)}.btn-primary:hover{box-shadow:0 8px 40px rgba(201,169,110,.35)}.btn-ghost{border:1px solid var(--border);color:var(--ink-2)}.btn-ghost:hover{border-color:rgba(242,237,228,.2);color:var(--ink)}.btn-arrow{width:20px;height:20px;transition:transform .3s var(--ease-out)}.btn:hover .btn-arrow{transform:translate(3px,-3px)}
+    #back-to-top{position:fixed;bottom:32px;right:32px;width:44px;height:44px;background:var(--bg-3);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(16px);transition:opacity .3s,transform .3s,background .2s;z-index:100}
+    #back-to-top.visible{opacity:1;transform:none}#back-to-top:hover{background:var(--gold);border-color:var(--gold)}
+
+    /* ── PAGE HERO ─────────────────────────── */
+    .page-hero{min-height:65svh;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:clamp(48px,7vw,100px);padding-top:130px;position:relative;overflow:hidden}
+    .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(242,237,228,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(242,237,228,.022) 1px,transparent 1px);background-size:80px 80px;pointer-events:none}
+    .hero-glow{position:absolute;border-radius:50%;filter:blur(120px);pointer-events:none}
+    .hero-glow-1{width:700px;height:700px;background:rgba(201,169,110,.07);top:-150px;right:-100px}
+    .hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:32px;opacity:0;animation:fadeUp .8s .1s var(--ease-out) forwards}
+    .hero-eyebrow-line{width:40px;height:1px;background:var(--gold)}
+    @keyframes fadeUp{to{opacity:1;transform:none}}
+    .hero-line-wrap{overflow:hidden}
+    .hero-line{display:block;transform:translateY(110%);opacity:0;animation:lineReveal .95s var(--ease-out) forwards}
+    .hero-line:nth-child(1){animation-delay:.22s}.hero-line:nth-child(2){animation-delay:.38s}
+    @keyframes lineReveal{to{transform:none;opacity:1}}
+    .hero-bottom{display:flex;align-items:flex-end;justify-content:space-between;margin-top:clamp(32px,4vw,56px);gap:32px;flex-wrap:wrap}
+
+    /* ── SHOP FILTER ─────────────────────────── */
+    .shop-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:clamp(20px,3vw,36px) 0;border-bottom:1px solid var(--border);flex-wrap:wrap}
+    .shop-filters{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+    .filter-btn{padding:8px 16px;font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);border:1px solid transparent;border-radius:var(--radius-sm);transition:color .2s,border-color .2s,background .2s}
+    .filter-btn:hover{color:var(--ink);border-color:var(--border)}
+    .filter-btn.active{color:var(--gold);border-color:var(--border-gold);background:var(--gold-dim)}
+    .shop-sort{display:flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--ink-3)}
+    .shop-sort select{background:var(--bg-3);border:1px solid var(--border);color:var(--ink-2);font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;padding:6px 12px;border-radius:var(--radius-sm);outline:none;cursor:none;transition:border-color .2s}
+    .shop-sort select:focus{border-color:var(--border-gold)}
+
+    /* ── FEATURED HERO PRODUCT ─────────────────── */
+    .featured-product{
+      display:grid;grid-template-columns:1fr 1fr;gap:2px;
+      margin-top:2px;background:var(--bg-3);
+      border:1px solid var(--border);
+    }
+    @media(max-width:900px){.featured-product{grid-template-columns:1fr}}
+    .featured-img-wrap{position:relative;overflow:hidden;min-height:480px}
+    .featured-img{width:100%;height:100%;object-fit:cover;filter:brightness(.6) saturate(.65);transition:transform .9s var(--ease-out),filter .5s;position:absolute;inset:0}
+    .featured-product:hover .featured-img{transform:scale(1.04);filter:brightness(.72) saturate(.8)}
+    .featured-badge{position:absolute;top:24px;left:24px;background:var(--gold);color:var(--bg);font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px;z-index:1}
+    .featured-info{padding:clamp(32px,5vw,64px);display:flex;flex-direction:column;justify-content:space-between}
+    .featured-tag{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+    .featured-title{font-family:var(--font-display);font-size:clamp(28px,3.5vw,52px);font-weight:800;letter-spacing:-.03em;color:var(--ink);line-height:1.05;margin-bottom:20px}
+    .featured-desc{font-size:1rem;color:var(--ink-2);line-height:1.8;margin-bottom:28px;max-width:480px}
+    .featured-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
+    .feature-pill{padding:5px 12px;border:1px solid var(--border);font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;color:var(--ink-3);border-radius:100px}
+    .featured-buy{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+    .price-tag{font-family:var(--font-display);font-size:clamp(36px,4vw,56px);font-weight:800;letter-spacing:-.04em;color:var(--ink);line-height:1}
+    .price-tag sup{font-size:.45em;color:var(--gold);vertical-align:super}
+    .price-original{font-size:.875rem;color:var(--ink-3);text-decoration:line-through;margin-top:4px}
+    .star-row{display:flex;align-items:center;gap:6px;margin-bottom:24px}
+    .stars{color:var(--gold);font-size:14px;letter-spacing:2px}
+    .star-count{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3)}
+
+    /* ── PRODUCT GRID ─────────────────────────── */
+    .products-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:2px;
+      margin-top:2px;
+    }
+    @media(max-width:900px){.products-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:540px){.products-grid{grid-template-columns:1fr}}
+
+    .product-card{
+      background:var(--bg-3);border:1px solid var(--border);
+      overflow:hidden;position:relative;
+      transition:border-color .3s,transform .4s var(--ease-out);
+    }
+    .product-card:hover{border-color:var(--border-gold);transform:translateY(-4px)}
+    .product-card[data-hidden]{display:none}
+
+    .product-img-wrap{position:relative;overflow:hidden}
+    .product-img{width:100%;aspect-ratio:4/3;object-fit:cover;filter:brightness(.6) saturate(.6);transition:transform .7s var(--ease-out),filter .5s}
+    .product-card:hover .product-img{transform:scale(1.05);filter:brightness(.8) saturate(.8)}
+    .product-badge{position:absolute;top:16px;left:16px;background:var(--gold);color:var(--bg);font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px}
+    .product-badge.new{background:#6DBF8A;color:#0A0A0C}
+    .product-badge.sale{background:#E07070;color:#fff}
+    .product-wishlist{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:rgba(10,10,12,.7);backdrop-filter:blur(8px);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;z-index:1}
+    .product-card:hover .product-wishlist{opacity:1}
+    .product-wishlist:hover{background:var(--gold);border-color:var(--gold)}
+    .product-wishlist.active svg path{fill:var(--gold);stroke:var(--gold)}
+
+    .product-body{padding:clamp(16px,2.5vw,28px)}
+    .product-cat{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+    .product-name{font-family:var(--font-display);font-size:clamp(17px,1.7vw,22px);font-weight:600;color:var(--ink);letter-spacing:-.01em;line-height:1.25;margin-bottom:10px;transition:color .3s}
+    .product-card:hover .product-name{color:var(--gold-light)}
+    .product-desc{font-size:.8125rem;color:var(--ink-3);line-height:1.65;margin-bottom:16px}
+    .product-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+    .product-tag-pill{padding:3px 10px;border:1px solid var(--border);font-family:var(--font-mono);font-size:9px;letter-spacing:.06em;color:var(--ink-3);border-radius:100px}
+    .product-footer{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid var(--border)}
+    .product-price{font-family:var(--font-display);font-size:clamp(22px,2.2vw,30px);font-weight:800;letter-spacing:-.03em;color:var(--ink)}
+    .product-price sup{font-size:.5em;color:var(--gold);vertical-align:super}
+    .product-price-orig{font-size:.75rem;color:var(--ink-3);text-decoration:line-through;margin-left:4px}
+    .product-buy-btn{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 18px;background:var(--gold);color:var(--bg);
+      font-size:.8125rem;font-weight:600;border-radius:var(--radius-sm);
+      transition:background .2s,transform .3s var(--ease-out),box-shadow .3s;
+    }
+    .product-buy-btn:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 6px 24px rgba(201,169,110,.3)}
+    .product-rating{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+    .product-stars{color:var(--gold);font-size:11px}
+    .product-review-count{font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;color:var(--ink-3)}
+
+    /* ── BUNDLE CARD ─────────────────────────── */
+    .bundle-section{background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+    .bundle-card{
+      display:grid;grid-template-columns:1fr 1fr;
+      gap:2px;border:1px solid var(--border-gold);
+      background:linear-gradient(135deg,rgba(201,169,110,.06) 0%,var(--bg-3) 60%);
+      margin-top:clamp(40px,5vw,72px);
+    }
+    @media(max-width:768px){.bundle-card{grid-template-columns:1fr}}
+    .bundle-img-col{position:relative;min-height:320px;overflow:hidden}
+    .bundle-img{width:100%;height:100%;object-fit:cover;filter:brightness(.5) saturate(.5);position:absolute;inset:0}
+    .bundle-img-overlay{position:absolute;inset:0;background:linear-gradient(to right,transparent,rgba(10,10,12,.5));display:flex;align-items:center;justify-content:center}
+    .bundle-price-circle{width:120px;height:120px;border-radius:50%;background:var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+    .bundle-price-label{font-family:var(--font-mono);font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--bg)}
+    .bundle-price-val{font-family:var(--font-display);font-size:32px;font-weight:900;color:var(--bg);letter-spacing:-.04em;line-height:1}
+    .bundle-price-save{font-family:var(--font-mono);font-size:8px;color:var(--bg);letter-spacing:.08em}
+    .bundle-info{padding:clamp(32px,4vw,56px)}
+    .bundle-badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+    .bundle-badge::before{content:'✦';font-size:8px}
+    .bundle-title{font-family:var(--font-display);font-size:clamp(26px,3vw,44px);font-weight:800;letter-spacing:-.03em;color:var(--ink);line-height:1.05;margin-bottom:16px}
+    .bundle-desc{font-size:1rem;color:var(--ink-2);line-height:1.8;margin-bottom:24px}
+    .bundle-includes{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+    .bundle-includes li{display:flex;align-items:center;gap:12px;font-size:.9rem;color:var(--ink-2)}
+    .bundle-includes li::before{content:'✦';color:var(--gold);font-size:8px;flex-shrink:0}
+    .bundle-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+
+    /* ── TRUST STRIP ─────────────────────────── */
+    .trust-strip{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);margin-top:clamp(40px,5vw,72px)}
+    @media(max-width:768px){.trust-strip{grid-template-columns:repeat(2,1fr)}}
+    .trust-cell{padding:clamp(20px,3vw,36px) clamp(16px,2.5vw,28px);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;transition:background .3s}
+    .trust-cell:hover{background:rgba(242,237,228,.02)}
+    .trust-cell:last-child{border-right:none}
+    @media(max-width:768px){.trust-cell:nth-child(2){border-right:none}.trust-cell:nth-child(1),.trust-cell:nth-child(2){border-bottom:1px solid var(--border)}}
+    .trust-icon{width:40px;height:40px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--border-gold);display:flex;align-items:center;justify-content:center;font-size:18px}
+    .trust-title{font-family:var(--font-display);font-size:clamp(14px,1.4vw,17px);font-weight:600;color:var(--ink);letter-spacing:-.01em}
+    .trust-text{font-size:.8125rem;color:var(--ink-3);line-height:1.5}
+
+    /* ── TESTIMONIALS MINI ────────────────────── */
+    .mini-reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:clamp(40px,5vw,72px)}
+    @media(max-width:768px){.mini-reviews{grid-template-columns:1fr}}
+    .mini-review{background:var(--bg-3);border:1px solid var(--border);padding:clamp(20px,3vw,32px);transition:border-color .3s}
+    .mini-review:hover{border-color:var(--border-gold)}
+    .mini-stars{color:var(--gold);font-size:13px;letter-spacing:2px;margin-bottom:14px}
+    .mini-review-text{font-family:var(--font-display);font-size:clamp(14px,1.4vw,17px);font-weight:400;font-style:italic;color:var(--ink-2);line-height:1.6;margin-bottom:16px}
+    .mini-reviewer{display:flex;align-items:center;gap:10px}
+    .mini-reviewer-avatar{width:34px;height:34px;border-radius:50%;object-fit:cover;filter:grayscale(.3)}
+    .mini-reviewer-name{font-size:.8125rem;font-weight:600;color:var(--ink)}
+    .mini-reviewer-role{font-size:.75rem;color:var(--ink-3)}
+
+    /* ── EMAIL CTA ────────────────────────────── */
+    .email-cta{background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:clamp(60px,8vw,120px) 0;text-align:center}
+    .email-form{display:flex;align-items:center;gap:8px;max-width:440px;margin:28px auto 0;flex-wrap:wrap;justify-content:center}
+    .email-input{flex:1;min-width:200px;background:var(--bg-3);border:1px solid var(--border);color:var(--ink);font-family:var(--font-body);font-size:.9375rem;padding:13px 18px;border-radius:var(--radius-sm);outline:none;transition:border-color .2s}
+    .email-input::placeholder{color:var(--ink-3)}
+    .email-input:focus{border-color:var(--border-gold)}
+    .email-submit{padding:13px 24px;background:var(--gold);color:var(--bg);font-size:.875rem;font-weight:600;border-radius:var(--radius-sm);transition:background .2s,transform .3s var(--ease-out)}
+    .email-submit:hover{background:var(--gold-light);transform:translateY(-2px)}
+    .email-note{font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;color:var(--ink-3);margin-top:12px}
+
+    /* Footer */
+    .mini-footer{border-top:1px solid var(--border);padding:24px 0}.mini-footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}.mini-footer-copy{font-size:.8125rem;color:var(--ink-3)}.mini-footer-copy a{color:var(--gold)}
+
+    /* Cart toast */
+    #cart-toast{
+      position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);
+      background:var(--bg-3);border:1px solid var(--border-gold);
+      padding:14px 24px;border-radius:var(--radius-sm);
+      display:flex;align-items:center;gap:12px;
+      font-size:.875rem;color:var(--ink);
+      z-index:2000;transition:transform .4s var(--ease-out),opacity .4s;
+      opacity:0;white-space:nowrap;
+    }
+    #cart-toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+    #nav.scrolled {
+      background: var(--nav-scrolled-bg) !important;
+      }
+  </style>
+</head>
+<body>
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <button id="back-to-top" aria-label="Back to top"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 12V4M4 7l4-4 4 4" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+  <div id="cart-toast" role="status" aria-live="polite">
+    <span style="color:var(--gold)">✦</span>
+    <span id="toast-msg">Added to cart</span>
+  </div>
+  <nav id="mobile-nav" aria-hidden="true">
+    <a href="index.html">Home</a>
+    <a href="devnoxxkit-services.html">Services</a>
+    <a href="devnoxxkit-portfolio.html">Work</a>
+    <a href="devnoxxkit-shop.html">Shop</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+
+  <header id="nav" role="banner">
+    <div class="container"><div class="nav-inner">
+      <a href="index.html" class="nav-logo"><div class="nav-logo-mark"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="#0A0A0C" stroke-width="1.5" stroke-linecap="round"/></svg></div>Devnoxx<span style="color:var(--gold)">Kit</span></a>
+      <ul class="nav-links" role="list">
+        <li><a href="devnoxxkit-services.html">Services</a></li>
+        <li><a href="devnoxxkit-portfolio.html">Work</a></li>
+        <li><a href="devnoxxkit-about.html">About</a></li>
+        <li><a href="devnoxxkit-shop.html" class="active">Shop</a></li>
+        <li><a href="index.html#contact" class="nav-cta">Let's Talk</a></li>
+      </ul>
+      <button class="nav-hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div></div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <div class="page-hero">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow-1" aria-hidden="true"></div>
+      <div class="container" style="position:relative;z-index:1">
+        <div class="hero-eyebrow"><div class="hero-eyebrow-line"></div><span class="label">Digital Products</span></div>
+        <h1 class="display-xl">
+          <div class="hero-line-wrap"><span class="hero-line">Premium tools for</span></div>
+          <div class="hero-line-wrap"><span class="hero-line"><em style="color:var(--gold);font-style:italic">serious makers.</em></span></div>
+        </h1>
+        <div class="hero-bottom">
+          <p style="max-width:420px;color:var(--ink-2);font-size:1.0625rem;line-height:1.8">HTML templates, UI kits, and design systems — built to the same standard as our client work. Instant download. Yours forever.</p>
+          <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;opacity:0;animation:fadeUp 1s .8s var(--ease-out) forwards">
+            <div style="text-align:center"><div style="font-family:var(--font-display);font-size:32px;font-weight:800;letter-spacing:-.04em;color:var(--ink)">4,200<span style="color:var(--gold)">+</span></div><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3)">Customers</div></div>
+            <div style="width:1px;height:40px;background:var(--border)"></div>
+            <div style="text-align:center"><div style="font-family:var(--font-display);font-size:32px;font-weight:800;letter-spacing:-.04em;color:var(--ink)">4.9<span style="color:var(--gold)">★</span></div><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3)">Avg Rating</div></div>
+            <div style="width:1px;height:40px;background:var(--border)"></div>
+            <div style="text-align:center"><div style="font-family:var(--font-display);font-size:32px;font-weight:800;letter-spacing:-.04em;color:var(--ink)">∞</div><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3)">Free Updates</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SHOP BAR & GRID -->
+    <div class="container">
+      <div class="shop-bar">
+        <div class="shop-filters" role="group" aria-label="Filter products">
+          <button class="filter-btn active" data-filter="all">All Products</button>
+          <button class="filter-btn" data-filter="template">HTML Templates</button>
+          <button class="filter-btn" data-filter="uikit">UI Kits</button>
+          <button class="filter-btn" data-filter="system">Design Systems</button>
+          <button class="filter-btn" data-filter="resource">Resources</button>
+        </div>
+        <div class="shop-sort">
+          <label for="sort" class="label" style="color:var(--ink-3)">Sort:</label>
+          <select id="sort" aria-label="Sort products">
+            <option>Featured</option>
+            <option>Price: Low to High</option>
+            <option>Price: High to Low</option>
+            <option>Newest</option>
+            <option>Best Rated</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEATURED PRODUCT -->
+    <div class="container">
+      <div class="featured-product reveal" data-category="template">
+        <div class="featured-img-wrap">
+          <img class="featured-img" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&q=75&auto=format&fit=crop" alt="DevnoxxKit — Cinematic Dark Template" loading="eager"/>
+          <div class="featured-badge">✦ Featured</div>
+        </div>
+        <div class="featured-info">
+          <div>
+            <div class="featured-tag">HTML Template</div>
+            <div class="star-row">
+              <span class="stars">★★★★★</span>
+              <span class="star-count">4.9 · 312 reviews</span>
+            </div>
+            <h2 class="featured-title">DevnoxxKit — Cinematic Dark</h2>
+            <p class="featured-desc">The complete cinematic dark design system. 7 pages, 50+ components, design tokens, documentation, and a build system that actually makes sense. The template that powers this very site.</p>
+            <div class="featured-meta">
+              <span class="feature-pill">7 HTML Pages</span>
+              <span class="feature-pill">50+ Components</span>
+              <span class="feature-pill">Vite 5</span>
+              <span class="feature-pill">Tailwind v4</span>
+              <span class="feature-pill">Alpine.js</span>
+              <span class="feature-pill">Dark Mode</span>
+              <span class="feature-pill">WCAG AA</span>
+              <span class="feature-pill">RTL Ready</span>
+            </div>
+          </div>
+          <div class="featured-buy">
+            <div>
+              <div class="price-tag"><sup>$</sup>99</div>
+              <div class="price-original">$149 — Studio License</div>
+            </div>
+            <button class="btn btn-primary" onclick="addToCart('DevnoxxKit Cinematic Dark')">
+              Buy Now
+              <svg class="btn-arrow" viewBox="0 0 20 20" fill="none"><path d="M4 16L16 4M16 4H8M16 4V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </button>
+            <a href="index.html" class="btn btn-ghost">Preview</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCT GRID -->
+    <section class="section" style="padding-top:clamp(24px,3vw,40px)" aria-labelledby="products-heading">
+      <div class="container">
+        <h2 class="reveal" id="products-heading" style="font-family:var(--font-display);font-size:clamp(20px,2.5vw,32px);font-weight:700;letter-spacing:-.02em;margin-bottom:2px;color:var(--ink)">All Products</h2>
+        <div class="products-grid" id="products-grid" role="list">
+
+          <!-- 1 -->
+          <div class="product-card reveal reveal-delay-1" role="listitem" data-category="template">
+            <div class="product-img-wrap">
+              <img class="product-img" src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=700&q=70&auto=format&fit=crop" alt="Arcadia — Light Editorial Template" loading="lazy"/>
+              <span class="product-badge new">New</span>
+              <button class="product-wishlist" aria-label="Add to wishlist" onclick="toggleWish(this)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 21l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09A5.99 5.99 0 0116.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.18L12 21z" stroke="var(--ink-2)" stroke-width="1.5"/></svg>
+              </button>
+            </div>
+            <div class="product-body">
+              <div class="product-rating"><span class="product-stars">★★★★★</span><span class="product-review-count">4.8 · 48 reviews</span></div>
+              <div class="product-cat">HTML Template</div>
+              <h3 class="product-name">Arcadia — Light Editorial</h3>
+              <p class="product-desc">A warm, editorial-grade template for creative studios and bloggers. Cream palette, serif headlines, generous whitespace.</p>
+              <div class="product-tags"><span class="product-tag-pill">7 Pages</span><span class="product-tag-pill">Light Mode</span><span class="product-tag-pill">Vite 5</span></div>
+              <div class="product-footer">
+                <div><div class="product-price"><sup>$</sup>79</div></div>
+                <button class="product-buy-btn" onclick="addToCart('Arcadia Light Editorial')">Buy <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2 -->
+          <div class="product-card reveal reveal-delay-2" role="listitem" data-category="uikit">
+            <div class="product-img-wrap">
+              <img class="product-img" src="https://images.unsplash.com/photo-1555421689-491a97ff2040?w=700&q=70&auto=format&fit=crop" alt="Figma UI Kit Pro" loading="lazy"/>
+              <span class="product-badge">Popular</span>
+              <button class="product-wishlist" aria-label="Add to wishlist" onclick="toggleWish(this)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 21l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09A5.99 5.99 0 0116.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.18L12 21z" stroke="var(--ink-2)" stroke-width="1.5"/></svg>
+              </button>
+            </div>
+            <div class="product-body">
+              <div class="product-rating"><span class="product-stars">★★★★★</span><span class="product-review-count">4.9 · 187 reviews</span></div>
+              <div class="product-cat">Figma UI Kit</div>
+              <h3 class="product-name">Cinematic UI Kit Pro</h3>
+              <p class="product-desc">600+ components in dark and light variants. Auto-layout, variables, and interactive prototyping. The complete Figma system.</p>
+              <div class="product-tags"><span class="product-tag-pill">600+ Components</span><span class="product-tag-pill">Variables</span><span class="product-tag-pill">Figma 2026</span></div>
+              <div class="product-footer">
+                <div><div class="product-price"><sup>$</sup>129</div></div>
+                <button class="product-buy-btn" onclick="addToCart('Cinematic UI Kit Pro')">Buy <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3 -->
+          <div class="product-card reveal reveal-delay-3" role="listitem" data-category="system">
+            <div class="product-img-wrap">
+              <img class="product-img" src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=700&q=70&auto=format&fit=crop" alt="Design Token Starter" loading="lazy"/>
+              <button class="product-wishlist" aria-label="Add to wishlist" onclick="toggleWish(this)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 21l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09A5.99 5.99 0 0116.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.18L12 21z" stroke="var(--ink-2)" stroke-width="1.5"/></svg>
+              </button>
+            </div>
+            <div class="product-body">
+              <div class="product-rating"><span class="product-stars">★★★★☆</span><span class="product-review-count">4.7 · 62 reviews</span></div>
+              <div class="product-cat">Design System</div>
+              <h3 class="product-name">Token Studio Starter</h3>
+              <p class="product-desc">A production-ready design token system for Figma and code. CSS vars, JSON tokens, and Tailwind config all in sync.</p>
+              <div class="product-tags"><span class="product-tag-pill">CSS Variables</span><span class="product-tag-pill">JSON Tokens</span><span class="product-tag-pill">Tailwind</span></div>
+              <div class="product-footer">
+                <div><div class="product-price"><sup>$</sup>49</div></div>
+                <button class="product-buy-btn" onclick="addToCart('Token Studio Starter')">Buy <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4 -->
+          <div class="product-card reveal reveal-delay-1" role="listitem" data-category="template">
+            <div class="product-img-wrap">
+              <img class="product-img" src="https://images.unsplash.com/photo-1545235617-9465d2a55698?w=700&q=70&auto=format&fit=crop" alt="Apex — SaaS Landing Page" loading="lazy"/>
+              <span class="product-badge sale">Sale</span>
+              <button class="product-wishlist" aria-label="Add to wishlist" onclick="toggleWish(this)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 21l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09A5.99 5.99 0 0116.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.18L12 21z" stroke="var(--ink-2)" stroke-width="1.5"/></svg>
+              </button>
+            </div>
+            <div class="product-body">
+              <div class="product-rating"><span class="product-stars">★★★★★</span><span class="product-review-count">4.9 · 94 reviews</span></div>
+              <div class="product-cat">HTML Template</div>
+              <h3 class="product-name">Apex — SaaS Landing Kit</h3>
+              <p class="product-desc">High-converting SaaS landing page template. Hero, features, pricing, testimonials, FAQ — all in one clean dark build.</p>
+              <div class="product-tags"><span class="product-tag-pill">1 Page + 3 Variants</span><span class="product-tag-pill">Alpine.js</span></div>
+              <div class="product-footer">
+                <div><div class="product-price"><sup>$</sup>49 <span class="product-price-orig">$79</span></div></div>
+                <button class="product-buy-btn" onclick="addToCart('Apex SaaS Landing')">Buy <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5 -->
+          <div class="product-card reveal reveal-delay-2" role="listitem" data-category="resource">
+            <div class="product-img-wrap">
+              <img class="product-img" src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=700&q=70&auto=format&fit=crop" alt="Motion Snippet Library" loading="lazy"/>
+              <span class="product-badge new">New</span>
+              <button class="product-wishlist" aria-label="Add to wishlist" onclick="toggleWish(this)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 21l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09A5.99 5.99 0 0116.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.18L12 21z" stroke="var(--ink-2)" stroke-width="1.5"/></svg>
+              </button>
+            </div>
+            <div class="product-body">
+              <div class="product-rating"><span class="product-stars">★★★★★</span><span class="product-review-count">4.8 · 31 reviews</span></div>
+              <div class="product-cat">CSS / JS Resource</div>
+              <h3 class="product-name">Motion Snippet Library</h3>
+              <p class="product-desc">80+ production-ready CSS and GSAP animation snippets. Scroll reveals, text animations, hover effects, and page transitions.</p>
+              <div class="product-tags"><span class="product-tag-pill">80+ Snippets</span><span class="product-tag-pill">CSS + GSAP</span></div>
+              <div class="product-footer">
+                <div><div class="product-price"><sup>$</sup>29</div></div>
+                <button class="product-buy-btn" onclick="addToCart('Motion Snippet Library')">Buy <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6 -->
+          <div class="product-card reveal reveal-delay-3" role="listitem" data-category="uikit">
+            <div class="product-img-wrap">
+              <img class="product-img" src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=700&q=70&auto=format&fit=crop" alt="Portfolio Figma Kit" loading="lazy"/>
+              <button class="product-wishlist" aria-label="Add to wishlist" onclick="toggleWish(this)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 21l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09A5.99 5.99 0 0116.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.18L12 21z" stroke="var(--ink-2)" stroke-width="1.5"/></svg>
+              </button>
+            </div>
+            <div class="product-body">
+              <div class="product-rating"><span class="product-stars">★★★★☆</span><span class="product-review-count">4.6 · 55 reviews</span></div>
+              <div class="product-cat">Figma UI Kit</div>
+              <h3 class="product-name">Portfolio Figma Kit</h3>
+              <p class="product-desc">A minimal, opinionated portfolio Figma template for designers and developers. Dark and light variants, fully componentised.</p>
+              <div class="product-tags"><span class="product-tag-pill">Dark + Light</span><span class="product-tag-pill">Portfolio</span><span class="product-tag-pill">Figma</span></div>
+              <div class="product-footer">
+                <div><div class="product-price"><sup>$</sup>59</div></div>
+                <button class="product-buy-btn" onclick="addToCart('Portfolio Figma Kit')">Buy <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- BUNDLE -->
+    <div class="bundle-section">
+      <div class="container section">
+        <div class="section-eyebrow reveal"><div class="section-eyebrow-line"></div><span class="label">Best Value</span></div>
+        <h2 class="display-md reveal reveal-delay-1" style="margin-top:12px;max-width:600px">Get everything.<br>Pay <em style="color:var(--gold);font-style:italic">once.</em></h2>
+        <div class="bundle-card reveal reveal-delay-2">
+          <div class="bundle-img-col">
+            <img class="bundle-img" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=900&q=70&auto=format&fit=crop" alt="Complete bundle" loading="lazy"/>
+            <div class="bundle-img-overlay">
+              <div class="bundle-price-circle">
+                <div class="bundle-price-label">Bundle</div>
+                <div class="bundle-price-val">$249</div>
+                <div class="bundle-price-save">Save $145</div>
+              </div>
+            </div>
+          </div>
+          <div class="bundle-info">
+            <div class="bundle-badge">Everything Bundle</div>
+            <h3 class="bundle-title">All 6 Products.<br>One price.</h3>
+            <p class="bundle-desc">Every template, UI kit, design system, and resource in the DevnoxxKit catalogue. Instant download, lifetime access, and all future updates included.</p>
+            <ul class="bundle-includes" role="list">
+              <li>DevnoxxKit Cinematic Dark (7 pages)</li>
+              <li>Arcadia Light Editorial Template</li>
+              <li>Cinematic UI Kit Pro (600+ components)</li>
+              <li>Token Studio Starter System</li>
+              <li>Apex SaaS Landing Kit</li>
+              <li>Motion Snippet Library (80+ snippets)</li>
+              <li>Portfolio Figma Kit</li>
+              <li>All future releases — free</li>
+            </ul>
+            <div class="bundle-actions">
+              <button class="btn btn-primary" onclick="addToCart('Everything Bundle')">
+                Get the Bundle — $249
+                <svg class="btn-arrow" viewBox="0 0 20 20" fill="none"><path d="M4 16L16 4M16 4H8M16 4V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </button>
+              <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--ink-3)">vs $394 individually</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRUST -->
+    <div class="container">
+      <div class="trust-strip reveal">
+        <div class="trust-cell"><div class="trust-icon">⚡</div><div class="trust-title">Instant Download</div><p class="trust-text">Files delivered immediately after purchase.</p></div>
+        <div class="trust-cell"><div class="trust-icon">♾</div><div class="trust-title">Lifetime Access</div><p class="trust-text">Free updates forever. No subscription.</p></div>
+        <div class="trust-cell"><div class="trust-icon">📄</div><div class="trust-title">Clean License</div><p class="trust-text">Use on unlimited personal projects.</p></div>
+        <div class="trust-cell"><div class="trust-icon">💬</div><div class="trust-title">30-Day Support</div><p class="trust-text">Email support included with every purchase.</p></div>
+      </div>
+    </div>
+
+    <!-- REVIEWS -->
+    <section class="section" aria-labelledby="reviews-heading">
+      <div class="container">
+        <div class="section-eyebrow reveal"><div class="section-eyebrow-line"></div><span class="label">Customer Reviews</span></div>
+        <h2 class="display-md reveal reveal-delay-1" id="reviews-heading" style="margin-top:12px;max-width:600px">What buyers say<br>about our products.</h2>
+        <div class="mini-reviews">
+          <div class="mini-review reveal reveal-delay-1">
+            <div class="mini-stars">★★★★★</div>
+            <p class="mini-review-text">"The documentation alone is worth the price. I've bought a lot of templates — this is the first one I didn't have to fight to understand."</p>
+            <div class="mini-reviewer"><img class="mini-reviewer-avatar" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=80&q=70&auto=format&fit=crop&crop=faces" alt=""/><div><div class="mini-reviewer-name">James K.</div><div class="mini-reviewer-role">Frontend Developer</div></div></div>
+          </div>
+          <div class="mini-review reveal reveal-delay-2">
+            <div class="mini-stars">★★★★★</div>
+            <p class="mini-review-text">"I customised the entire colour palette in under 10 minutes. Shipped a client project three days after buying this. Absolute steal at $99."</p>
+            <div class="mini-reviewer"><img class="mini-reviewer-avatar" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&q=70&auto=format&fit=crop&crop=faces" alt=""/><div><div class="mini-reviewer-name">Priya S.</div><div class="mini-reviewer-role">UX Designer</div></div></div>
+          </div>
+          <div class="mini-review reveal reveal-delay-3">
+            <div class="mini-stars">★★★★★</div>
+            <p class="mini-review-text">"This is what premium actually looks like. My client thought we'd spent months on the UI. We shipped in two weeks. Thank you."</p>
+            <div class="mini-reviewer"><img class="mini-reviewer-avatar" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&q=70&auto=format&fit=crop&crop=faces" alt=""/><div><div class="mini-reviewer-name">Tom R.</div><div class="mini-reviewer-role">Agency Owner</div></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EMAIL CTA -->
+    <div class="email-cta">
+      <div class="container">
+        <div class="section-eyebrow reveal" style="justify-content:center"><div class="section-eyebrow-line"></div><span class="label">Stay Updated</span><div class="section-eyebrow-line"></div></div>
+        <h2 class="display-md reveal reveal-delay-1" style="margin-top:12px;max-width:600px;margin-left:auto;margin-right:auto">New products drop<br>without announcement.</h2>
+        <p class="reveal reveal-delay-2" style="color:var(--ink-2);margin-top:12px;font-size:1rem">Get first access and launch discounts — subscribers only.</p>
+        <form class="email-form reveal reveal-delay-3" onsubmit="handleEmailSubmit(event)" novalidate>
+          <input class="email-input" type="email" placeholder="your@email.com" required aria-label="Email address"/>
+          <button type="submit" class="email-submit">Notify Me</button>
+        </form>
+        <p class="email-note reveal">No spam. Unsubscribe anytime. About 1 email per month.</p>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="mini-footer" role="contentinfo"><div class="container"><div class="mini-footer-inner">
+    <a href="index.html" style="font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:8px"><div class="nav-logo-mark"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="#0A0A0C" stroke-width="1.5" stroke-linecap="round"/></svg></div>Devnoxx<span style="color:var(--gold)">Kit</span></a>
+    <p class="mini-footer-copy">© 2026 <a href="index.html">DevnoxxKit</a>. Crafted with obsession.</p>
+    <p class="mini-footer-copy" style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em">SHOP PAGE</p>
+  </div></div></footer>
+
+  <script>
+    const dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring');
+    let rX=0,rY=0,dX=0,dY=0,mX=0,mY=0;
+    document.addEventListener('mousemove',e=>{mX=e.clientX;mY=e.clientY});
+    (function a(){dX+=(mX-dX)*.85;dY+=(mY-dY)*.85;rX+=(mX-rX)*.12;rY+=(mY-rY)*.12;dot.style.left=dX+'px';dot.style.top=dY+'px';ring.style.left=rX+'px';ring.style.top=rY+'px';requestAnimationFrame(a)})();
+    const nav=document.getElementById('nav');
+    window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
+    const hb=document.getElementById('hamburger'),mn=document.getElementById('mobile-nav');
+    hb.addEventListener('click',()=>{const o=hb.classList.toggle('open');mn.classList.toggle('open',o);hb.setAttribute('aria-expanded',String(o));mn.setAttribute('aria-hidden',String(!o));document.body.style.overflow=o?'hidden':''});
+    const ro=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target)}}),{threshold:.1,rootMargin:'0px 0px -48px 0px'});
+    document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+    const btt=document.getElementById('back-to-top');
+    window.addEventListener('scroll',()=>btt.classList.toggle('visible',scrollY>500),{passive:true});
+    btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+    // Filter
+    document.querySelectorAll('.filter-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const f=btn.dataset.filter;
+        document.querySelectorAll('.product-card').forEach(c=>{
+          const show=f==='all'||c.dataset.category===f;
+          c.style.display=show?'':'none';
+        });
+        // Also handle featured
+        const featured=document.querySelector('.featured-product');
+        if(featured)featured.style.display=(f==='all'||f==='template')?'':'none';
+      });
+    });
+
+    // Cart toast
+    const toast=document.getElementById('cart-toast');
+    const toastMsg=document.getElementById('toast-msg');
+    let toastTimer;
+    function addToCart(name){
+      toastMsg.textContent=`"${name}" added to cart`;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer=setTimeout(()=>toast.classList.remove('show'),3000);
+    }
+    window.addToCart=addToCart;
+
+    // Wishlist toggle
+    function toggleWish(btn){
+      btn.classList.toggle('active');
+      const svg=btn.querySelector('svg path');
+      if(btn.classList.contains('active')){svg.setAttribute('fill','var(--gold)');svg.setAttribute('stroke','var(--gold)')}
+      else{svg.setAttribute('fill','none');svg.setAttribute('stroke','var(--ink-2)')}
+    }
+    window.toggleWish=toggleWish;
+
+    // Email form
+    function handleEmailSubmit(e){
+      e.preventDefault();
+      const btn=e.target.querySelector('button');
+      btn.textContent='✓ You\'re in!';
+      btn.style.background='#6DBF8A';
+      btn.style.color='#0A0A0C';
+      e.target.querySelector('input').value='';
+      setTimeout(()=>{btn.textContent='Notify Me';btn.style.background='';btn.style.color=''},3000);
+    }
+    window.handleEmailSubmit=handleEmailSubmit;
+  </script>
+  <script src="devnoxxkit-theme.js"></script>
+</body>
+</html>
